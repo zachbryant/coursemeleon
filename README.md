@@ -2,7 +2,7 @@
 
 ## Pre-requisites
 * Install [npm](https://www.npmjs.com/get-npm)
-  * Make sure `npm --version == 3.5.2` and `node --version == v10.15.1`
+  * Make sure `npm --version` == 3.5.2 and `node --version` == v10.15.1
     * To upgrade npm: `sudo npm install -g npm@latest`
     * To upgrade node: `sudo npm install -g n && sudo n 10.15.1`
 * Install Vue: `sudo npm install -g @vue/cli`
