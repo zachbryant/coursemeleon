@@ -55,7 +55,7 @@ export default {
   display: inline-flex;
   padding: 20px 20px;
   border-left: 1px solid rgb(214, 228, 206);
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 300;
   text-decoration: none;
 }
@@ -75,7 +75,6 @@ export default {
 
 .title {
   float:left;
-
 }
 
 .title ul {
@@ -89,11 +88,10 @@ export default {
 
 .title li {
   padding: 20px 20px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 650;
   letter-spacing: 1px;
   font-size: large;
   text-decoration: none;
 }
-
 </style>
