@@ -4,7 +4,7 @@
       <h4>
       <div class="title">
         <ul>
-          <img class="logo" alt="logo" src="../assets/logo.png" />
+          <router-link to="/"><img class="logo" alt="logo" src="../assets/logo.png" /></router-link>
           <li><a>Coursemeleon</a></li>
         </ul>
       </div>
@@ -31,7 +31,7 @@ export default {
 <style scoped lang="less">
 .header {
   background-color: #fff;
-  box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1);
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.103);
   /*position: fixed;*/
   width: 100%;
 }
@@ -39,7 +39,7 @@ export default {
 .header .menu {
   clear: both;
   max-height: 0;
-  transition: max-height .2s ease-out;
+  transition: max-height 0.2s ease-out;
 }
 
 .header ul {
@@ -56,7 +56,7 @@ export default {
   padding: 20px 20px;
   border-left: 1px solid rgb(214, 228, 206);
   font-family: 'Roboto', sans-serif;
-  font-weight:300;
+  font-weight: 300;
   text-decoration: none;
 }
 
@@ -68,8 +68,8 @@ export default {
 
 .logo {
   float: left;
-  height:45px;
-  width:45px;
+  height: 70px;
+  width: 70px;
   padding: 15px;
 }
 
@@ -90,7 +90,9 @@ export default {
 .title li {
   padding: 20px 20px;
   font-family: 'Roboto', sans-serif;
-  font-weight:700;
+  font-weight: 650;
+  letter-spacing: 1px;
+  font-size: large;
   text-decoration: none;
 }
 
