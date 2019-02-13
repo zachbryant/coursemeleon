@@ -66,6 +66,10 @@ export default {
   text-decoration: none;
 }
 
+header a:hover{
+  color:rgb(12, 68, 19);
+}
+
 .logo {
   float: left;
   height: 70px;
@@ -93,5 +97,6 @@ export default {
   letter-spacing: 1px;
   font-size: large;
   text-decoration: none;
+  
 }
 </style>
