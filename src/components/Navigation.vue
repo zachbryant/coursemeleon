@@ -5,7 +5,7 @@
       <div class="title">
         <ul>
           <router-link to="/"><img class="logo" alt="logo" src="../assets/logo.png" /></router-link>
-          <li><a>Coursemeleon</a></li>
+          <li>Coursemeleon</li>
         </ul>
       </div>
       <ul> 
@@ -97,6 +97,6 @@ header a:hover{
   letter-spacing: 1px;
   font-size: large;
   text-decoration: none;
-  
+  color: rgb(137, 175, 111);
 }
 </style>
