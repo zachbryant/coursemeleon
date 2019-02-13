@@ -1,5 +1,6 @@
 <template>
   <div class="about">
+<<<<<<< HEAD
     <img alt="Coursemeleon logo" src="../assets/logo_lightgreen_300.svg" />
 
     <h1>About Coursemeleon</h1>
@@ -47,9 +48,13 @@
         <p>Areeb Baig</p>
       </li>
     </ul>
+=======
+    <h1>This is an about page</h1>
+>>>>>>> parent of db31d39... Created about page
   </div>
 
 </template>
+<<<<<<< HEAD
 
 
 
@@ -73,3 +78,5 @@ a {
   color: #42b983;
 }
 </style>
+=======
+>>>>>>> parent of db31d39... Created about page
