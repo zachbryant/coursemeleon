@@ -6,9 +6,42 @@
         <ul>
           <router-link to="/"><img class="logo" alt="logo" src="../assets/logo.png" /></router-link>
           <li>Coursemeleon</li>
+            
         </ul>
       </div>
       <ul> 
+        <li>
+          <v-card-text>
+            <v-autocomplete
+              v-model="model"
+              :items="items"
+              :loading="isLoading"
+              :search-input.sync="search"
+              color="white"
+              hide-no-data
+              hide-selected
+              item-text="Description"
+              item-value="API"
+              placeholder="Search"
+              prepend-icon="mdi-database-search"
+              return-object
+            ></v-autocomplete>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-expand-transition>
+            <v-list v-if="model" class="red lighten-3">
+              <v-list-tile
+                v-for="(field, i) in fields"
+                :key="i"
+              >
+                <v-list-tile-content>
+                  <v-list-tile-title v-text="field.value"></v-list-tile-title>
+                  <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-expand-transition>
+        </li>
         <li><a><router-link to="/">Home</router-link></a></li>
         <li><a><router-link to="/about">About</router-link></a></li>
         <li><a><router-link to="/help">Help</router-link></a></li>
@@ -81,7 +114,7 @@ header a:hover{
   float:left;
 }
 
-.title ul {
+.header .title ul {
   margin: 0;
   padding: 10px;
   list-style: none;
@@ -90,7 +123,7 @@ header a:hover{
   text-decoration: none;
 }
 
-.title li {
+.header .title li {
   padding: 20px 20px;
   font-family: "Roboto", sans-serif;
   font-weight: 650;
@@ -98,5 +131,6 @@ header a:hover{
   font-size: large;
   text-decoration: none;
   color: rgb(137, 175, 111);
+  border-left: 1px solid rgb(255, 255, 255);
 }
 </style>
