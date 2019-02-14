@@ -5,8 +5,7 @@
       <div class="title">
         <ul>
           <router-link to="/"><img class="logo" alt="logo" src="../assets/logo.png" /></router-link>
-          <li>Coursemeleon</li>
-            
+          <li>Coursemeleon</li>    
         </ul>
       </div>
       <ul> 
