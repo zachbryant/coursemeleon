@@ -10,8 +10,7 @@
         </ul>
       </div>
       <ul> 
-        <li>
-          <v-card-text>
+        <li style="border-left: 1px solid rgb(255, 255, 255);">
             <v-autocomplete
               v-model="model"
               :items="items"
@@ -26,7 +25,6 @@
               prepend-icon="mdi-database-search"
               return-object
             ></v-autocomplete>
-          </v-card-text>
           <v-divider></v-divider>
           <v-expand-transition>
             <v-list v-if="model" class="red lighten-3">
@@ -67,6 +65,7 @@ export default {
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.103);
   /*position: fixed;*/
   width: 100%;
+  max-height: 90px;
 }
 
 .header .menu {
@@ -86,11 +85,14 @@ export default {
 
 .header li {
   display: inline-flex;
-  padding: 20px 20px;
+  /*padding: 15px 15px;*/
+  padding: 10px 10px;
   border-left: 1px solid rgb(214, 228, 206);
   font-family: "Roboto", sans-serif;
   font-weight: 300;
   text-decoration: none;
+  font-size: auto;
+  max-height: auto;
 }
 
 .header a {
@@ -124,7 +126,7 @@ header a:hover{
 }
 
 .header .title li {
-  padding: 20px 20px;
+  padding: 25px 25px;
   font-family: "Roboto", sans-serif;
   font-weight: 650;
   letter-spacing: 1px;
