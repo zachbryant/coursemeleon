@@ -5,6 +5,7 @@
         v-layout(column justify-start)
           v-layout#nav(row justify-center)
             v-flex(xs12)
+              //- @TODO navbar
               router-link(to='/') coursemeleon
               span  | 
               login
