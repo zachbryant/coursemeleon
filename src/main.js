@@ -21,6 +21,9 @@ Vue.use(Vuetify, {
     info: colors.lightBlue.lighten1,
     success: colors.green.lighten1,
     warning: colors.yellow.lighten1
+  },
+  options: {
+    customProperties: true
   }
 });
 Vue.config.productionTip = false;
