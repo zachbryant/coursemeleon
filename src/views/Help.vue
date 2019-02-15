@@ -9,8 +9,10 @@
     <v-container grid-list-xl>
       <v-layout row wrap>
         <v-flex xs3>
-          <v-card color="green lighten-2" dark>
-            <h3>Graphic</h3>
+          <v-card id="instructBox">
+            <span style="color: rgb(183, 204, 146);">
+              <i class="fas fa-user-check fa-10x"></i>
+            </span>
           </v-card>
         </v-flex>
         <v-flex xs9>
@@ -27,8 +29,10 @@
     <v-container grid-list-xl>
       <v-layout row wrap>
         <v-flex xs3>
-          <v-card color="green lighten-2" dark>
-            <h3>Graphic</h3>
+          <v-card id="instructBox">
+            <span style="color: rgb(183, 204, 146);">
+              <i class="fas fa-pencil-ruler fa-10x"></i>
+            </span>
           </v-card>
         </v-flex>
         <v-flex xs9>
@@ -46,13 +50,19 @@
     <v-container grid-list-xl>
       <v-layout row wrap>
         <v-flex xs3>
-          <v-card color="green lighten-2" dark>
-            <h3>Graphic</h3>
+          <v-card id="instructBox">
+            <span style="color: rgb(183, 204, 146);">
+              <i class="fas fa-users fa-10x"></i>
+            </span>
           </v-card>
         </v-flex>
         <v-flex xs9>
           <v-card id="instructBox">
-            <h3>Step 3</h3>
+            <p>
+              When you've input all the information you want, it's time to make your final course page! After you hit the 'publish'
+              button, you'll recieve a link to your final website. Now's the time to send that link to all of your students
+              so they can gain access to their new go-to site for all the newest course information!
+            </p>
           </v-card>
         </v-flex>
       </v-layout>
