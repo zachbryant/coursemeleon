@@ -1,7 +1,6 @@
 <template>
   <div class="about">
     <img alt="Coursemeleon logo" src="@/assets/logo.svg" />
-
     <h1>About Coursemeleon</h1>
     <p>
       Coursemeleon was created to offer an efficient and user-friendly way for
