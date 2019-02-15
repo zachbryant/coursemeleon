@@ -1,7 +1,6 @@
 <template>
   <div class="about">
-    <img alt="Coursemeleon logo" src="../assets/logo_lightgreen_300.svg" />
-
+    <img alt="Coursemeleon logo" src="@/assets/logo.svg" />
     <h1>About Coursemeleon</h1>
     <p>
       Coursemeleon was created to offer an efficient and user-friendly way for
@@ -18,25 +17,25 @@
     <ul>
       <li>
         <a href="https://www.linkedin.com/in/mitchelldemerly">
-          <img src="../assets/MitchellDemerly.jpg" height="150" width="150" />
+          <img src="@/assets/MitchellDemerly.jpg" height="150" width="150" />
         </a>
         <p>Mitchell Demerly</p>
       </li>
       <li>
         <a href="https://www.linkedin.com/in/zachdbryant/">
-          <img src="../assets/ZachBryant.png" height="150" width="150" />
+          <img src="@/assets/ZachBryant.png" height="150" width="150" />
         </a>
         <p>Zach Bryant</p>
       </li>
       <li>
         <a href="https://www.linkedin.com/in/lumlauren/">
-          <img src="../assets/LaurenLum.jpg" height="150" width="150" />
+          <img src="@/assets/LaurenLum.jpg" height="150" width="150" />
         </a>
         <p>Lauren Lum</p>
       </li>
       <li>
         <a href="https://www.linkedin.com/in/rujulakapoor1/">
-          <img src="../assets/RujulaKapoor.jpg" height="150" width="150" />
+          <img src="@/assets/RujulaKapoor.jpg" height="150" width="150" />
         </a>
         <p>Rujula Kapoor</p>
       </li>
