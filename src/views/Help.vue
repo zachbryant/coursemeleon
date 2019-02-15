@@ -7,9 +7,9 @@
     </v-container>
 
     <v-container grid-list-xl>
-      <v-layout row wrap>
+      <v-layout row wrap align-center>
         <v-flex xs3>
-          <v-card id="instructBox">
+          <v-card id="imageBox">
             <span style="color: rgb(183, 204, 146);">
               <i class="fas fa-user-check fa-10x"></i>
             </span>
@@ -27,9 +27,9 @@
     </v-container>
 
     <v-container grid-list-xl>
-      <v-layout row wrap>
+      <v-layout row wrap align-center>
         <v-flex xs3>
-          <v-card id="instructBox">
+          <v-card id="imageBox">
             <span style="color: rgb(183, 204, 146);">
               <i class="fas fa-pencil-ruler fa-10x"></i>
             </span>
@@ -48,9 +48,9 @@
     </v-container>
 
     <v-container grid-list-xl>
-      <v-layout row wrap>
+      <v-layout row wrap align-center>
         <v-flex xs3>
-          <v-card id="instructBox">
+          <v-card id="imageBox">
             <span style="color: rgb(183, 204, 146);">
               <i class="fas fa-users fa-10x"></i>
             </span>
@@ -82,10 +82,17 @@ export default {
 </script>
 
 <style>
+#imageBox {
+  box-shadow: 1px 1px 4px 0 rgba(255, 255, 255, 0.103);
+  padding: 10px;
+  background-color: transparent;
+}
+
 #instructBox {
   outline: 2px dashed rgb(158, 158, 158);
   box-shadow: 1px 1px 4px 0 rgba(255, 255, 255, 0.103);
   padding: 10px;
+  background-color: transparent;
 }
 
 #instructBox p {
