@@ -1,74 +1,66 @@
-<template>
-  <div id="app">
-    <img src="./assets/logo1.png">
-    <h1>404</h1>
-    <h2>There is nothing here</h2>
-    <button type="button" v-on:click="URL1">Back To Landing Page</button>
-    <button type="button" v-on:click="URL2">Log In</button>
-  </div>
+<template lang="pug">
+  v-app#app(light)
+    Navigation
+    v-content
+      v-container(fluid align-content-center fill-height fill-width style="padding-top: 0;")
+        v-layout(column justify-start)
+          v-layout#nav(row justify-center)
+            v-flex(xs12)
+              //- @TODO navbar
+          v-flex(xs12)
+            router-view
 </template>
 
 <script>
+import Navigation from "@/components/Navigation.vue";
 
 export default {
-  name: 'app',
+  name: "app",
+  data() {
+    return {};
+  },
   methods: {
-  URL1: function(event){
-     window.location.href='https://www.buzzfeed.com/';
-   } ,
-   URL2: function(event){
-     window.location.href='https://www.google.com';
-   } 
+    queryCourses(queryString) {
+      if (queryString != undefined && queryString.length > 1) {
+        this.isLoading = true;
+        console.log(queryString);
+        //@TODO insert api call
+        this.isLoading = false;
+      }
+    }
+  },
+  components: {
+    Navigation
   }
-}
-
+};
 </script>
 
-<style lang="scss">
+<style lang="less">
+@import (css) url("https://fonts.googleapis.com/css?family=Nunito");
+@import (css)
+  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@primary: var(--v-primary-base);
+@secondary: var(--v-secondary-base);
+@accent: var(--v-accent-base);
+@semibold: 600;
+
 #app {
-  font-family: 'Nunito', Helvetica, Arial, sans-serif;
+  font-family: "Nunito", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  font-size: 70px;
-  background: #AED581;
-  color:#FFFFFF;
-  margin-top: 60px;
+  //color: @primary;
+  height: 100vh;
 }
 
-h2 {
-  font-size: 40px;
-  font-weight: normal;
-}
-button{
-  font-family: 'Nunito', Helvetica, Arial, sans-serif;
-  font-size: 40px;
-  border: 0ch;
-  margin:auto;
-  display: block	;
-  color:#AED581;
-  background: #FFFFFF;
-  border-radius: 8px;
-  font-weight: normal;
-  margin-top: 60px;
-}
-
-button:hover {
-  background: #f7f7f7;
-  color: 1px solid #AED581;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+#nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>
