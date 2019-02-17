@@ -1,20 +1,17 @@
 <template lang="pug">
   v-app#app(light)
     v-content
-      v-container(fluid align-content-center fill-height fill-width style="padding-top: 0;")
+      v-container#container(fluid align-content-center fill-height fill-width)
         v-layout(column justify-start)
           v-layout#nav(row justify-center)
             v-flex(xs12)
-              //- @TODO navbar
-              router-link(to='/') coursemeleon
-              span  | 
-              login
+              Navigation
           v-flex(xs12)
             router-view
 </template>
 
 <script>
-import login from "@/components/login-dialog.vue";
+import Navigation from "@/components/Navigation.vue";
 
 export default {
   name: "app",
@@ -32,7 +29,7 @@ export default {
     }
   },
   components: {
-    login
+    Navigation
   }
 };
 </script>
@@ -55,8 +52,11 @@ export default {
   height: 100vh;
 }
 
+#container {
+  padding: 0;
+}
+
 #nav {
-  padding: 30px;
   a {
     font-weight: bold;
     color: #2c3e50;
