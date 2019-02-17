@@ -13,6 +13,7 @@ export default new Router({
 			name: "home",
 			// Not lazy loading b/c we want this to be fast
 			component: Home,
+			props: true,
 		},
 		{
 			path: "/explore",
