@@ -2,7 +2,7 @@
   <div id="Error">
     <h1>404</h1>
     <h2>There is nothing here</h2>
-    <button type="button" v-on:click="URL1">Back To Landing Page</button>
+    <router-link to="{ path: '/'}" tag="button" replace>Back to Home</router-link>
     <button type="button" v-on:click="URL2">Log In</button>
   </div>
 </template>
@@ -12,9 +12,6 @@
 export default {
   name: 'Error',
   methods: {
-  URL1: function(event){
-     window.location.href='https://www.buzzfeed.com/';
-   } ,
    URL2: function(event){
      window.location.href='https://www.google.com';
    } 
