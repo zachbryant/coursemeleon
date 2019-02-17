@@ -1,6 +1,6 @@
 import Vue from "vue";
-import './plugins/vuetify'
-import './plugins/vuetify'
+import "./plugins/vuetify";
+import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -11,8 +11,8 @@ import "vuetify/dist/vuetify.min.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import colors from "vuetify/es5/util/colors";
 import "./registerServiceWorker";
-import 'roboto-fontface/css/roboto/roboto-fontface.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import "roboto-fontface/css/roboto/roboto-fontface.css";
+import "material-design-icons-iconfont/dist/material-design-icons.css";
 
 Vue.use(VeeValidate);
 Vue.use(VToolTip);

@@ -2,14 +2,16 @@
   <div>
     <header class="header">
       <h4>
-      <div class="title">
+        <div class="title">
+          <ul>
+            <router-link to="/"
+              ><img class="logo" alt="logo" src="../assets/logo.png"
+            /></router-link>
+            <li>Coursemeleon</li>
+          </ul>
+        </div>
         <ul>
-          <router-link to="/"><img class="logo" alt="logo" src="../assets/logo.png" /></router-link>
-          <li>Coursemeleon</li>    
-        </ul>
-      </div>
-      <ul> 
-        <li style="border-left: 1px solid rgb(255, 255, 255);">
+          <li style="border-left: 1px solid rgb(255, 255, 255);">
             <v-autocomplete
               v-model="model"
               :items="items"
@@ -24,25 +26,30 @@
               prepend-icon="mdi-database-search"
               return-object
             ></v-autocomplete>
-          <v-divider></v-divider>
-          <v-expand-transition>
-            <v-list v-if="model" class="red lighten-3">
-              <v-list-tile
-                v-for="(field, i) in fields"
-                :key="i"
-              >
-                <v-list-tile-content>
-                  <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                  <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-          </v-expand-transition>
-        </li>
-        <li><a><router-link to="/">Home</router-link></a></li>
-        <li><a><router-link to="/about">About</router-link></a></li>
-        <li><a><router-link to="/help">Help</router-link></a></li>
-      </ul>
+            <v-divider></v-divider>
+            <v-expand-transition>
+              <v-list v-if="model" class="red lighten-3">
+                <v-list-tile v-for="(field, i) in fields" :key="i">
+                  <v-list-tile-content>
+                    <v-list-tile-title v-text="field.value"></v-list-tile-title>
+                    <v-list-tile-sub-title
+                      v-text="field.key"
+                    ></v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+            </v-expand-transition>
+          </li>
+          <li>
+            <a><router-link to="/">Home</router-link></a>
+          </li>
+          <li>
+            <a><router-link to="/about">About</router-link></a>
+          </li>
+          <li>
+            <a><router-link to="/help">Help</router-link></a>
+          </li>
+        </ul>
       </h4>
     </header>
   </div>
@@ -56,7 +63,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped lang="less">
 .header {
@@ -100,8 +106,8 @@ export default {
   text-decoration: none;
 }
 
-header a:hover{
-  color:rgb(12, 68, 19);
+header a:hover {
+  color: rgb(12, 68, 19);
 }
 
 .logo {
@@ -112,7 +118,7 @@ header a:hover{
 }
 
 .title {
-  float:left;
+  float: left;
 }
 
 .header .title ul {

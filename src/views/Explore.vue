@@ -1,11 +1,7 @@
 <template>
-    <h1>Explore</h1>
+  <h1>Explore</h1>
 </template>
 
-<script>
+<script></script>
 
-</script>
-
-<style lang="less">
-
-</style>
+<style lang="less"></style>
