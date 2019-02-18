@@ -2,7 +2,7 @@
   <div id="Error">
     <h1>404</h1>
     <h2>There is nothing here</h2>
-    <router-link to="{ path: '/'}" tag="button" replace>Back to Home</router-link>
+    <router-link to='/' tag="button" replace>Back to Home</router-link>
     <button type="button" v-on:click="URL2">Log In</button>
   </div>
 </template>
