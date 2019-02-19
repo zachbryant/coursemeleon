@@ -2,15 +2,17 @@
   <div>
     <header class="header">
       <h4>
-      <div class="title">
+        <div class="title">
+          <ul>
+            <router-link to="/"
+              ><img class="logo" alt="logo" src="../assets/logo.png"
+            /></router-link>
+            <li>Coursemeleon</li>
+          </ul>
+        </div>
         <ul>
-          <router-link to="/"><img class="logo" alt="logo" src="../assets/logo.png" /></router-link>
-          <li>Coursemeleon</li>    
-        </ul>
-      </div>
-      <ul> 
-        <li style="border-left: 1px solid rgb(255, 255, 255);">
-            <v-autocomplete light
+          <li style="border-left: 1px solid rgb(255, 255, 255);">
+            <v-autocomplete
               v-model="model"
               :items="items"
               :loading="isLoading"
@@ -80,7 +82,6 @@ export default {
 };
 </script>
 
-
 <style scoped lang="less">
 .header {
   background-color: #fff;
@@ -123,8 +124,8 @@ export default {
   text-decoration: none;
 }
 
-header a:hover{
-  color:rgb(12, 68, 19);
+header a:hover {
+  color: rgb(12, 68, 19);
 }
 
 .logo {
@@ -135,7 +136,7 @@ header a:hover{
 }
 
 .title {
-  float:left;
+  float: left;
 }
 
 .header .title ul {
