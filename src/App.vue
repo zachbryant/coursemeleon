@@ -18,16 +18,7 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    queryCourses(queryString) {
-      if (queryString != undefined && queryString.length > 1) {
-        this.isLoading = true;
-        console.log(queryString);
-        //@TODO insert api call
-        this.isLoading = false;
-      }
-    }
-  },
+  methods: {},
   components: {
     Navigation
   }
