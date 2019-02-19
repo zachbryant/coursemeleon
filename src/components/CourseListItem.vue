@@ -5,33 +5,32 @@
 </template>
 
 <script>
-
 export default {
-	name: "courselistitem",
-	props: {
-		title: String,
-		id: String,
-		saved: {
-			type: Boolean,
-			required: false,
-			default() {
-				return false;
-			}
-		},
-	},
-	data() {
-		return {
-			isSaved: JSON.parse(this.saved),
-		}
-	},
-	methods: {
-		getColor() {
-			return this.isSaved ? "primary" : "grey lighten-3";
-		},
-		flipSaved() {
-			this.isSaved = !this.isSaved;
-			//save this change
-		}
-	}
-}
+  name: "courselistitem",
+  props: {
+    title: String,
+    id: String,
+    saved: {
+      type: Boolean,
+      required: false,
+      default() {
+        return false;
+      }
+    }
+  },
+  data() {
+    return {
+      isSaved: JSON.parse(this.saved)
+    };
+  },
+  methods: {
+    getColor() {
+      return this.isSaved ? "primary" : "grey lighten-3";
+    },
+    flipSaved() {
+      this.isSaved = !this.isSaved;
+      //save this change
+    }
+  }
+};
 </script>
