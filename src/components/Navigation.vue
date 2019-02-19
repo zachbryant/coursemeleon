@@ -41,13 +41,13 @@
             </v-expand-transition>
           </li>
           <li>
-            <a><router-link to="/">Home</router-link></a>
+            <router-link to="/">Home</router-link>
           </li>
           <li>
-            <a><router-link to="/about">About</router-link></a>
+            <router-link to="/about">About</router-link>
           </li>
           <li>
-            <a><router-link to="/help">Help</router-link></a>
+            <router-link to="/help">Help</router-link>
           </li>
         </ul>
       </h4>
