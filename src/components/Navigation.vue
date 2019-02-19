@@ -10,19 +10,19 @@
       </div>
       <ul> 
         <li style="border-left: 1px solid rgb(255, 255, 255);">
-            <v-autocomplete
+            <v-autocomplete light
               v-model="model"
               :items="items"
               :loading="isLoading"
-              :search-input.sync="search"
-              color="white"
+              search-input.sync="search"
               hide-no-data
               hide-selected
+              clearable
               item-text="Description"
               item-value="API"
               placeholder="Search"
               prepend-icon="mdi-database-search"
-              return-object
+              @change="queryCourses"
             ></v-autocomplete>
           <v-divider></v-divider>
           <v-expand-transition>
@@ -59,6 +59,23 @@ export default {
   },
   components: {
     LoginDialog
+  },
+  data() {
+    return {
+      model: null,
+      isLoading: false,
+      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
+    }
+  },
+  methods: {
+    queryCourses(queryString) {
+      if (queryString != undefined && queryString.length > 1) {
+        this.isLoading = true;
+        console.log(queryString);
+        //@TODO insert api call
+        this.isLoading = false;
+      }
+    }
   }
 };
 </script>
