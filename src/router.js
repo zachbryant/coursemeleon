@@ -9,6 +9,7 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
+    /*
     {
       path: "/course/:selectedCoursePage",
       name: "home",
@@ -26,6 +27,7 @@ export default new Router({
         }*/
       }
     },
+    */
     {
       path: "/",
       name: "home",
