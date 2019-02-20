@@ -9,10 +9,16 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "/:selectedCoursePage",
+      name: "home",
+      component: Home,
+      props: true
+    },
+    {
       path: "/",
       name: "home",
-      // Not lazy loading b/c we want this to be fast
-      component: Home
+      component: Home,
+      props: false
     },
     {
       path: "/explore",
