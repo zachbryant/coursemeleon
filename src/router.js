@@ -12,7 +12,20 @@ export default new Router({
       path: "/:selectedCoursePage",
       name: "home",
       component: Home,
-      props: true
+      props: true,
+      beforeEnter: (to, from, next) => {
+        console.log(to.params.selectedCoursePage);
+        var fs = require("fs");
+        if (
+          !fs.existsSync(
+            "./components/coursepages/" + to.params.selectedCoursePage + ".vue"
+          )
+        ) {
+          next("/404");
+        } else {
+          next();
+        }
+      }
     },
     {
       path: "/",
@@ -41,10 +54,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
     },
     {
-      path: '*',
+      path: "*",
       name: "Error",
       // route level code-splitting (lazy load)
-      component: () => import(/* webpackChunkName: "Error" */ "./views/Error.vue")
+      component: () =>
+        import(/* webpackChunkName: "Error" */ "./views/Error.vue")
     }
   ]
 });
