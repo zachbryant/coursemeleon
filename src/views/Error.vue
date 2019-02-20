@@ -1,26 +1,12 @@
 <template>
   <div id="Error">
     <h1>404</h1>
-    <h2>There is nothing here</h2>
+    <h2>Everything's broken, please go home.</h2>
     <router-link to='/' tag="button" replace>Back to Home</router-link>
-    <button type="button" v-on:click="URL2">Log In</button>
   </div>
 </template>
 
-<script>
-
-export default {
-  name: 'Error',
-  methods: {
-   URL2: function(event){
-     window.location.href='https://www.google.com';
-   } 
-  }
-}
-
-</script>
-
-<style lang="scss">
+<style lang="less">
 #Error {
   font-family: 'Nunito', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -30,6 +16,7 @@ export default {
   background: #AED581;
   color:#FFFFFF;
   margin-top: 60px;
+  height: 100%;
 }
 
 h2 {
