@@ -39,6 +39,12 @@ export default new Router({
       name: "help",
       // route level code-splitting (lazy load
       component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
+    },
+    {
+      path: '*',
+      name: "Error",
+      // route level code-splitting (lazy load)
+      component: () => import(/* webpackChunkName: "Error" */ "./views/Error.vue")
     }
   ]
 });
