@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+//import fs from "file-exists";
 
 Vue.use(Router);
 
@@ -8,25 +9,22 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
-    {
+    /*{
       path: "/:selectedCoursePage",
       name: "home",
       component: Home,
       props: true,
       beforeEnter: (to, from, next) => {
-        console.log(to.params.selectedCoursePage);
-        var fs = require("fs");
-        if (
-          !fs.existsSync(
-            "./components/coursepages/" + to.params.selectedCoursePage + ".vue"
-          )
-        ) {
+        var path =
+          "./components/coursepages/" + to.params.selectedCoursePage + ".vue";
+        console.log(path);
+        if (!fs.sync(path)) {
           next("/404");
         } else {
           next();
         }
       }
-    },
+    },*/
     {
       path: "/",
       name: "home",
