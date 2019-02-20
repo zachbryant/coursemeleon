@@ -9,8 +9,8 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
-    /*{
-      path: "/:selectedCoursePage",
+    {
+      path: "/course/:selectedCoursePage",
       name: "home",
       component: Home,
       props: true,
@@ -18,13 +18,14 @@ export default new Router({
         var path =
           "./components/coursepages/" + to.params.selectedCoursePage + ".vue";
         console.log(path);
-        if (!fs.sync(path)) {
+        next("/404");
+        /*if (!fs.sync(path)) {
           next("/404");
         } else {
           next();
-        }
+        }*/
       }
-    },*/
+    },
     {
       path: "/",
       name: "home",
@@ -56,7 +57,10 @@ export default new Router({
       name: "Error",
       // route level code-splitting (lazy load)
       component: () =>
-        import(/* webpackChunkName: "Error" */ "./views/Error.vue")
+        import(/* webpackChunkName: "Error" */ "./views/Error.vue"),
+      beforeEnter: (to, from, next) => {
+        next("/404");
+      }
     }
   ]
 });
