@@ -1,12 +1,11 @@
 <template lang="pug">
   v-app#app(light)
-    Navigation
     v-content
-      v-container(fluid align-content-center fill-height fill-width style="padding-top: 0;")
+      v-container#container(fluid align-content-center fill-height fill-width)
         v-layout(column justify-start)
           v-layout#nav(row justify-center)
             v-flex(xs12)
-              //- @TODO navbar
+              Navigation
           v-flex(xs12)
             router-view
 </template>
@@ -19,16 +18,7 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    queryCourses(queryString) {
-      if (queryString != undefined && queryString.length > 1) {
-        this.isLoading = true;
-        console.log(queryString);
-        //@TODO insert api call
-        this.isLoading = false;
-      }
-    }
-  },
+  methods: {},
   components: {
     Navigation
   }
@@ -53,8 +43,11 @@ export default {
   height: 100vh;
 }
 
+#container {
+  padding: 0;
+}
+
 #nav {
-  padding: 30px;
   a {
     font-weight: bold;
     color: #2c3e50;

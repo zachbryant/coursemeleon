@@ -16,50 +16,68 @@
               v-model="model"
               :items="items"
               :loading="isLoading"
-              :search-input.sync="search"
-              color="white"
+              search-input.sync="search"
               hide-no-data
               hide-selected
+              clearable
               item-text="Description"
               item-value="API"
               placeholder="Search"
               prepend-icon="mdi-database-search"
-              return-object
+              @change="queryCourses"
             ></v-autocomplete>
-            <v-divider></v-divider>
-            <v-expand-transition>
-              <v-list v-if="model" class="red lighten-3">
-                <v-list-tile v-for="(field, i) in fields" :key="i">
-                  <v-list-tile-content>
-                    <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                    <v-list-tile-sub-title
-                      v-text="field.key"
-                    ></v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-expand-transition>
-          </li>
-          <li>
-            <a><router-link to="/">Home</router-link></a>
-          </li>
-          <li>
-            <a><router-link to="/about">About</router-link></a>
-          </li>
-          <li>
-            <a><router-link to="/help">Help</router-link></a>
-          </li>
-        </ul>
+          <v-divider></v-divider>
+          <v-expand-transition>
+            <v-list v-if="model" class="red lighten-3">
+              <v-list-tile
+                v-for="(field, i) in fields"
+                :key="i"
+              >
+                <v-list-tile-content>
+                  <v-list-tile-title v-text="field.value"></v-list-tile-title>
+                  <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-expand-transition>
+        </li>
+        <li><a><LoginDialog/></a></li>
+        <li><a><router-link to="/explore">Explore</router-link></a></li>
+        <li><a><router-link to="/about">About</router-link></a></li>
+        <li><a><router-link to="/help">Help</router-link></a></li>
+      </ul>
       </h4>
     </header>
   </div>
 </template>
 
 <script>
+import LoginDialog from "@/components/LoginDialog.vue";
+
 export default {
   name: "Navigation",
   props: {
     msg: String
+  },
+  components: {
+    LoginDialog
+  },
+  data() {
+    return {
+      model: null,
+      isLoading: false,
+      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
+    }
+  },
+  methods: {
+    queryCourses(queryString) {
+      if (queryString != undefined && queryString.length > 1) {
+        this.isLoading = true;
+        console.log(queryString);
+        //@TODO insert api call
+        this.isLoading = false;
+      }
+    }
   }
 };
 </script>
