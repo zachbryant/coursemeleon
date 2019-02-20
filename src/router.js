@@ -45,10 +45,7 @@ export default new Router({
       name: "error",
       // route level code-splitting (lazy load)
       component: () =>
-        import(/* webpackChunkName: "Error" */ "./views/Error.vue"),
-      beforeEnter: (to, from, next) => {
-        next("/404");
-      }
+        import(/* webpackChunkName: "Error" */ "./views/Error.vue")
     }
   ]
 });
