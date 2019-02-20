@@ -13,8 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   font-size: 70px;
-  background: #AED581;
-  color:#FFFFFF;
+
+  color:#AED581;
   margin-top: 60px;
   height: 100%;
 }
@@ -30,7 +30,7 @@ button{
   margin:auto;
   display: block	;
   color:#AED581;
-  background: #FFFFFF;
+  
   border-radius: 8px;
   font-weight: normal;
   margin-top: 60px;
