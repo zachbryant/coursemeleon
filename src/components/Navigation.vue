@@ -5,7 +5,7 @@
         <div class="title">
           <ul>
             <router-link to="/"
-              ><img class="logo" alt="logo" src="../assets/logo.png"
+              ><img class="logo" alt="logo" src="@/assets/logos/logo.svg"
             /></router-link>
             <li>Coursemeleon</li>
           </ul>
@@ -41,7 +41,6 @@
             </v-list>
           </v-expand-transition>
         </li>
-        <li><a><LoginDialog/></a></li>
         <li><a><router-link to="/explore">Explore</router-link></a></li>
         <li><a><router-link to="/about">About</router-link></a></li>
         <li><a><router-link to="/help">Help</router-link></a></li>
@@ -52,7 +51,6 @@
 </template>
 
 <script>
-import LoginDialog from "@/components/LoginDialog.vue";
 
 export default {
   name: "Navigation",
@@ -60,7 +58,6 @@ export default {
     msg: String
   },
   components: {
-    LoginDialog
   },
   data() {
     return {

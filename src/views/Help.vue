@@ -1,12 +1,6 @@
 <template>
  <div class="help">
    <v-container grid-list-xl>
-     <v-card color="green lighten-2" dark>
-       <h1>This is a help page!</h1>
-     </v-card>
-   </v-container>
-
-   <v-container grid-list-xl>
      <v-layout row wrap align-center>
        <v-flex xs3>
          <v-card id="imageBox">

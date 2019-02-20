@@ -8,17 +8,15 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
-    /*
     {
-      path: "/:selectedCoursePage",
-      name: "home",
+      path: "/course/:selectedCoursePage",
+      name: "course",
       component: Home,
       props: true
     },
-    */
     {
       path: "/",
-      name: "home",
+      name: "overview",
       component: Home,
       props: false
     },
@@ -43,10 +41,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
     },
     {
-      path: '*',
-      name: "Error",
+      path: "*",
+      name: "error",
       // route level code-splitting (lazy load)
-      component: () => import(/* webpackChunkName: "Error" */ "./views/Error.vue")
+      component: () =>
+        import(/* webpackChunkName: "Error" */ "./views/Error.vue")
     }
   ]
 });
