@@ -8,12 +8,14 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
+    /*
     {
       path: "/:selectedCoursePage",
       name: "home",
       component: Home,
       props: true
     },
+    */
     {
       path: "/",
       name: "home",
