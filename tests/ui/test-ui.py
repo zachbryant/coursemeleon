@@ -112,7 +112,6 @@ def main():
                 method = action[0]
                 value = action[1]
                 simulate(method, value)
-                print(fg.green + ef.bold + "Success" + rs.bold_dim + fg.rs)
             except Exception as e:
                 print(
                     traceback.format_exception(
@@ -124,6 +123,7 @@ def main():
                 print(fg.red + ef.bold + "Test case failed: " + rs.bold_dim +
                       fg.rs + get_source(method, value))
                 exit(1)
+        print(fg.green + ef.bold + "Success" + rs.bold_dim + fg.rs)
 
     sw.close()
 
