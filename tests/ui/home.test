@@ -1,14 +1,37 @@
 {
   "cases": [
-    {
-      "get": "http://localhost:8080/",
-      "click_css": "#nav > div > div > div > nav > div > a > img",
-      "urlequals": "http://localhost:8080/"
-    },
-    {
-      "get": "http://localhost:8080/",
-      "text_equals": "#container > div > div.flex.xs12 > div > div > div.flex.xs8 > div > h1::Activity Overview",
-      "urlequals": "http://localhost:8080/"
-    }
+    [
+      { "get": "http://localhost:8080/" },
+      { "click_css": "#nav > div > div > div > nav > div > a > img" },
+      { "url_equals": "http://localhost:8080/" }
+    ],
+    [
+      { "get": "http://localhost:8080/" },
+      {
+        "text_equals": "#container > div > div.flex.xs12 > div > div > div.flex.xs8 > div > h1::Activity Overview"
+      },
+      { "url_equals": "http://localhost:8080/" }
+    ],
+    [
+      { "get": "http://localhost:8080/" },
+      {
+        "click_css": "#courselist > div.v-list__group__header > div:nth-child(1) > div > h3"
+      },
+      {
+        "attr_equals": "#courselist > div.v-list__group__items.v-list__group__items--no-action::style::display: none;"
+      }
+    ],
+    [
+      { "get": "http://localhost:8080/" },
+      {
+        "attr_contains": "#courselist > div.v-list__group__items.v-list__group__items--no-action > li:nth-child(1) > div > i::class::primary"
+      },
+      {
+        "click_css": "#courselist > div.v-list__group__items.v-list__group__items--no-action > li:nth-child(1) > div > i"
+      },
+      {
+        "attr_contains": "#courselist > div.v-list__group__items.v-list__group__items--no-action > li:nth-child(1) > div > i::class::grey"
+      }
+    ]
   ]
 }

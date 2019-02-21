@@ -39,7 +39,7 @@ def read_options(test_target):
         return json.loads(test_file.read())
 
 
-def urlequals(target):
+def url_equals(target):
     cur_url = sw.web.current_url.strip('/')
     _assert(
         target.strip('/') == cur_url, "URL not equal to target: " + cur_url)
@@ -56,6 +56,26 @@ def click_css(selector):
 
 def get_source(action, value):
     return "%s('%s')" % (action, value)
+
+
+def attr_equals(value):
+    values = value.split("::", 2)
+    selector = values[0]
+    attr = values[1]
+    target = values[2]
+    sw.wait_for_csssel(selector)
+    elem = sw.web.find_element_by_css_selector(selector).get_attribute(attr)
+    _assert(target == elem, "%s =/= %s" % (target, elem))
+
+
+def attr_contains(value):
+    values = value.split("::", 2)
+    selector = values[0]
+    attr = values[1]
+    target = values[2]
+    sw.wait_for_csssel(selector)
+    elem = sw.web.find_element_by_css_selector(selector).get_attribute(attr)
+    _assert(target in elem, "'%s' not contained in '%s'" % (target, elem))
 
 
 def text_equals(value):
@@ -84,10 +104,15 @@ def main():
     firefox_capabilities['marionette'] = True
     sw = SeleniumWrapper(firefox_capabilities)
     for case in options["cases"]:
-        fail = False
-        for action, value in case.items():
+        for action in case:
+            action = next(iter(action.items()))
+            method = ""
+            value = ""
             try:
-                simulate(action, value)
+                method = action[0]
+                value = action[1]
+                simulate(method, value)
+                print(fg.green + ef.bold + "Success" + rs.bold_dim + fg.rs)
             except Exception as e:
                 print(
                     traceback.format_exception(
@@ -96,13 +121,9 @@ def main():
                         e.__traceback__),
                     file=sys.stderr,
                     flush=True)
-                fail = True
-        if fail:
-            print(fg.red + ef.bold + "Test case failed: " + rs.bold_dim +
-                  fg.rs + get_source(action, value))
-            exit(1)
-        else:
-            print(fg.green + ef.bold + "Success" + rs.bold_dim + fg.rs)
+                print(fg.red + ef.bold + "Test case failed: " + rs.bold_dim +
+                      fg.rs + get_source(method, value))
+                exit(1)
 
     sw.close()
 
