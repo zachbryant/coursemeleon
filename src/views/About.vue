@@ -1,5 +1,8 @@
 <template>
   <div class="about">
+    <v-container grid-list-xl>
+    </v-container>
+    
     <img alt="Coursemeleon logo" src="@/assets/logos/logo.svg" />
     <h1>About Coursemeleon</h1>
     <p>

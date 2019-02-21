@@ -1,52 +1,47 @@
 <template>
   <div>
-    <header class="header">
-      <h4>
-        <div class="title">
-          <ul>
-            <router-link to="/"
-              ><img class="logo" alt="logo" src="@/assets/logos/logo.svg"
-            /></router-link>
-            <li>Coursemeleon</li>
-          </ul>
-        </div>
-        <ul>
-          <li style="border-left: 1px solid rgb(255, 255, 255);">
+    <div class="header">
+      <v-toolbar flat style="background-color:white;">
+        <router-link to="/"><img class="logo" style="padding-bottom:22px;" alt="logo" src="@/assets/logos/logo.svg"/></router-link>
+        <v-toolbar-title><router-link to="/"><h3>Coursemeleon</h3></router-link></v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <div id="searchBox">
             <v-autocomplete
-              v-model="model"
-              :items="items"
-              :loading="isLoading"
-              search-input.sync="search"
-              hide-no-data
-              hide-selected
-              clearable
-              item-text="Description"
-              item-value="API"
-              placeholder="Search"
-              prepend-icon="mdi-database-search"
-              @change="queryCourses"
-            ></v-autocomplete>
-          <v-divider></v-divider>
-          <v-expand-transition>
-            <v-list v-if="model" class="red lighten-3">
-              <v-list-tile
-                v-for="(field, i) in fields"
-                :key="i"
-              >
-                <v-list-tile-content>
-                  <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                  <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-          </v-expand-transition>
-        </li>
-        <li><a><router-link to="/explore">Explore</router-link></a></li>
-        <li><a><router-link to="/about">About</router-link></a></li>
-        <li><a><router-link to="/help">Help</router-link></a></li>
-      </ul>
-      </h4>
-    </header>
+                v-model="model"
+                :items="items"
+                :loading="isLoading"
+                search-input.sync="search"
+                hide-no-data
+                hide-selected
+                clearable
+                item-text="Description"
+                item-value="API"
+                placeholder="Search"
+                prepend-icon="mdi-database-search"
+                @change="queryCourses"
+              ></v-autocomplete>
+            <v-divider></v-divider>
+            <v-expand-transition>
+              <v-list v-if="model" class="red lighten-3">
+                <v-list-tile
+                  v-for="(field, i) in fields"
+                  :key="i"
+                >
+                  <v-list-tile-content>
+                    <v-list-tile-title v-text="field.value"></v-list-tile-title>
+                    <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+            </v-expand-transition>
+          </div>
+          <v-btn to="/explore" flat><h4>Explore</h4></v-btn>
+          <v-btn to="/about" flat><h4>About</h4></v-btn>
+          <v-btn to="/help" flat><h4>Help</h4></v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+    </div>
   </div>
 </template>
 
@@ -82,11 +77,41 @@ export default {
 <style scoped lang="less">
 .header {
   background-color: #fff;
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.103);
-  /*position: fixed;*/
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.11);
+  /*position: fixed;
+  z-index: 100;*/
   width: 100%;
   max-height: 90px;
 }
+
+.header h4 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  color: rgb(137, 175, 111);
+  text-transform: lowercase;
+}
+
+.header h3 {
+  color: rgb(137, 175, 111);
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.header h4:hover {
+  color: rgb(8, 48, 13);
+}
+
+.header #searchBox {
+  padding-right: 13px;
+}
+
+
+.buttons {
+  float: right;
+}
+
 
 .header .menu {
   clear: both;
