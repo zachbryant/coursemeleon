@@ -32,6 +32,7 @@ export default {
 @primary: var(--v-primary-base);
 @secondary: var(--v-secondary-base);
 @accent: var(--v-accent-base);
+@text-color: #333333;
 @semibold: 600;
 
 #app {
@@ -55,5 +56,18 @@ export default {
       color: #42b983;
     }
   }
+}
+
+h1,
+h2 {
+  color: @primary;
+  font-weight: bold;
+}
+
+p,
+h3,
+h4,
+h5 {
+  color: @text-color;
 }
 </style>
