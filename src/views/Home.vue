@@ -31,7 +31,9 @@ export default {
     checkSelectedCoursePage() {
       this.currentCourseName = this.$route.query.course;
       return (
-        this.currentCourseName != null && this.currentCourseName.length > 4
+        this.currentCourseName != null &&
+        this.currentCourseName.length > 4 &&
+        this.currentCourseName.startsWith("CS 3")
       );
     }
   },
@@ -51,6 +53,6 @@ export default {
 <style lang="less">
 #flexSidebar {
   max-width: 25vw;
-  min-width: 15-vw;
+  min-width: 15vw;
 }
 </style>

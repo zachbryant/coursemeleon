@@ -35,10 +35,15 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style scoped lang="less">
+.justify-text {
+  text-align: justify;
+  text-justify: inter-word;
+}
 h3 {
   max-width: 90%;
-  &:extend(.justify-text);
+  //&:extend(.justify-text);
+  text-align: start;
 }
 .v-icon {
   margin-right: 10px;

@@ -61,7 +61,7 @@
 
 <!-- Add 
 "scoped" attribute to limit CSS to this component only -->
-<style lang="less">
+<style scoped lang="less">
 h1 {
   color: #aed581;
 }

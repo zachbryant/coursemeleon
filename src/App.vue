@@ -76,4 +76,8 @@ h5 {
   text-align: justify;
   text-justify: inter-word;
 }
+
+p {
+  font-size: 12pt;
+}
 </style>
