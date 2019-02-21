@@ -1,8 +1,7 @@
 <template>
   <div class="about">
-    <v-container grid-list-xl>
-    </v-container>
-    
+    <v-container grid-list-xl> </v-container>
+
     <img alt="Coursemeleon logo" src="@/assets/logos/logo.svg" />
     <h1>About Coursemeleon</h1>
     <p>
@@ -20,7 +19,11 @@
     <ul>
       <li>
         <a href="https://www.linkedin.com/in/mitchelldemerly">
-          <img src="@/assets/people/MitchellDemerly.jpg" height="150" width="150" />
+          <img
+            src="@/assets/people/MitchellDemerly.jpg"
+            height="150"
+            width="150"
+          />
         </a>
         <p>Mitchell Demerly</p>
       </li>
@@ -38,13 +41,17 @@
       </li>
       <li>
         <a href="https://www.linkedin.com/in/rujulakapoor1/">
-          <img src="@/assets/people/RujulaKapoor.jpg" height="150" width="150" />
+          <img
+            src="@/assets/people/RujulaKapoor.jpg"
+            height="150"
+            width="150"
+          />
         </a>
         <p>Rujula Kapoor</p>
       </li>
       <li>
         <a href="https://www.google.com">
-          <img src="../assets/people/AreebBaig.jpg" height="150" width="150" />
+          <img src="@/assets/people/AreebBaig.jpg" height="150" width="150" />
         </a>
         <p>Areeb Baig</p>
       </li>

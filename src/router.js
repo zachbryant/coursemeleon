@@ -9,16 +9,9 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/course/:selectedCoursePage",
-      name: "course",
-      component: Home,
-      props: true
-    },
-    {
       path: "/",
       name: "overview",
-      component: Home,
-      props: false
+      component: Home
     },
     {
       path: "/explore",

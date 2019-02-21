@@ -2,19 +2,17 @@
   <div id="Error">
     <h1>404</h1>
     <h2>Everything's broken, please go home.</h2>
-    <router-link to='/' tag="button" replace>Back to Home</router-link>
+    <router-link to="/" tag="button" replace>Back to Home</router-link>
   </div>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 #Error {
-  font-family: 'Nunito', Helvetica, Arial, sans-serif;
+  font-family: "Nunito", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   font-size: 70px;
-
-  color:#AED581;
   margin-top: 60px;
   height: 100%;
 }
@@ -23,22 +21,19 @@ h2 {
   font-size: 40px;
   font-weight: normal;
 }
-button{
-  font-family: 'Nunito', Helvetica, Arial, sans-serif;
+button {
+  font-family: "Nunito", Helvetica, Arial, sans-serif;
   font-size: 40px;
   border: 0ch;
-  margin:auto;
-  display: block	;
-  color:#AED581;
-  
+  margin: auto;
+  display: block;
+  color: #ffffff;
+  background: #aed581;
   border-radius: 8px;
   font-weight: normal;
   margin-top: 60px;
-}
-
-button:hover {
-  background: #f7f7f7;
-  color: 1px solid #AED581;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 ul {
@@ -52,6 +47,6 @@ li {
 }
 
 a {
-  color: #42b983;
+  color: #ffffff;
 }
 </style>

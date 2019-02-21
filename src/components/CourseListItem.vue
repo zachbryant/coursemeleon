@@ -34,3 +34,18 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="less">
+.justify-text {
+  text-align: justify;
+  text-justify: inter-word;
+}
+h3 {
+  max-width: 90%;
+  //&:extend(.justify-text);
+  text-align: start;
+}
+.v-icon {
+  margin-right: 10px;
+}
+</style>

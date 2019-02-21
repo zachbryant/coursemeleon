@@ -2,35 +2,44 @@
   <div>
     <div class="header">
       <v-toolbar flat style="background-color:white;">
-        <router-link to="/"><img class="logo" style="padding-bottom:22px;" alt="logo" src="@/assets/logos/logo.svg"/></router-link>
-        <v-toolbar-title><router-link to="/"><h3>Coursemeleon</h3></router-link></v-toolbar-title>
+        <router-link to="/"
+          ><img
+            class="logo"
+            style="padding-bottom:22px;"
+            alt="logo"
+            src="@/assets/logos/logo.svg"
+        /></router-link>
+        <v-toolbar-title
+          ><router-link to="/"
+            ><h3>Coursemeleon</h3></router-link
+          ></v-toolbar-title
+        >
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <div id="searchBox">
             <v-autocomplete
-                v-model="model"
-                :items="items"
-                :loading="isLoading"
-                search-input.sync="search"
-                hide-no-data
-                hide-selected
-                clearable
-                item-text="Description"
-                item-value="API"
-                placeholder="Search"
-                prepend-icon="mdi-database-search"
-                @change="queryCourses"
-              ></v-autocomplete>
+              v-model="model"
+              :items="items"
+              :loading="isLoading"
+              search-input.sync="search"
+              hide-no-data
+              hide-selected
+              clearable
+              item-text="Description"
+              item-value="API"
+              placeholder="Search"
+              prepend-icon="mdi-database-search"
+              @change="queryCourses"
+            ></v-autocomplete>
             <v-divider></v-divider>
             <v-expand-transition>
               <v-list v-if="model" class="red lighten-3">
-                <v-list-tile
-                  v-for="(field, i) in fields"
-                  :key="i"
-                >
+                <v-list-tile v-for="(field, i) in fields" :key="i">
                   <v-list-tile-content>
                     <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                    <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
+                    <v-list-tile-sub-title
+                      v-text="field.key"
+                    ></v-list-tile-sub-title>
                   </v-list-tile-content>
                 </v-list-tile>
               </v-list>
@@ -46,14 +55,12 @@
 </template>
 
 <script>
-
 export default {
   name: "Navigation",
   props: {
     msg: String
   },
-  components: {
-  },
+  components: {},
   data() {
     return {
       model: null,
@@ -107,11 +114,9 @@ export default {
   padding-right: 13px;
 }
 
-
 .buttons {
   float: right;
 }
-
 
 .header .menu {
   clear: both;

@@ -96,3 +96,6 @@ typings/
 
 # Site dist
 dist/
+
+# Python cache
+__pycache__
