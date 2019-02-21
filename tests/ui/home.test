@@ -6,23 +6,9 @@
       { "url_equals": "http://localhost:8080/" }
     ],
     [
-      { "get": "http://localhost:8080/" },
       {
-        "text_equals": "#container > div > div.flex.xs12 > div > div > div.flex.xs8 > div > h1::Activity Overview"
+        "get": "http://localhost:8080/"
       },
-      { "url_equals": "http://localhost:8080/" }
-    ],
-    [
-      { "get": "http://localhost:8080/" },
-      {
-        "click_css": "#courselist > div.v-list__group__header > div:nth-child(1) > div > h3"
-      },
-      {
-        "attr_equals": "#courselist > div.v-list__group__items.v-list__group__items--no-action::style::display: none;"
-      }
-    ],
-    [
-      { "get": "http://localhost:8080/" },
       {
         "attr_contains": "#courselist > div.v-list__group__items.v-list__group__items--no-action > li:nth-child(1) > div > i::class::primary"
       },
@@ -31,6 +17,42 @@
       },
       {
         "attr_contains": "#courselist > div.v-list__group__items.v-list__group__items--no-action > li:nth-child(1) > div > i::class::grey"
+      }
+    ],
+    [
+      {
+        "get": "http://localhost:8080/?course=hello"
+      },
+      {
+        "text_equals": "#container > div > div.flex.xs12 > div > div > div.flex.xs8 > div > h1::Activity Overview"
+      }
+    ],
+    [
+      {
+        "get": "http://localhost:8080/?course=CS%20309%3A%20Principles%20of%20Software%20Engineering"
+      },
+      {
+        "text_equals": "#container > div > div.flex.xs12 > div > div > div.flex.xs8 > div > h1::CS 309: Principles of Software Engineering"
+      }
+    ],
+    [
+      {
+        "get": "http://localhost:8080/?course=CS%20309%3A%20Principles%20of%20Software%20Engineering"
+      },
+      {
+        "click_css": "#nav > div > div > div > nav > div > a > img"
+      },
+      {
+        "text_equals": "#container > div > div.flex.xs12 > div > div > div.flex.xs8 > div > h1::Activity Overview"
+      }
+    ],
+    [
+      { "get": "http://localhost:8080/" },
+      {
+        "click_css": "#courselist > div.v-list__group__header > div:nth-child(1) > div > h3"
+      },
+      {
+        "attr_equals": "#courselist > div.v-list__group__items.v-list__group__items--no-action::style::display: none;"
       }
     ]
   ]
