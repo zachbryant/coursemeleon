@@ -1,19 +1,17 @@
-import selenium.webdriver
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+import selenium.webdriver.common.keys
+import selenium.webdriver.common.by
+import selenium.common.exceptions
 from selenium import webdriver
+import threading
 import traceback
 import certifi
-import selenium.common.exceptions
-import selenium.webdriver
-import selenium.webdriver.common.by
-import selenium.webdriver.common.keys
 import urllib3
 import urllib
 import json
 import time
 import os
-import threading
 
 
 class SeleniumWrapper:
