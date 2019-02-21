@@ -5,39 +5,49 @@
         Sidebar
       v-spacer
       v-flex(xs8)
-        CoursePage(v-if="checkSelectedCoursePage()" course="selectedCoursePage")
-        Overview(v-else)
+        component(:is="currentCourseComponent")
 </template>
 
 <script>
 // @ is an alias to /src
 import Sidebar from "@/components/Sidebar";
 import Overview from "@/components/Overview";
-import CoursePage from "@/components/CoursePage";
 
 export default {
   name: "home",
   components: {
     Sidebar,
     Overview,
-    CoursePage
 	},
 	props: {
-    selectedCoursePage: {
+    currentCourseName: {
       type: String,
       required: false
     }
   },
 	data() {
-		return {
-      coursePage: this.selectedCoursePage,
-		}
+    return {
+      
+    }
 	},
 	methods: {
     checkSelectedCoursePage() {
-      return this.coursePage != null && this.coursePage.length > 4;
+      return this.currentCourseName != null && this.currentCourseName.length > 4;
     }
-	},
+  },
+  computed: {
+    currentCourseComponent: function() {
+      if(this.checkSelectedCoursePage()) {
+        return () => {
+          console.log(this.currentCourseName);
+          import("@components/coursepages/" + this.currentCourseName.toLowerCase());
+        }
+      }
+      else {
+        return "overview"
+      }
+    }
+  }
 };
 </script>
 
