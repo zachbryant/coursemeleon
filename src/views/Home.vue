@@ -12,39 +12,34 @@
 // @ is an alias to /src
 import Sidebar from "@/components/Sidebar";
 import Overview from "@/components/Overview";
+import StaticCoursePage from "@/components/StaticCoursePage";
 
 export default {
   name: "home",
   components: {
     Sidebar,
-    Overview,
-	},
-	props: {
-    currentCourseName: {
-      type: String,
-      required: false
-    }
+    Overview
   },
-	data() {
+  props: {},
+  data() {
     return {
-      
-    }
-	},
-	methods: {
+      currentCourseName: this.$route.query.course
+    };
+  },
+  methods: {
     checkSelectedCoursePage() {
-      return this.currentCourseName != null && this.currentCourseName.length > 4;
+      return (
+        this.currentCourseName != null && this.currentCourseName.length > 4
+      );
     }
   },
   computed: {
     currentCourseComponent: function() {
-      if(this.checkSelectedCoursePage()) {
-        return () => {
-          console.log(this.currentCourseName);
-          import("@components/coursepages/" + this.currentCourseName.toLowerCase());
-        }
-      }
-      else {
-        return "overview"
+      console.log(this.currentCourseName);
+      if (this.checkSelectedCoursePage()) {
+        return StaticCoursePage;
+      } else {
+        return "overview";
       }
     }
   }
