@@ -1,5 +1,5 @@
 <template lang="pug">
-	p overview
+	h1 Welcome!
 </template>
 
 <script>
