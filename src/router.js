@@ -9,16 +9,9 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/:selectedCoursePage",
-      name: "home",
-      component: Home,
-      props: true
-    },
-    {
       path: "/",
-      name: "home",
-      component: Home,
-      props: false
+      name: "overview",
+      component: Home
     },
     {
       path: "/explore",
@@ -41,10 +34,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
     },
     {
-      path: '*',
-      name: "Error",
+      path: "*",
+      name: "error",
       // route level code-splitting (lazy load)
-      component: () => import(/* webpackChunkName: "Error" */ "./views/Error.vue")
+      component: () =>
+        import(/* webpackChunkName: "Error" */ "./views/Error.vue")
     }
   ]
 });
