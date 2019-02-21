@@ -2,11 +2,11 @@
   <div id="Error">
     <h1>404</h1>
     <h2>Everything's broken, please go home.</h2>
-    <router-link to="/course/" tag="button" replace>Back to Home</router-link>
+    <router-link to="/" tag="button" replace>Back to Home</router-link>
   </div>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 #Error {
   font-family: "Nunito", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
