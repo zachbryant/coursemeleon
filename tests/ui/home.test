@@ -1,0 +1,14 @@
+{
+  "cases": [
+    {
+      "get": "http://localhost:8080/",
+      "click_css": "#nav > div > div > div > nav > div > a > img",
+      "urlequals": "http://localhost:8080/"
+    },
+    {
+      "get": "http://localhost:8080/",
+      "text_equals": "#container > div > div.flex.xs12 > div > div > div.flex.xs8 > div > h1::Activity Overview",
+      "urlequals": "http://localhost:8080/"
+    }
+  ]
+}
