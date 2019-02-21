@@ -66,8 +66,8 @@ export default {
     return {
       model: null,
       isLoading: false,
-      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
-    }
+      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"]
+    };
   },
   methods: {
     queryCourses(queryString) {
@@ -131,7 +131,7 @@ header a:hover {
 .logo {
   float: left;
   height: 70px;
-  width: 70px;
+  width: 60px;
   padding: 15px;
 }
 
