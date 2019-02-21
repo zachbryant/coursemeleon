@@ -5,7 +5,8 @@
         Sidebar
       v-spacer
       v-flex(xs8)
-        component(:is="currentCourseComponent")
+        keep-alive
+          component(:is="currentCourseComponent" :data="currentCourseName")
 </template>
 
 <script>
@@ -23,11 +24,12 @@ export default {
   props: {},
   data() {
     return {
-      currentCourseName: this.$route.query.course
+      currentCourseName: null
     };
   },
   methods: {
     checkSelectedCoursePage() {
+      this.currentCourseName = this.$route.query.course;
       return (
         this.currentCourseName != null && this.currentCourseName.length > 4
       );
@@ -35,7 +37,7 @@ export default {
   },
   computed: {
     currentCourseComponent: function() {
-      console.log(this.currentCourseName);
+      console.log(this.$route.query.course);
       if (this.checkSelectedCoursePage()) {
         return StaticCoursePage;
       } else {
@@ -48,6 +50,7 @@ export default {
 
 <style lang="less">
 #flexSidebar {
-  max-width: 500px;
+  max-width: 25vw;
+  min-width: 15-vw;
 }
 </style>

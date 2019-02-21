@@ -1,5 +1,9 @@
 <template>
  <div class="help">
+    <v-container grid-list-xl>
+
+    </v-container>
+
    <v-container grid-list-xl>
      <v-layout row wrap align-center>
        <v-flex xs3>
@@ -151,11 +155,11 @@ export default {
 </script>
 
 <style>
-h1{
+#Box h1{
  color: white;
  font-size: 25px;
 }
-h2{
+#Box h2{
  font-size: 45px;
  color: white
 }
@@ -189,7 +193,8 @@ h2{
  font-size: large;
  font-weight: 300;
 }
-button{
+
+#Box button{
  margin-right: 0px;
  font-family: 'Nunito', Helvetica, Arial, sans-serif;
  font-size: 40px;

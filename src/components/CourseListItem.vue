@@ -34,3 +34,13 @@ export default {
   }
 };
 </script>
+
+<style lang="less">
+h3 {
+  max-width: 90%;
+  &:extend(.justify-text);
+}
+.v-icon {
+  margin-right: 10px;
+}
+</style>

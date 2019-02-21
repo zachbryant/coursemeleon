@@ -26,9 +26,12 @@ export default {
 </script>
 
 <style lang="less">
+//Imports
 @import (css) url("https://fonts.googleapis.com/css?family=Nunito");
 @import (css)
   url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+//Variables
 @primary: var(--v-primary-base);
 @secondary: var(--v-secondary-base);
 @accent: var(--v-accent-base);
@@ -36,12 +39,10 @@ export default {
 @semibold: 600;
 
 #app {
-  font-family: "Nunito", Helvetica, Arial, sans-serif;
+  font-family: "Nunito", "Roboto", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  //color: @primary;
-  height: 100vh;
 }
 
 #container {
@@ -69,5 +70,10 @@ h3,
 h4,
 h5 {
   color: @text-color;
+}
+
+.justify-text {
+  text-align: justify;
+  text-justify: inter-word;
 }
 </style>
