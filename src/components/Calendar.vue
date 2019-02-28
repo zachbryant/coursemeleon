@@ -10,6 +10,19 @@
             frameborder="0" 
             scrolling="no">
         </iframe>
+        <br/>
+        <v-container grid-list-xl>
+          <div class="links">
+            <v-btn id="linkItem"
+              color="blue-grey"
+              class="white--text"
+              href="https://www.google.com/calendar/ical/256h9v68bnbnponkp0upmfq07s%40group.calendar.google.com/public/basic.ics"
+            >
+              Ical
+              <v-icon right dark>cloud_download</v-icon>
+            </v-btn>
+          </div>
+        </v-container>
     </div>
 </template>
 
@@ -21,3 +34,17 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="less">
+.links {
+  width: 55%;
+  text-align: right;
+  margin: auto;
+  /*white-space: nowrap;*/
+}
+
+#linkItem {
+  float: right;
+}
+
+</style>

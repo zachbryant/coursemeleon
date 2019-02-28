@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <v-toolbar flat style="background-color:white;">
+      <v-toolbar flat style="background-color:rgb(169, 204, 146);">
         <router-link to="/"
           ><img
             class="logo"
@@ -22,6 +22,7 @@
               :items="items"
               :loading="isLoading"
               search-input.sync="search"
+              color="white"
               hide-no-data
               hide-selected
               clearable
@@ -83,7 +84,7 @@ export default {
 
 <style scoped lang="less">
 .header {
-  background-color: #fff;
+  /*background-color: #fff;*/
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.11);
   /*position: fixed;
   z-index: 100;*/
@@ -95,12 +96,13 @@ export default {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
   font-size: 20px;
-  color: rgb(137, 175, 111);
+  /*color: rgb(137, 175, 111);*/
+  color: white;
   text-transform: lowercase;
 }
 
 .header h3 {
-  color: rgb(137, 175, 111);
+  color: white;
   font-family: "Roboto", sans-serif;
   font-weight: 700;
   font-size: 20px;
@@ -112,6 +114,7 @@ export default {
 
 .header #searchBox {
   padding-right: 13px;
+  color: "#fff";
 }
 
 .buttons {
