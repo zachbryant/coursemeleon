@@ -1,18 +1,15 @@
 <template lang="pug">
-	v-container(fluid pa-0)
-		v-layout(row align-center)
-			v-flex(mr-5)
-				h2 Your Courses
-			v-flex(mx-4)
-			v-flex(ml-5)
-				v-btn(:disabled="saved.length == 0" flat icon color="primary")
+	v-container#scroll-target(align-start justify-start fluid pa-0 style="height: 100%;" scroll-y row)
+		v-layout(row)
+			h1 Your Courses
+			//-v-btn(:disabled="saved.length == 0" flat icon color="primary")
 					v-icon fa-th-large
-		v-layout(column align-center mt-5)
+		v-layout(column mt-2)
 			h3(v-if="saved.length == 0") It's lonely in here. Search for a course to get started.
-			ul(style="width: 100%;")
-				v-list-group(v-for="term in saved" :key="term.title" v-model="term.active" no-action)
+			ul#termlist(full-width)
+				v-list-group#courselist(v-for="term in saved" :key="term.title" v-model="term.active" no-action)
 					v-list-tile(slot="activator")
-						h4 {{ term.title }}
+						h3 {{ term.title }}
 					li(v-for="course in term.courses" :key="course.id" @click.stop="openCourse(course, $event)")
 							CourseListItem(:title="course.title" :id="course.id" :saved="course.saved")
 
@@ -30,6 +27,7 @@ export default {
   props: {},
   data() {
     return {
+      offsetY: 0,
       saved: [
         {
           title: "Spring 2019",
@@ -74,11 +72,35 @@ export default {
     };
   },
   methods: {
-    openCourse(course, event) {
-      console.log(course);
+    openCourse(courseObject, event) {
+      console.log(JSON.stringify(courseObject));
+      console.log(event);
+      this.$router.push({ path: "/", query: { course: courseObject.title } });
+    },
+    onScroll(e) {
+      this.offsetTop = e.target.scrollTop;
     }
   }
 };
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+#scroll-target {
+  max-height: 100vh;
+}
+ul,
+ol {
+  width: 100%;
+  list-style-type: none;
+  padding-left: 0 !important;
+}
+#termlist > div {
+  margin-top: 2vh;
+  div {
+    padding-left: 0 !important;
+  }
+}
+#courselist li {
+  margin-top: 10px;
+}
+</style>

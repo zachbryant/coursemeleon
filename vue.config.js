@@ -7,7 +7,7 @@ module.exports = {
     https: false,
     hotOnly: false,
     overlay: {
-      warnings: true,
+      warnings: false,
       errors: true
     }
   }
