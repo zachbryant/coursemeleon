@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.1a2d16639c40b5079b617f992a996297.js"
+  "/precache-manifest.728cd467ce311d50706d83a276bc40e2.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "coursemeleon"});

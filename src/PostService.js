@@ -34,13 +34,6 @@ class PostService {
         return axios.delete(`${url}${id}`);
     }
 
-    /**** TITLE COMPONENT  ***/
-    static insertTitle(text) {
-        return axios.post(url, {
-            text
-        });
-    }
-
 }
 
-export default PostService;
+export default PostService; 

@@ -15,7 +15,6 @@ router.post('/', async (req, res) => {
     await posts.insertOne({
         text: req.body.text,
         createdAt: new Date()
-        //title: req.body.title
     });
     res.status(201).send();
 });
