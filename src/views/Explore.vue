@@ -2,7 +2,7 @@
   <div>
     <v-container grid-list-xl></v-container>
     <h1>Explore</h1>
-    <Title/>
+    
     <Calendar/>
     <PostComponent/>
   </div>
