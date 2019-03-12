@@ -16,9 +16,7 @@ import Title from "@/components/Title.vue";
 export default {
  name: "explore",
  components: {
-   Calendar,
-   PostComponent,
-   Title
+   Calendar
  }
 };
 </script>
