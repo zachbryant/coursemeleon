@@ -34,6 +34,12 @@ export default new Router({
       component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
     },
     {
+      path: "/InputInfo",
+      name: "InputInfo",
+      // route level code-splitting (lazy load)
+      component: () => import(/* webpackChunkName: "inputInfo" */ "./views/InputInfo")
+    },
+    {
       path: "*",
       name: "error",
       // route level code-splitting (lazy load)
