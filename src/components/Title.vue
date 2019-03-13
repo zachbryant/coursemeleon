@@ -2,7 +2,7 @@
     <div>
         <v-container grid-list-xl></v-container>
         <!-- below just gets the first item-->
-        <h1>{{ posts[0].title }}</h1>
+        
         <v-container grid-list-xl></v-container>
     </div>
 </template>
