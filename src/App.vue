@@ -37,6 +37,7 @@ export default {
 @accent: var(--v-accent-base);
 @text-color: #333333;
 @semibold: 600;
+@regular: 400;
 
 #app {
   font-family: "Nunito", "Roboto", Arial, sans-serif;
@@ -73,6 +74,31 @@ h5 {
 .justify-text {
   text-align: justify;
   text-justify: inter-word;
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 30px;
+  font-weight: @semibold;
+}
+
+h4 {
+  font-size: 24px;
+  font-weight: @regular;
+}
+
+h5 {
+  font-size: 18px;
+  font-weight: @regular;
 }
 
 p {
