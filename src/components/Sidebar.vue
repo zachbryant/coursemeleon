@@ -1,15 +1,15 @@
 <template lang="pug">
-	v-container#scroll-target(align-start justify-start fluid pa-0 style="height: 100%;" scroll-y row)
+	v-container(align-start justify-start fluid pa-0 row)
 		v-layout(row)
-			h1 Your Courses
+			h3 Your Courses
 			//-v-btn(:disabled="saved.length == 0" flat icon color="primary")
 					v-icon fa-th-large
 		v-layout(column mt-2)
-			h3(v-if="saved.length == 0") It's lonely in here. Search for a course to get started.
+			h4(v-if="saved.length == 0") It's lonely in here. Search for a course to get started.
 			ul#termlist(full-width)
 				v-list-group#courselist(v-for="term in saved" :key="term.title" v-model="term.active" no-action)
 					v-list-tile(slot="activator")
-						h3 {{ term.title }}
+						h4 {{ term.title }}
 					li(v-for="course in term.courses" :key="course.id" @click.stop="openCourse(course, $event)")
 							CourseListItem(:title="course.title" :id="course.id" :saved="course.saved")
 
@@ -85,9 +85,14 @@ export default {
 </script>
 
 <style lang="less">
-#scroll-target {
-  max-height: 100vh;
-}
+//Variables
+@primary: var(--v-primary-base);
+@secondary: var(--v-secondary-base);
+@accent: var(--v-accent-base);
+@text-color: #333333;
+@semibold: 600;
+@regular: 400;
+
 ul,
 ol {
   width: 100%;
