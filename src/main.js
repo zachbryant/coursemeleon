@@ -17,8 +17,8 @@ Vue.use(VeeValidate);
 Vue.use(VToolTip);
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.lightGreen.lighten3,
-    secondary: colors.lightGreen.lighten3,
+    primary: colors.lightGreen.lighten2,
+    secondary: colors.lightGreen.lighten2,
     accent: colors.lightGreen.accent1,
     error: colors.red.lighten1,
     info: colors.lightBlue.lighten1,
