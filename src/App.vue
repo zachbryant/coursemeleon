@@ -42,6 +42,7 @@ export default {
 html,
 body {
   overflow: hidden;
+  width: 100%;
 }
 
 body {
