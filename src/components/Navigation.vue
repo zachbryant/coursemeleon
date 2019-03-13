@@ -12,7 +12,7 @@
         </router-link>
         <v-toolbar-title>
           <router-link to="/">
-            <span id="title">Coursemeleon</span>
+            <h3 id="title">Coursemeleon</h3>
           </router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
@@ -93,67 +93,22 @@ export default {
 #toolbar {
   background-color: @primary;
 }
-
 #title {
-  font-size: 26px;
-  font-weight: bold;
   color: white;
 }
-
 .header {
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.11);
   width: 100%;
 }
 .header h4 {
   color: white;
-  font-weight: @regular;
   text-transform: lowercase;
 }
 .header #searchBox {
   padding-right: 50px;
 }
-.header ul {
-  margin: 0;
-  padding: 10px;
-  list-style: none;
-  overflow: hidden;
-  text-align: right;
-  text-decoration: none;
-}
-.header li {
-  display: inline-flex;
-  padding: 10px 10px;
-  border-left: 1px solid rgb(214, 228, 206);
-  font-weight: 300;
-  text-decoration: none;
-
-  font-size: auto;
-  max-height: auto;
-}
-.header a {
-  font-size: 20px;
-  text-decoration: none;
-}
 .logo {
-  float: left;
-  height: 70px;
-  padding: 15px;
-}
-.header ul {
-  margin: 0;
-  padding: 10px;
-  list-style: none;
-  overflow: hidden;
-  text-align: left;
-  text-decoration: none;
-}
-.header li {
-  padding: 25px 25px;
-  font-weight: 650;
-  letter-spacing: 1px;
-  font-size: large;
-  text-decoration: none;
-  color: rgb(137, 175, 111);
-  border-left: 1px solid rgb(255, 255, 255);
+  height: 80px;
+  padding-top: 20px;
 }
 </style>
