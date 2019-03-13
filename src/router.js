@@ -21,6 +21,13 @@ export default new Router({
         import(/* webpackChunkName: "explore" */ "./views/Explore.vue")
     },
     {
+      path: "/login",
+      name: "login",
+      // route level code-splitting (lazy load
+      component: () =>
+        import(/* webpackChunkName: "explore" */ "./views/Login.vue")
+    },
+    {
       path: "/about",
       name: "about",
       // route level code-splitting (lazy load)
