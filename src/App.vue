@@ -39,6 +39,15 @@ export default {
 @semibold: 600;
 @regular: 400;
 
+html,
+body {
+  overflow: hidden;
+}
+
+body {
+  position: fixed;
+}
+
 #app {
   font-family: "Nunito", "Roboto", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
