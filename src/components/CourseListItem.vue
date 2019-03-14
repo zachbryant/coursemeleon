@@ -1,7 +1,7 @@
 <template lang="pug">
-	v-layout(row)
+	v-layout(row align-center justify-start fill-height)
 		v-icon(@click.stop="flipSaved" :color="getColor()") fa-star
-		h5 {{ title }}
+		p {{ title }}
 </template>
 
 <script>
@@ -36,9 +36,10 @@ export default {
 </script>
 
 <style scoped lang="less">
-h5 {
+p {
   max-width: 90%;
   text-align: start;
+  margin: 0;
 }
 .v-icon {
   margin-right: 10px;

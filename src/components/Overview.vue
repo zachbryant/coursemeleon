@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-layout(column align-start px-5 justify-start justify-text)
+  v-layout(column align-start justify-start justify-text)
     h2 Activity Overview
     br
     br

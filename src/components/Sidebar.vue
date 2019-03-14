@@ -1,11 +1,11 @@
 <template lang="pug">
 	v-container(align-start justify-start fluid pa-0 row)
-		v-layout(row)
+		v-layout(row justify-center)
 			h3 Your Courses
 			//-v-btn(:disabled="saved.length == 0" flat icon color="primary")
-					v-icon fa-th-large
-		v-layout(column mt-2)
-			h4(v-if="saved.length == 0") It's lonely in here. Search for a course to get started.
+				v-icon fa-th-large
+		v-layout(column)
+			h5(v-if="saved.length == 0") It's lonely in here. Search for a course to get started.
 			ul#termlist(full-width)
 				v-list-group#courselist(v-for="term in saved" :key="term.title" v-model="term.active" no-action)
 					v-list-tile(slot="activator")
@@ -39,8 +39,7 @@ export default {
               saved: true
             },
             {
-              title:
-                "CS 308: Principles of Software Engineering & more text here & more & more & more",
+              title: "CS 308: Principles of Software Engineering",
               id: "2",
               saved: false
             },
@@ -106,6 +105,6 @@ ol {
   }
 }
 #courselist li {
-  margin-top: 10px;
+  margin-top: calc(5px + 1vh);
 }
 </style>

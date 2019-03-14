@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <v-toolbar dark flat id="toolbar">
+      <v-toolbar dark flat id="toolbar" align-center>
         <router-link to="/">
           <img
             class="logo"
@@ -77,18 +77,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-//Imports
-@import (css) url("https://fonts.googleapis.com/css?family=Nunito");
-@import (css)
-  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-
-//Variables
-@primary: var(--v-primary-base);
-@secondary: var(--v-secondary-base);
-@accent: var(--v-accent-base);
-@text-color: #333333;
-@semibold: 600;
-@regular: 400;
+@import (reference) "../App.less";
 
 #toolbar {
   background-color: @primary;
@@ -108,7 +97,7 @@ export default {
   padding-right: 50px;
 }
 .logo {
-  height: 80px;
-  padding-top: 20px;
+  margin-bottom: -2.5vh;
+  height: calc(35px + 3vh);
 }
 </style>
