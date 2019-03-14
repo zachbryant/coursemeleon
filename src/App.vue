@@ -26,23 +26,13 @@ export default {
 </script>
 
 <style lang="less">
-//Imports
-@import (css) url("https://fonts.googleapis.com/css?family=Nunito");
-@import (css)
-  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-
-//Variables
-@primary: var(--v-primary-base);
-@secondary: var(--v-secondary-base);
-@accent: var(--v-accent-base);
-@text-color: #333333;
-@semibold: 600;
-@regular: 400;
+@import (reference) "App.less";
 
 html,
 body {
   overflow: hidden;
   width: 100%;
+  min-width: @minViewWidthPx;
 }
 
 body {
@@ -86,32 +76,43 @@ h5 {
   text-justify: inter-word;
 }
 
-h1 {
-  font-size: 48px;
+h1,
+h2 {
   font-weight: bold;
+}
+
+h1 {
+  .responsiveSizeW(font-size, 30, 30pt, 48);
 }
 
 h2 {
-  font-size: 36px;
-  font-weight: bold;
+  .responsiveSizeW(font-size, 24, 24pt, 36);
 }
 
 h3 {
-  font-size: 30px;
+  .responsiveSizeW(font-size, 18, 18pt, 30);
   font-weight: @semibold;
 }
 
-h4 {
-  font-size: 24px;
+h4,
+h5 {
   font-weight: @regular;
+}
+
+h4 {
+  .responsiveSizeW(font-size, 12, 12pt, 24);
 }
 
 h5 {
-  font-size: 18px;
-  font-weight: @regular;
+  .responsiveSizeW(font-size, 12, 12pt, 18);
 }
 
 p {
-  font-size: 12pt;
+  .responsiveSizeW(font-size, 12, 12pt, 14);
+  .light();
+}
+
+.light {
+  font-weight: 200;
 }
 </style>
