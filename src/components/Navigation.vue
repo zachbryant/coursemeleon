@@ -48,7 +48,7 @@
           <v-btn to="/explore" flat><h4>Explore</h4></v-btn>
           <v-btn to="/about" flat><h4>About</h4></v-btn>
           <v-btn to="/help" flat><h4>Help</h4></v-btn>
-          <v-btn to="/create" flat><h4>Create</h4></v-btn>
+          <v-btn to="/createcourse" flat><h4>Create</h4></v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </div>
