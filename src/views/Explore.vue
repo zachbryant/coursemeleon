@@ -18,8 +18,33 @@
 
 
 <script>
+/*
+import { writeFileSync, readFileSync } from 'fs';
+const csvFilePath='assets\tempcsv - Sheet1.csv'
+const fs = require('fs');
+const csv=require('csvtojson')
+csv()
+.fromFile(csvFilePath)
+.then((jsonObj)=>{
+    console.log(jsonObj);
+})
+*/
+/*
+const csv = require('csv-parser')
+const fs = require('fs')
+const results = [];
 
-
+fs.createReadStream('assets\tempcsv - Sheet1.csv')
+  .pipe(csv())
+  .on('data', (data) => results.push(data))
+  .on('end', () => {
+    console.log(results);
+    // [
+    //   { NAME: 'Daffy Duck', AGE: '24' },
+    //   { NAME: 'Bugs Bunny', AGE: '22' }
+    // ]
+  });
+*/
 export default {
  name: "explore",
   data() {
