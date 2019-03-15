@@ -11,7 +11,9 @@
 	"dependencies": {
 		"ajv": "^6.9.1",
 		"cassandra-driver": "^4.0.0",
-		"chart.js": "^2.7.3",
+		"chart.js": "^2.8.0",
+		"csv-parser": "^2.2.0",
+		"csvtojson": "^2.0.8",
 		"express": "^4.16.4",
 		"file-exists": "^5.0.1",
 		"hchs-vue-charts": "^1.2.8",
@@ -55,5 +57,10 @@
 		"vue-cli-plugin-vuetify": "^0.4.6",
 		"vue-template-compiler": "^2.6.6",
 		"vuetify-loader": "^1.2.1"
+	},
+	"browser": {
+		"fs": false,
+		"path": false,
+		"os": false
 	}
 }
