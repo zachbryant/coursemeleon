@@ -33,12 +33,10 @@ class PostService {
         return axios.delete(`${url}${id}`);
     }
     
-    //Modify post
-    static modifyPost(id) {
-        //console.log(id + "lllll")
-        //console.log(id)
-        return axios.put(`${url}${id}`);
-    }
+  //Modify post
+  static modifyPost(id) {
+    return axios.put(`${url}${id}`);
+}
 
 }
 

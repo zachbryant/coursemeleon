@@ -32,7 +32,7 @@
                     <p class="text">{{ post }}</p>
                 </div>
             </div>
-
+          <!--
           <div class="modify-post">
              <label id="objID">Enter object ID of the object you want to modify</label>
               <input type="text" id="objID" v-model="objID" placeholder=" object ID"><br>
@@ -43,7 +43,7 @@
                <button v-on:click="modifyPost">Modify Post</button>
                 
           </div>
-
+          -->
             <hr>
         </div>
 
@@ -98,11 +98,8 @@ export default {
       },
        async modifyPost() {
          //id=this.objID;
-         const id=this.objID 
-         const t = this.objID + "," + this.at + "," + this.change; 
-         console.log(id)
-         await CourseService.modifyPost(id);
-          this.courses = await CourseService.modifyPost();
+         const id=this.objID; 
+         this.courses = await CourseService.modifyPost(id);
       }
   }
 };
