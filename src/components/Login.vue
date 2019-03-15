@@ -1,27 +1,28 @@
 <template lang="pug">
-  v-container(fluid py-5 style="max-width: 30%;")
+  v-container(fluid py-5 style="max-width: 40%;")
     v-layout(justify-start align-center column)
-      h1 Get Started
-      v-text-field(v-validate="'required|email'" 
-                  name="email" 
-                  type="text" 
-                  style="width: 100%;"
-                  v-model="email" 
-                  browser-autocomplete 
-                  clearable 
-                  label="Enter your email" 
-                  required 
-                  :hint="errors.first('email')" 
-                  :error="errors.has('email')"
-                  @change="resetCodeState()"
-                  @click:clear="resetCodeState()")
-      v-btn(v-if="!codeRequested" 
-            color="primary" 
-            block
-            :disabled="!email || errors.has('email')" 
-            @click="generateCode()") Continue with {{ getStep() }}
-      div(v-show="codeRequested")
-        span We've sent a temporary code to your email. Please paste it below.
+      div
+        h1 Get Started
+        p(style="visibility: hidden; margin-top: -80px;") We've sent a temporary code to your email. Please paste it below.
+        v-text-field(v-validate="'required|email'" 
+                    name="email" 
+                    type="text" 
+                    v-model="email" 
+                    browser-autocomplete 
+                    clearable 
+                    label="Enter your email" 
+                    required 
+                    :hint="errors.first('email')" 
+                    :error="errors.has('email')"
+                    @change="resetCodeState()"
+                    @click:clear="resetCodeState()")
+        v-btn(v-if="!codeRequested" 
+              color="primary" 
+              block
+              :disabled="!email || errors.has('email')" 
+              @click="generateCode()") Continue with {{ getStep() }}
+      div(:style="{visibility: codeRequested ? 'visible' : 'hidden'}")
+        p We've sent a temporary code to your email. Please paste it below.
         v-btn(color="primary" 
               block
               flat
@@ -34,7 +35,7 @@
                     required 
                     :hint="errors.first('code')" 
                     :error="errors.has('code')")
-        span#errorMessage(v-show="codeError") Your code was invalid or expired.
+        span#errorMessage(v-show="codeError") {{authErrorMessage}}
         v-btn(color="primary" 
               block 
               @click="validateCode()") Continue with {{ getStep() }}
@@ -71,11 +72,16 @@ export default {
     validateCode() {
       let email = this.email;
       let code = this.code;
-      let routerTarget = this.props.redirect;
+      let routerTarget = this.redirect;
+      //dispatch is async
       this.$store
         .dispatch("login", { email, code })
         .then(() => this.$router.push(routerTarget))
-        .catch(err => console.log(err));
+        // eslint-disable-next-line no-unused-vars
+        .catch(err => {
+          //console.log(err);
+          this.codeError = true;
+        });
     },
     resendCode() {
       this.resetCodeState();
@@ -88,7 +94,11 @@ export default {
     }
   },
   components: {},
-  computed: {}
+  computed: {
+    authErrorMessage() {
+      return this.$store.getters.authStatus;
+    }
+  }
 };
 </script>
 
@@ -97,6 +107,7 @@ export default {
 
 h1 {
   margin-bottom: 20px;
+  white-space: nowrap;
 }
 
 #errorMessage {
