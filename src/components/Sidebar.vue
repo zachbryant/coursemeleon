@@ -27,7 +27,6 @@ export default {
   props: {},
   data() {
     return {
-      offsetY: 0,
       saved: [
         {
           title: "Spring 2019",
@@ -72,25 +71,23 @@ export default {
   },
   methods: {
     openCourse(courseObject, event) {
-      console.log(JSON.stringify(courseObject));
       console.log(event);
-      this.$router.push({ path: "/", query: { course: courseObject.title } });
+      if (this.hasAccess(courseObject.id))
+        this.$router.push({ path: "/", query: { course: courseObject.title } });
     },
-    onScroll(e) {
-      this.offsetTop = e.target.scrollTop;
+    hasAccess(courseId) {
+      //get UID
+      //ask backend if UID + CID = access
+      //return result
+      console.log("TODO sidebar hasAccess");
+      return true;
     }
   }
 };
 </script>
 
 <style lang="less">
-//Variables
-@primary: var(--v-primary-base);
-@secondary: var(--v-secondary-base);
-@accent: var(--v-accent-base);
-@text-color: #333333;
-@semibold: 600;
-@regular: 400;
+@import (reference) "../App.less";
 
 ul,
 ol {
