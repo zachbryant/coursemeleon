@@ -7,7 +7,7 @@
             v-flex(xs12)
               Navigation
           v-flex(xs12)
-            router-view
+            router-view#routerView
 </template>
 
 <script>
@@ -21,6 +21,22 @@ export default {
   methods: {},
   components: {
     Navigation
+  },
+  created: function() {
+    this.$http.interceptors.response.use(undefined, function(err) {
+      // eslint-disable-next-line no-unused-vars
+      return new Promise(function(resolve, reject) {
+        // Intercept 401 Unauthorized response (probably expired token)
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          this.$store.dispatch("logout");
+          this.$store.commit(
+            "auth_error",
+            "Session expired. Please log in again."
+          );
+        }
+        throw err;
+      });
+    });
   }
 };
 </script>
@@ -28,15 +44,20 @@ export default {
 <style lang="less">
 @import (reference) "App.less";
 
-html,
-body {
-  overflow: hidden;
-  width: 100%;
-  min-width: @minViewWidthPx;
+body,
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-body {
+#home {
+  overflow-y: hidden;
+  min-width: @minViewWidthPx;
   position: fixed;
+}
+
+#routerView {
+  .responsiveSizeH(max-height, 94, 94vh, 95);
 }
 
 #app {
