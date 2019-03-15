@@ -1,19 +1,21 @@
 <template>
   <div class="about">
-    <v-container grid-list-xl> </v-container>
+    <v-container grid-list-xl></v-container>
 
     <img alt="Coursemeleon logo" src="@/assets/logos/logo.svg" />
     <h1>About Coursemeleon</h1>
     <p>
       Coursemeleon was created to offer an efficient and user-friendly way for
-      professors to create course webpages. <br />By providing a web application
-      that takes course information input by a professor and organizes it
-      intuitively on a webpage, <br />professors will be able to follow a
-      standard design without investing more time and technical knowledge.
-      <br /><br />The application’s customizable features gives professors
-      flexibility with the information they choose to publish. <br />Students
-      can then access information like course calendars, announcements, and
-      grades through a single service.
+      professors to create course webpages.
+      <br />By providing a web application that takes course information input
+      by a professor and organizes it intuitively on a webpage, <br />professors
+      will be able to follow a standard design without investing more time and
+      technical knowledge.
+      <br />
+      <br />The application’s customizable features gives professors flexibility
+      with the information they choose to publish. <br />Students can then
+      access information like course calendars, announcements, and grades
+      through a single service.
     </p>
     <h3>The Development Team</h3>
     <ul>
