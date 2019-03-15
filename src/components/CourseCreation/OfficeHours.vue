@@ -3,7 +3,7 @@
             // Office Hours Information
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(lg12)
-                    h1 Office Hours
+                    h2 Office Hours
             
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(xs1)

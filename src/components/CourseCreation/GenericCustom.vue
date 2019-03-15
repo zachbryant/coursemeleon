@@ -1,8 +1,8 @@
 <template lang="pug">
         div
             v-layout(align-start justify-start row wrap fill-height)
-                v-flex(lg12)
-                    h2 {{section_title}}
+                v-flex(xs3)
+                    v-text-field(v-model="message" single-line outline)
 
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(lg6)
@@ -15,10 +15,7 @@
 <script>
 
 export default {
-    name: 'generic',
-    props: {
-        section_title: String
-    }
+    name: 'genericcustom'
 }
 
 

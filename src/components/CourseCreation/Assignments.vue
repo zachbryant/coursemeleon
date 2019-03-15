@@ -2,7 +2,7 @@
         div
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(lg12)
-                    h1 Assignments
+                    h2 Assignments
             
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(xs3)

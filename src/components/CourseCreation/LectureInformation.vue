@@ -3,7 +3,7 @@
             // Lecture Information
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(lg12)
-                    h1 Lecture Information
+                    h2 Lecture Information
             
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(xs1)
