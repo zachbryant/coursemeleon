@@ -34,6 +34,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
     },
     {
+      path: "/create",
+      name: "create",
+      component: () => import("./views/Create.vue")
+    },
+    {
       path: "*",
       name: "error",
       // route level code-splitting (lazy load)
