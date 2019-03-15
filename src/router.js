@@ -16,36 +16,28 @@ export default new Router({
     {
       path: "/explore",
       name: "explore",
-      // route level code-splitting (lazy load
-      component: () =>
-        import(/* webpackChunkName: "explore" */ "./views/Explore.vue")
+      component: () => import("./views/Explore.vue")
     },
     {
       path: "/login",
       name: "login",
-      // route level code-splitting (lazy load
-      component: () =>
-        import(/* webpackChunkName: "explore" */ "./views/Login.vue")
+      component: () => import("./views/Login.vue")
     },
     {
       path: "/about",
       name: "about",
-      // route level code-splitting (lazy load)
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      component: () => import("./views/About.vue")
     },
     {
       path: "/help",
       name: "help",
-      // route level code-splitting (lazy load
-      component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
+      component: () => import("./views/Help.vue")
     },
     {
       path: "*",
       name: "error",
       // route level code-splitting (lazy load)
-      component: () =>
-        import(/* webpackChunkName: "Error" */ "./views/Error.vue")
+      component: () => import("./views/Error.vue")
     }
   ]
 });
