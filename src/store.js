@@ -3,23 +3,33 @@ import Vuex from "vuex";
 import Axios from "axios";
 
 Vue.use(Vuex);
-
-let apiLogin = process.env.BASE_URL + "/api/login/";
-let apiPermission = process.env.BASE_URL + "/api/permission/";
-let apiCourse = process.env.BASE_URL + "/api/course/";
+const BASE_URL = "http://localhost:8080";
+let apiLogin = BASE_URL + "/api/login/";
+let apiPermission = BASE_URL + "/api/permission/";
+let apiCourse = BASE_URL + "/api/course/";
+let apiUserCourses = apiPermission + "";
+let isDev = process.env.NODE_ENV !== "production";
 
 export default new Vuex.Store({
   state: {
-    user: localStorage.getItem("user") || {},
+    user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
-    status: ""
+    status: "",
+    userCourses: {}
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-    getUser: state => state.user
+    getUser: state => state.user,
+    getUserCourses: state => state.userCourses
   },
   mutations: {
+    unSaveCourse(state, cid) {
+      state.userCourses[cid].saved = false;
+    },
+    saveCourse(state, cid) {
+      state.userCourses[cid].saved = true;
+    },
     auth_request(state) {
       state.status = "loading";
     },
@@ -28,18 +38,36 @@ export default new Vuex.Store({
       state.token = token;
       state.user = user;
     },
-    auth_error(state) {
-      state.status = "error";
+    auth_error(state, message) {
+      state.status = message || "Unknown error";
     },
     logout(state) {
       state.status = "";
       state.token = "";
       state.user = "";
+      state.userCourses = {};
     }
   },
   actions: {
+    getUserCourses({ state }) {
+      if (state.getters.isLoggedIn) {
+        return new Promise((resolve, reject) => {
+          Axios({
+            url: String.format(apiUserCourses, state.user.id),
+            method: "GET"
+          })
+            .then(resp => {
+              console.log("User courses: " + JSON.stringify(resp.data));
+              state.userCourses = resp.data.courses;
+              resolve(resp);
+            })
+            .catch(err => {
+              reject(err);
+            });
+        });
+      }
+    },
     login({ commit }, credentials) {
-      console.log(apiLogin);
       return new Promise((resolve, reject) => {
         commit("auth_request");
         Axios({
@@ -48,9 +76,9 @@ export default new Vuex.Store({
           method: "POST"
         })
           .then(resp => {
+            console.log("Auth request " + JSON.stringify(resp.data));
             const token = resp.data.token;
             const user = resp.data.user;
-            console.log("logged in as " + JSON.stringify(user));
             localStorage.setItem("token", token);
             localStorage.setItem("user", user);
             Axios.defaults.headers.common["Authorization"] = token;
@@ -58,7 +86,13 @@ export default new Vuex.Store({
             resolve(resp);
           })
           .catch(err => {
-            commit("auth_error");
+            var message;
+            if (err.status == 401) {
+              message = "Your code was invalid or expired.";
+            } else {
+              message = "That's an error! Try again in a few minutes.";
+            }
+            commit("auth_error", message);
             localStorage.removeItem("token");
             reject(err);
           });
@@ -75,5 +109,5 @@ export default new Vuex.Store({
       });
     }
   },
-  strict: process.env.NODE_ENV !== "production"
+  strict: isDev
 });
