@@ -33,11 +33,7 @@ export default {
   methods: {
     validateCourseName() {
       this.courseData.name = this.$route.query.course;
-      return (
-        this.courseData.name != null &&
-        this.courseData.name.length > 2 &&
-        this.courseData.name.startsWith("CS 3")
-      );
+      return this.courseData.name != null && this.courseData.name.length > 2;
     }
   },
   computed: {
