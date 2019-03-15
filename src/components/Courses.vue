@@ -97,9 +97,12 @@ export default {
           this.courses = await CourseService.getPosts();
       },
        async modifyPost() {
-         const t = this.objID + "," + this.at + "," + this.change;
-          await CourseService.modifyPost(t);
-          this.courses = await CourseService.getPosts();
+         //id=this.objID;
+         const id=this.objID 
+         const t = this.objID + "," + this.at + "," + this.change; 
+         console.log(id)
+         await CourseService.modifyPost(id);
+          this.courses = await CourseService.modifyPost();
       }
   }
 };

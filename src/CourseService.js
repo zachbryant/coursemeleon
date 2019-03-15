@@ -34,9 +34,10 @@ class PostService {
     }
     
     //Modify post
-    static modifyPost(text) {
+    static modifyPost(id) {
         //console.log(id + "lllll")
-        return axios.put(url,{text});
+        //console.log(id)
+        return axios.put(`${url}${id}`);
     }
 
 }

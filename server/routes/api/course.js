@@ -35,13 +35,24 @@ router.delete('/:id', async (req, res) => {
 
 //Modify Post
 router.put('/:id', async (req, res) => {
-    const posts = await loadPostsCollection();
-    var str = JSON.stringify(req.body);
-    console.log(str);
-   // await posts.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
-    res.status(200).send();
-});
-
+    req.app.locals.db.collection('documents').updateOne({
+        id: new mongodb.ObjectID(req.params.id)
+      }, 
+      {$set:
+        {
+          course_id: "hello"
+        }
+        
+      }, (err, result) => {
+        if (err) {
+          res.status(400).send({'error': err})
+        }
+        res.status(200).send(result)
+      })
+    })
+    
+ 
+    
 async function loadPostsCollection() {
     const client = await mongodb.MongoClient.connect('mongodb+srv://user:7987@coursemeleon-slknn.mongodb.net/test?retryWrites=true', {
         useNewUrlParser: true
