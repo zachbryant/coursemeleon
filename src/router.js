@@ -36,7 +36,17 @@ export default new Router({
     {
       path: "/create",
       name: "create",
-      component: () => import("./views/Create.vue")
+      component: () => import("./views/InputInfo.vue")
+    },
+    {
+      path: "/courseinfo",
+      name: "courseinfo",
+      component: () => import("./views/CourseInfo")
+    },
+    {
+      path: "/instructorinfo",
+      name: "instructorinfo",
+      component: () => import("./views/InstructorInfo")
     },
     {
       path: "*",
