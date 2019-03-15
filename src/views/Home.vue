@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-container#home(fluid fill-height py-5)
+  v-container#home(fluid fill-height px-2)
     v-layout(row)
       v-flex#flexSidebar(xs4 scroll-y)
         Sidebar
@@ -50,22 +50,15 @@ export default {
 </script>
 
 <style lang="less">
-//Variables
-@primary: var(--v-primary-base);
-@secondary: var(--v-secondary-base);
-@accent: var(--v-accent-base);
-@text-color: #333333;
-@semibold: 600;
-@regular: 400;
+@import (reference) "../App.less";
 
 #home {
-  max-height: 99vh;
+  .responsiveSizeH(max-height, 94, 94vh, 96.5);
 }
 
 #flexSidebar {
-  max-width: 25vw;
-  min-width: 15vw;
-  border-right: 1px solid @primary;
+  min-width: 33vw;
+  //border-right: 1px solid @primary;
 }
 #coursePage {
   padding: 0 5% 0 5%;
