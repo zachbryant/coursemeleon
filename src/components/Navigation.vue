@@ -3,12 +3,7 @@
     <div class="header">
       <v-toolbar dark flat id="toolbar" align-center>
         <router-link to="/">
-          <img
-            class="logo"
-            style="padding-bottom:22px;"
-            alt="logo"
-            src="@/assets/logos/logo_white.svg"
-          />
+          <img class="logo" alt="logo" src="@/assets/logos/logo_white.svg" />
         </router-link>
         <v-toolbar-title>
           <router-link to="/">
@@ -97,7 +92,8 @@ export default {
   padding-right: 50px;
 }
 .logo {
-  margin-bottom: -2.5vh;
+  margin-bottom: -25px;
+  padding-bottom: 20px;
   height: calc(35px + 3vh);
 }
 </style>
