@@ -22,10 +22,10 @@ let router = new Router({
       }
     },
     {
-      path: "/manage:cid",
-      name: "manage",
+      path: "/manage/:cid?",
+      name: "manageCourse",
       component: () => import("./views/Manage.vue"),
-      alias: "/edit",
+      alias: "/edit/:cid?",
       meta: {
         requiresAuth: true
       },
@@ -63,20 +63,44 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => !!record.meta.requiresAuth)) {
+    console.log(to);
     if (store.getters.isLoggedIn) {
       next();
       return;
     }
-    next({ path: "/login", props: to.props });
+    next({
+      name: "login",
+      path: "/login",
+      props: to.props,
+      meta: to.meta,
+      params: {
+        redirect: {
+          path: to.fullPath,
+          props: to.props
+        }
+      }
+    });
     return;
   }
   if (to.matched.some(record => !!record.meta.requiresAuthQueries)) {
+    console.log(to);
     if (store.getters.isLoggedIn) {
       next();
       return;
     }
     if (!isObjectEmpty(to.query)) {
-      next({ path: "/login", props: to.props, query: to.query });
+      next({
+        name: "login",
+        path: "/login",
+        props: to.props,
+        meta: to.meta,
+        params: {
+          redirect: {
+            path: to.fullPath,
+            props: to.props
+          }
+        }
+      });
       return;
     }
   }
