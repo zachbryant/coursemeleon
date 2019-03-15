@@ -18,7 +18,7 @@ let router = new Router({
       name: "home",
       component: Home,
       meta: {
-        requiresAuthQueries: true
+        requiresAuthQueries: false
       }
     },
     {
