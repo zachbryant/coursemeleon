@@ -6,7 +6,7 @@
 
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(lg6)
-                    v-textarea(v-model="message" placeholder="penis")
+                    v-textarea(v-model="message" outline)
 
 </template>
 

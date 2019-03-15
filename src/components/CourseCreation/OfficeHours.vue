@@ -16,13 +16,13 @@
          
             v-layout(align-start justify-start row wrap fill-height v-for="i in 3")
                 v-flex(xs1)
-                    v-text-field(v-model="message" placeholder="test")
+                    v-text-field(v-model="message" single-line outline)
                 v-flex(xs3)
-                    v-text-field(v-model="message" placeholder="test")
+                    v-text-field(v-model="message" single-line outline)
                 v-flex(xs3)
-                    v-text-field(v-model="message" placeholder="test")  
+                    v-text-field(v-model="message" single-line outline)  
                 v-flex(xs3)
-                    v-text-field(v-model="message" placeholder="test")      
+                    v-text-field(v-model="message" single-line outline)      
 
 </template>
 
