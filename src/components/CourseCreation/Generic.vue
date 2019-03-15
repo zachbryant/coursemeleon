@@ -2,7 +2,7 @@
         div
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(lg12)
-                    h1 {{section_title}}
+                    h2 {{section_title}}
 
             v-layout(align-start justify-start row wrap fill-height)
                 v-flex(lg6)

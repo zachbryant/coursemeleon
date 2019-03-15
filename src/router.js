@@ -34,11 +34,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
     },
     {
-      path: "/create",
-      name: "create",
-      component: () => import("./views/InputInfo.vue")
-    },
-    {
       path: "/courseinfo",
       name: "courseinfo",
       component: () => import("./views/CourseInfo")
@@ -47,6 +42,12 @@ export default new Router({
       path: "/instructorinfo",
       name: "instructorinfo",
       component: () => import("./views/InstructorInfo")
+    },
+    {
+      path: "/createcourse",
+      name: "createcourse",
+      // route level code-splitting (lazy load)
+      component: () => import(/* webpackChunkName: "inputInfo" */ "./views/CreateCourse")
     },
     {
       path: "*",
