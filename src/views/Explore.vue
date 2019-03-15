@@ -2,20 +2,25 @@
   <div>
     <v-container grid-list-xl></v-container>
     <h1>Explore</h1>
-    
-    <PostComponent/>
+    <Courses></Courses>
+    <!-- <PostComponent/> -->
+    <br>
+    <br>    
+  
   </div>
 </template>
 
 <script>
 import Calendar from "@/components/Calendar.vue";
-import PostComponent from "@/components/PostComponent.vue";
+//import PostComponent from "@/components/PostComponent.vue";
+import Courses from "@/components/Courses.vue";
 
 export default {
  name: "explore",
  components: {
    Calendar,
-   PostComponent
+   Courses,
+   //PostComponent
  }
 };
 </script>
