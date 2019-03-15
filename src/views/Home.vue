@@ -1,46 +1,49 @@
 <template lang="pug">
   v-container#home(fluid fill-height px-2)
-    v-layout(row)
-      v-flex#flexSidebar(xs4 scroll-y)
-        Sidebar
-      v-flex#coursePage(xs10 justify-center scroll-y)
-        keep-alive
-          component(:is="currentCourseComponent" :data="currentCourseName")
+      v-layout
+        v-layout(row)
+          v-flex#flexSidebar(xs4 scroll-y)
+            Sidebar
+          v-flex#coursePage(xs10 justify-center scroll-y)
+            keep-alive
+              component(:is="currentCourseComponent" :data="courseData")
 </template>
 
 <script>
 // @ is an alias to /src
 import Sidebar from "@/components/Sidebar";
 import Overview from "@/components/Overview";
-import StaticCoursePage from "@/components/StaticCoursePage";
+import Course from "@/components/Course";
 
 export default {
   name: "home",
   components: {
     Sidebar,
-    Overview
+    Overview,
+    Course
   },
   props: {},
   data() {
     return {
-      currentCourseName: null
+      courseData: {
+        name: ""
+      }
     };
   },
   methods: {
-    checkSelectedCoursePage() {
-      this.currentCourseName = this.$route.query.course;
+    validateCourseName() {
+      this.courseData.name = this.$route.query.course;
       return (
-        this.currentCourseName != null &&
-        this.currentCourseName.length > 4 &&
-        this.currentCourseName.startsWith("CS 3")
+        this.courseData.name != null &&
+        this.courseData.name.length > 2 &&
+        this.courseData.name.startsWith("CS 3")
       );
     }
   },
   computed: {
     currentCourseComponent: function() {
-      console.log(this.$route.query.course);
-      if (this.checkSelectedCoursePage()) {
-        return StaticCoursePage;
+      if (this.validateCourseName()) {
+        return Course;
       } else {
         return "overview";
       }
@@ -51,10 +54,6 @@ export default {
 
 <style lang="less">
 @import (reference) "../App.less";
-
-#home {
-  .responsiveSizeH(max-height, 94, 94vh, 96.5);
-}
 
 #flexSidebar {
   min-width: 33vw;
