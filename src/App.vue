@@ -68,7 +68,7 @@ p,
 h3,
 h4,
 h5 {
-  color: @text-color;
+  color: @textColor;
 }
 
 .justify-text {
@@ -91,6 +91,10 @@ h2 {
 
 h3 {
   .responsiveSizeW(font-size, 18, 18pt, 30);
+}
+
+h3,
+.v-btn__content {
   font-weight: @semibold;
 }
 
@@ -109,6 +113,10 @@ h5 {
 
 p {
   .responsiveSizeW(font-size, 12, 12pt, 14);
+}
+
+span,
+p {
   .light();
 }
 
