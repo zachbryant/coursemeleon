@@ -3,95 +3,19 @@
     h1 Input Your Information
 
     v-container(grid-list-md)
-        // Announcements
-        v-layout(align-start justify-start row wrap fill-height)
-            v-flex(lg12)
-                h1 Announcements
 
-        v-layout(align-start justify-start row wrap fill-height)
-            v-flex(xs3)
-                v-textarea(v-model="message" placeholder="edit me")
+        courseinformation
         
-        // General Information
-        v-layout(align-start justify-start row wrap fill-height)
-            v-flex(lg12)
-                h1 General Information
+        generic(section_title="Announcements")
 
-        v-layout(align-start justify-start row wrap fill-height)
-            v-flex(xs3)
-                v-textarea(v-model="message" placeholder="edit me")
+        generic(section_title="General Information")
         
-        // Assignments
-        v-layout(align-start justify-start row wrap fill-height)
-            v-flex(lg12)
-                h1 Assignments
-            // Headers
-            v-flex(xs3)
-                h3 Assignment
-            v-flex(xs3)
-                h3 Due Date
-            v-flex(xs3)
-                h3 Link
+        assignments
+
+        lectureinformation
+
+        officehours
         
-        v-layout(align-start justify-start row wrap fill-height v-for="i in 3")
-            v-flex(xs3)
-                v-text-field(v-model="message" placeholder="test")
-            v-flex(xs3)
-                v-text-field(v-model="message" placeholder="test")
-            v-flex(xs3)
-                v-text-field(v-model="message" placeholder="test")
-        
-        
-        // Lecture Information
-        v-layout(align-start justify-start row wrap fill-height)
-            v-flex(lg12)
-                h1 Lecture Information
-            // Headers
-            v-flex(xs1)
-                h3 Section
-            v-flex(xs3)
-                h3 Section
-            v-flex(xs3)
-                h3 Location
-
-        v-layout(align-start justify-start row wrap fill-height v-for="i in 3")
-            v-flex(xs1)
-                v-text-field(v-model="message" placeholder="test")
-            v-flex(xs3)
-                v-text-field(v-model="message" placeholder="test")
-            v-flex(xs3)
-                v-text-field(v-model="message" placeholder="test")
-        
-        // Office Hours Information
-        v-layout(align-start justify-start row wrap fill-height)
-            v-flex(lg12)
-                h1 Office Hours
-            // Headers
-            v-flex(xs1)
-                h3 Day
-            v-flex(xs3)
-                h3 Time
-            v-flex(xs3)
-                h3 Location
-            v-flex(xs3)
-                h3 Instructor
-         
-        v-layout(align-start justify-start row wrap fill-height v-for="i in 3")
-            v-flex(xs1)
-                v-text-field(v-model="message" placeholder="test")
-            v-flex(xs3)
-                v-text-field(v-model="message" placeholder="test")
-            v-flex(xs3)
-                v-text-field(v-model="message" placeholder="test")  
-            v-flex(xs3)
-                v-text-field(v-model="message" placeholder="test")      
-
-     
-
-
-     
-
-    
 </template>
 
 
@@ -99,6 +23,22 @@
 
 <script>
 
+import generic from "@/components/CourseCreation/Generic.vue";
+import courseinformation from "@/components/CourseCreation/CourseInformation.vue";
+import assignments from "@/components/CourseCreation/Assignments.vue"
+import officehours from "@/components/CourseCreation/OfficeHours.vue"
+import lectureinformation from "@/components/CourseCreation/LectureInformation.vue"
+
+export default {
+    name: 'app',
+    components: {
+        generic,
+        courseinformation,
+        assignments,
+        officehours,
+        lectureinformation
+    }
+}
 
 
 
