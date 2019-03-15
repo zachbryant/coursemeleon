@@ -71,16 +71,7 @@ export default {
   },
   methods: {
     openCourse(courseObject, event) {
-      console.log(event);
-      if (this.hasAccess(courseObject.id))
-        this.$router.push({ path: "/", query: { course: courseObject.title } });
-    },
-    hasAccess(courseId) {
-      //get UID
-      //ask backend if UID + CID = access
-      //return result
-      console.log("TODO sidebar hasAccess");
-      return true;
+      this.$router.push({ path: "/", query: { course: courseObject.title } });
     }
   }
 };
