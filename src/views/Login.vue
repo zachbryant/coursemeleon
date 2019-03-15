@@ -1,5 +1,7 @@
 <template lang="pug">
-  login
+  v-container(fluid fill-height pa-0)
+    v-layout
+      login(:redirect="redirect" fill-height)
 </template>
 
 <script>
@@ -14,7 +16,16 @@ export default {
   components: {
     Login
   },
-  computed: {}
+  computed: {},
+  props: {
+    redirect: {
+      type: Object,
+      required: false,
+      default: function() {
+        return { path: "/" };
+      }
+    }
+  }
 };
 </script>
 
