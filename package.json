@@ -22,6 +22,7 @@
 		"node-sass": "^4.11.0",
 		"pdf-parse": "^1.1.1",
 		"pdf-text-extract": "^1.5.0",
+		"read-file": "^0.2.0",
 		"register-service-worker": "^1.6.1",
 		"roboto-fontface": "*",
 		"v-tooltip": "^2.0.0-rc.33",

@@ -18,6 +18,7 @@
 
 
 <script>
+
 /*
 import { writeFileSync, readFileSync } from 'fs';
 const csvFilePath='assets\tempcsv - Sheet1.csv'
@@ -44,6 +45,22 @@ fs.createReadStream('assets\tempcsv - Sheet1.csv')
     //   { NAME: 'Bugs Bunny', AGE: '22' }
     // ]
   });
+*/
+
+var fs = require('fs')
+var  filename = 'src\assets\grades.txt';
+//const stream = fs.createReadStream(filename, { start: 1, end: 100});
+//console.log(stream)
+
+fs.readFile(filename, 'utf8', function(err, data) {
+  console.log('OK: ' + filename);
+  console.log(data)
+});
+
+/*
+fetch('C:\Users\rujul\temp\coursemeleon\src\assets\grades.txt')
+  .then(response => response.text())
+  .then(text => console.log(text))
 */
 export default {
  name: "explore",
