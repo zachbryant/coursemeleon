@@ -20,13 +20,11 @@ class PostService {
         });
     }
 
-    //Create post
-    static insertPost(text) {
-        return axios.post(url, {
-            text
-            //text: text
-        });
-    }
+//Create post
+static insertPost(text) {
+    //console.log({text});
+    return axios.post(url, {text});
+}
 
     //Delete post
     static deletePost(id) {
@@ -35,6 +33,7 @@ class PostService {
     
   //Modify post
   static modifyPost(id) {
+     console.log(id) 
     return axios.put(`${url}${id}`);
 }
 

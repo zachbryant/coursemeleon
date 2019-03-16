@@ -11,16 +11,18 @@ router.get('/', async (req, res) => {
 //Add post revised, does not need string parsng anymore
 router.post('/', async (req , res) => {
   const posts = await loadPostsCollection();
-  await posts.insertOne({
-    course_id: req.body.course_id,
-    course_name: req.body.course_name,
-    term: req.body.term,
-    term_start: req.body.term_start,
-    resources: req.body.resources,
-    announcements: req.body.announcements,
-    cal_google: req.body.cal_google,
-    if_show: false
-});
+  var str = JSON.stringify(req.body);
+  str=str.substring(9,str.length-2)
+  console.log(str)
+  var r = str.split(",");
+  await posts.insertOne({        
+      course_id: r[0],
+      course_name: r[1],
+      term: r[2],
+      term_start: r[3],
+      
+      
+  });
   res.status(201).send();
 });
 
