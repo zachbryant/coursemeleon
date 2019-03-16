@@ -120,7 +120,6 @@
         v-layout(align-start justify-start row wrap fill-height)
                 v-btn(large color="primary", @click="publish") PUBLISH
         
-        
 </template>
 
 
