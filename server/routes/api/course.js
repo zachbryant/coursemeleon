@@ -16,6 +16,9 @@ router.post('/', async (req , res) => {
     course_name: req.body.course_name,
     term: req.body.term,
     term_start: req.body.term_start,
+    resources: req.body.resources,
+    announcements: req.body.announcements,
+    cal_google: req.body.cal_google,
     if_show: false
 });
   res.status(201).send();
