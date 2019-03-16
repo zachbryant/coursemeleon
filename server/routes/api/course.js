@@ -15,7 +15,8 @@ router.post('/', async (req , res) => {
     course_id: req.body.course_id,
     course_name: req.body.course_name,
     term: req.body.term,
-    term_start: req.body.term_start
+    term_start: req.body.term_start,
+    if_show: false
 });
   res.status(201).send();
 });
