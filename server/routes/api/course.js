@@ -42,7 +42,7 @@ router.put('/:id', async (req , res) => {
         "term": req.body.term,
         "term_start": req.body.term_start
     }});
-  res.status(200).send(req.body);
+  res.status(200).send();
 });
     
 async function loadPostsCollection() {
