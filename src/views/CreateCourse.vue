@@ -134,6 +134,7 @@ import assignments from "@/components/CourseCreation/Assignments.vue";
 import officehours from "@/components/CourseCreation/OfficeHours.vue";
 import lectureinformation from "@/components/CourseCreation/LectureInformation.vue";
 import genericcustom from "@/components/CourseCreation/GenericCustom.vue";
+import Axios from 'axios';
 
 export default {
     name: 'app',
