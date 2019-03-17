@@ -7,7 +7,7 @@
             v-flex(xs12)
               Navigation
           v-flex(xs12)
-            router-view
+            router-view#routerView
 </template>
 
 <script>
@@ -21,22 +21,44 @@ export default {
   methods: {},
   components: {
     Navigation
+  },
+  created: function() {
+    this.$http.interceptors.response.use(undefined, function(err) {
+      // eslint-disable-next-line no-unused-vars
+      return new Promise(function(resolve, reject) {
+        // Intercept 401 Unauthorized response (probably expired token)
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          this.$store.dispatch("logout");
+          this.$store.commit(
+            "auth_error",
+            "Session expired. Please log in again."
+          );
+        }
+        throw err;
+      });
+    });
   }
 };
 </script>
 
 <style lang="less">
-//Imports
-@import (css) url("https://fonts.googleapis.com/css?family=Nunito");
-@import (css)
-  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import (reference) "App.less";
 
-//Variables
-@primary: var(--v-primary-base);
-@secondary: var(--v-secondary-base);
-@accent: var(--v-accent-base);
-@text-color: #333333;
-@semibold: 600;
+body,
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#home {
+  overflow-y: hidden;
+  min-width: @minViewWidthPx;
+  position: fixed;
+}
+
+#routerView {
+  .responsiveSizeH(max-height, 94, 94vh, 95);
+}
 
 #app {
   font-family: "Nunito", "Roboto", Arial, sans-serif;
@@ -49,12 +71,10 @@ export default {
   padding: 0;
 }
 
-#nav {
+#header {
   a {
-    font-weight: bold;
-    color: #2c3e50;
     &.router-link-exact-active {
-      color: #42b983;
+      color: #ffffff;
     }
   }
 }
@@ -69,7 +89,7 @@ p,
 h3,
 h4,
 h5 {
-  color: @text-color;
+  color: @textColor;
 }
 
 .justify-text {
@@ -77,7 +97,51 @@ h5 {
   text-justify: inter-word;
 }
 
+h1,
+h2 {
+  font-weight: bold;
+}
+
+h1 {
+  .responsiveSizeW(font-size, 30, 30pt, 48);
+}
+
+h2 {
+  .responsiveSizeW(font-size, 24, 24pt, 36);
+}
+
+h3 {
+  .responsiveSizeW(font-size, 18, 18pt, 30);
+}
+
+h3,
+.v-btn__content {
+  font-weight: @semibold;
+}
+
+h4,
+h5 {
+  font-weight: @regular;
+}
+
+h4 {
+  .responsiveSizeW(font-size, 12, 12pt, 24);
+}
+
+h5 {
+  .responsiveSizeW(font-size, 12, 12pt, 18);
+}
+
 p {
-  font-size: 12pt;
+  .responsiveSizeW(font-size, 12, 12pt, 14);
+}
+
+span,
+p {
+  .light();
+}
+
+.light {
+  font-weight: 200;
 }
 </style>

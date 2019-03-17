@@ -1,24 +1,37 @@
 import Vue from "vue";
-import "./plugins/vuetify";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import VToolTip from "v-tooltip";
+import Axios from "axios";
+import "es6-promise/auto";
 import Vuetify from "vuetify";
-import "./registerServiceWorker";
+import VToolTip from "v-tooltip";
 import VeeValidate from "vee-validate";
-
 import "vuetify/dist/vuetify.min.css";
 import colors from "vuetify/es5/util/colors";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 
+import App from "./App.vue";
+import store from "./store";
+import router from "./router";
+import "./registerServiceWorker";
+
+// Make Axios available via this.$http
+Vue.prototype.$http = Axios;
+// Set Axios authorization to token
+const token = localStorage.getItem("token");
+if (token) {
+  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+}
+
+// Vue Plugins
+// Vue form validation
 Vue.use(VeeValidate);
+// Vue tooltips
 Vue.use(VToolTip);
+// Vue material css framework
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.lightGreen.lighten3,
-    secondary: colors.lightGreen.lighten3,
+    primary: colors.lightGreen.lighten2,
+    secondary: colors.lightGreen.lighten2,
     accent: colors.lightGreen.accent1,
     error: colors.red.lighten1,
     info: colors.lightBlue.lighten1,
