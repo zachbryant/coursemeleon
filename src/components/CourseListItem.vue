@@ -1,7 +1,7 @@
 <template lang="pug">
-	v-layout(row)
+	v-layout(row align-center justify-start fill-height)
 		v-icon(@click.stop="flipSaved" :color="getColor()") fa-star
-		h3 {{ title }}
+		p {{ title }}
 </template>
 
 <script>
@@ -36,16 +36,13 @@ export default {
 </script>
 
 <style scoped lang="less">
-.justify-text {
-  text-align: justify;
-  text-justify: inter-word;
-}
-h3 {
+p {
   max-width: 90%;
-  //&:extend(.justify-text);
   text-align: start;
+  margin: 0;
 }
 .v-icon {
   margin-right: 10px;
+  min-width: 10%;
 }
 </style>

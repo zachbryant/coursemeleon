@@ -1,44 +1,110 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import store from "./store";
 
 Vue.use(Router);
 
-export default new Router({
+function isObjectEmpty(obj) {
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
+}
+
+let router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
       path: "/",
-      name: "overview",
-      component: Home
+      name: "home",
+      component: Home,
+      meta: {
+        requiresAuthQueries: false
+      }
+    },
+    {
+      path: "/manage/:cid?",
+      name: "manageCourse",
+      component: () => import("./views/Manage.vue"),
+      alias: "/edit/:cid?",
+      meta: {
+        requiresAuth: true
+      },
+      props: true
     },
     {
       path: "/explore",
       name: "explore",
-      // route level code-splitting (lazy load
-      component: () =>
-        import(/* webpackChunkName: "explore" */ "./views/Explore.vue")
+      component: () => import("./views/Explore.vue")
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("./views/Login.vue"),
+      props: true
     },
     {
       path: "/about",
       name: "about",
-      // route level code-splitting (lazy load)
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      component: () => import("./views/About.vue")
     },
     {
       path: "/help",
       name: "help",
-      // route level code-splitting (lazy load
-      component: () => import(/* webpackChunkName: "help" */ "./views/Help.vue")
+      component: () => import("./views/Help.vue")
     },
     {
       path: "*",
       name: "error",
       // route level code-splitting (lazy load)
-      component: () =>
-        import(/* webpackChunkName: "Error" */ "./views/Error.vue")
+      component: () => import("./views/Error.vue")
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => !!record.meta.requiresAuth)) {
+    console.log(to);
+    if (store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    next({
+      name: "login",
+      path: "/login",
+      props: to.props,
+      meta: to.meta,
+      params: {
+        redirect: {
+          path: to.fullPath,
+          props: to.props
+        }
+      }
+    });
+    return;
+  }
+  if (to.matched.some(record => !!record.meta.requiresAuthQueries)) {
+    console.log(to);
+    if (store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    if (!isObjectEmpty(to.query)) {
+      next({
+        name: "login",
+        path: "/login",
+        props: to.props,
+        meta: to.meta,
+        params: {
+          redirect: {
+            path: to.fullPath,
+            props: to.props
+          }
+        }
+      });
+      return;
+    }
+  }
+  next();
+});
+
+export default router;
