@@ -18,50 +18,8 @@
 
 
 <script>
-
-/*
-import { writeFileSync, readFileSync } from 'fs';
-const csvFilePath='assets\tempcsv - Sheet1.csv'
-const fs = require('fs');
-const csv=require('csvtojson')
-csv()
-.fromFile(csvFilePath)
-.then((jsonObj)=>{
-    console.log(jsonObj);
-})
-*/
-/*
-const csv = require('csv-parser')
-const fs = require('fs')
-const results = [];
-
-fs.createReadStream('assets\tempcsv - Sheet1.csv')
-  .pipe(csv())
-  .on('data', (data) => results.push(data))
-  .on('end', () => {
-    console.log(results);
-    // [
-    //   { NAME: 'Daffy Duck', AGE: '24' },
-    //   { NAME: 'Bugs Bunny', AGE: '22' }
-    // ]
-  });
-*/
-
-var fs = require('fs')
-var  filename = 'src\assets\grades.txt';
-//const stream = fs.createReadStream(filename, { start: 1, end: 100});
-//console.log(stream)
-
-fs.readFile(filename, 'utf8', function(err, data) {
-  console.log('OK: ' + filename);
-  console.log(data)
-});
-
-/*
-fetch('C:\Users\rujul\temp\coursemeleon\src\assets\grades.txt')
-  .then(response => response.text())
-  .then(text => console.log(text))
-*/
+const lol = require('./reader.js');
+readTextFile();
 export default {
  name: "explore",
   data() {
@@ -85,6 +43,8 @@ export default {
  }
 
 };
+
+
 
 
 var str = "These are the score on the last midterm 60 30 40 50 30 32 100 97 80 44 32 44 55 78 88 Thats it";
