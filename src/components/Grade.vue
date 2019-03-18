@@ -15,13 +15,10 @@
     <canvas id="scatterChart" width="200" height="100"></canvas> 
  </div>
 </template>
-
-
-
 <script>
 
 export default {
- name: "explore",
+ name: "Grade",
   data() {
   (function()
 {
@@ -43,7 +40,6 @@ export default {
  }
 
 };
-
 
 
 
@@ -130,9 +126,8 @@ var SDprep = 0;
 window.addEventListener("load", function(event) {
     document.getElementById('mean').value = "Mean: " + mean ;
     document.getElementById('median').value = "Median: " + median ;
-    document.getElementById('sd').value = "SD: " + SDresult ;
+    document.getElementById('sd').value = "SD: " + SDresult ;   
   
-
     var ctx = document.getElementById("myC").getContext('2d');
     var myChart = new Chart(ctx, {
     type: 'doughnut',
