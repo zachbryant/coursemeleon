@@ -13,14 +13,12 @@
 // @ is an alias to /src
 import Sidebar from "@/components/Sidebar";
 import Overview from "@/components/Overview";
-import Grade from "@/components/Grade.vue";
 import StaticCoursePage from "@/components/StaticCoursePage";
 
 
 export default {
   name: "home",
   components: {
-    Grade,
     Sidebar,
     Overview
    

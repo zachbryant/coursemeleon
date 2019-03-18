@@ -1,5 +1,9 @@
 <template>
  <div class="help">
+     <div>
+        <Grade/>
+    </div>
+
     <v-container grid-list-xl>
 
     </v-container>
@@ -145,11 +149,13 @@
 
 <script>
 import Navigation from "@/components/Navigation.vue";
+import Grade from "@/components/Grade.vue";
 
 export default {
  name: "help",
  components: {
-   Navigation
+   Navigation,
+   Grade
  }
 };
 </script>
