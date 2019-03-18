@@ -14,7 +14,7 @@ router.post('/', async (req , res) => {
   var str = JSON.stringify(req.body);
   str=str.substring(9,str.length-2)
   console.log(str)
-  var r = str.split(",");
+  var r = str.split("cmsplit");
   await posts.insertOne({        
       course_id: r[0],
       course_name: r[1],

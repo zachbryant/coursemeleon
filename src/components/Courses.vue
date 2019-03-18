@@ -80,7 +80,7 @@ export default {
   },
   methods: {
       async createPost() {
-          const t = this.courseID + "," + this.courseTitle + "," + this.couseTerm + "," + this.termStart;
+          const t = this.courseID + "cmsplit" + this.courseTitle + "cmsplit" + this.couseTerm + "cmsplit" + this.termStart;
           console.log(t)
           await CourseService.insertPost(t);
           //this.courses = await CourseService.getPosts();
