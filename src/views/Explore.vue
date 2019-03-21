@@ -1,12 +1,11 @@
 <template>
   <div>
     <v-container grid-list-xl></v-container>
-    <h1>Explore</h1>
+    <h1>Create Course</h1>
     <Courses></Courses>
     <!-- <PostComponent/> -->
     <br>
-    <br>    
-  
+    <br>
   </div>
 </template>
 
@@ -16,12 +15,12 @@ import Calendar from "@/components/Calendar.vue";
 import Courses from "@/components/Courses.vue";
 
 export default {
- name: "explore",
- components: {
-   Calendar,
-   Courses,
-   //PostComponent
- }
+  name: "explore",
+  components: {
+    Calendar,
+    Courses
+    //PostComponent
+  }
 };
 </script>
 

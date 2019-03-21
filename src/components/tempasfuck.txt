@@ -1,0 +1,59 @@
+<template lang>
+  <div>
+    <v-container grid-list-xl></v-container>
+
+    <div class="main-container">
+      <h1>Create Course</h1>
+      <!-- CREATE COURSE-->
+      <div class="create-post">
+        <label>Enter Course ID</label>
+        <input type="text" id="courseID" v-model="courseID" placeholder="Course ID">
+        <br>
+
+        <label>Enter Course Title</label>
+        <input type="text" id="courseTitle" v-model="courseTitle" placeholder="Course Title">
+        <br>
+
+        <label>Enter Course Term</label>
+        <input type="text" id="couseTerm" v-model="couseTerm" placeholder="Course Term">
+        <br>
+
+        <label id="termStart">Enter Term Start Date</label>
+        <input type="text" id="termStart" v-model="termStart" placeholder="Term start date">
+        <br>
+
+        <button v-on:click="createPost">Post!</button>
+
+      </div>
+      <!-- <div class="course">
+        <button v-on:click="getPost">Get Post</button>
+      </div>
+      <div class="post-container">
+        <div
+          class="post"
+          v-for="(post, index) in courses"
+          v-bind:item="post"
+          v-bind:index="index"
+          v-bind:key="post._id"
+          v-on:dblclick="deletePost(post._id)"
+        >
+          <p class="text">{{ post }}</p>
+        </div>
+      </div> -->
+
+      <!-- <div class="modify-post">
+             <label id="objID">Enter object ID of the object you want to modify</label>
+              <input type="text" id="objID" v-model="objID" placeholder=" object ID"><br>
+              <label id="at">Enter which attribute you want modify</label>
+              <input type="text" id="at" v-model="at" placeholder=" attribute"><br>
+              <label id="change">What is the new value of the attribute</label>
+              <input type="text" id="change" v-model="change" placeholder=" change"><br>
+               <button v-on:click="modifyPost">Modify Post</button>
+                
+      </div>-->
+      <hr>
+    </div>
+
+    <v-container grid-list-xl></v-container>
+  </div>
+</template>

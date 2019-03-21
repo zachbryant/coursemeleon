@@ -1,139 +1,193 @@
-<template>
-    <div>
-        <v-container grid-list-xl></v-container>
+<template lang="pug">
+  div
+    v-container(grid-list-md)
+      // COURSE INFO - ID & Name
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Course Information
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Course ID
+        v-flex(xs3)
+          h3 Course Name
+        
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="courseID" single-line outline id="courseID")
+        v-flex(xs3)
+          v-text-field(v-model="courseTitle" single-line outline id="courseTitle")
+        
+      // DATES - Course Term & Start Date
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Course Term
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Term
+        v-flex(xs3)
+          h3 Start Date
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="courseTerm" single-line outline id="courseTerm")
+        v-flex(xs3)
+          v-text-field(v-model="termStart" single-line outline id="termStart")
+      
+      // ANNOUNCEMENTS
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Announcements
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          v-textarea(v-model="announcements" outline id="announcements")
+      
+      // GENERAL INFORMATION
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 General Course Information
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          v-textarea(v-model="generalText" outline id="generalText")
 
-        <h1>Courses</h1>
+      // EMAIL
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Contact Information
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          v-textarea(v-model="contactInfo" outline id="contactInfo")
 
-        <div class="main-container">
-            <h1>Create Course</h1>
-            <!-- CREATE POST-->
-            <div class="create-post">
-                <label id="courseID">Enter Course ID</label>
-                <input type="text" id="courseID" v-model="courseID" placeholder="Course ID"><br>
-                <label id="courseTitle">Enter Course Title</label>
-                <input type="text" id="courseTitle" v-model="courseTitle" placeholder="Course Title"><br>
-                <label id="courseTerm">Enter Course Term</label>
-                <input type="text" id="couseTerm" v-model="couseTerm" placeholder="Course Term"><br>
-                <label id="termStart">Enter Term Start Date</label>
-                <input type="text" id="termStart" v-model="termStart" placeholder="Term start date"><br>
-                <button v-on:click="createPost">Post!</button>
-            </div>
-            <div class="course">
-                <button v-on:click="getPost">Get Post</button>
-            </div>
-             <div class ="post-container">
-                <div class="post"
-                    v-for="(post, index) in courses"
-                    v-bind:item="post"
-                    v-bind:index="index"
-                    v-bind:key="post._id"
-                    v-on:dblclick="deletePost(post._id)"
-                >
-                    <p class="text">{{ post }}</p>
-                </div>
-            </div>
-          
-          <div class="modify-post">
-             <label id="objID">Enter object ID of the object you want to modify</label>
-              <input type="text" id="objID" v-model="objID" placeholder=" object ID"><br>
-              <label id="at">Enter which attribute you want modify</label>
-              <input type="text" id="at" v-model="at" placeholder=" attribute"><br>
-              <label id="change">What is the new value of the attribute</label>
-              <input type="text" id="change" v-model="change" placeholder=" change"><br>
-               <button v-on:click="modifyPost">Modify Post</button>
-                
-          </div>
-          
-            <hr>
-        </div>
+      // RESOURCE LINKS
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg3)
+          h2 Links
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="resourceLink" single-line outline id="resourceLink")
 
-        <v-container grid-list-xl></v-container>
-    </div>
+      // GRADES
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg3)
+          h2 Grades
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="grades" single-line outline id="grades")
+
+      // CALENDAR
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Calendar
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Google Calendar Link
+        v-flex(xs3)
+          h3 iCal Link
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="googleCal" single-line outline id="googleCal" placeholder="optional")
+        v-flex(xs3)
+          v-text-field(v-model="iCal" single-line outline id="iCal" placeholder="optional")
+
+      // PUBLISH 
+      v-layout(align-center justify-start row wrap fill-height)
+        v-btn(large color="primary", @click="createPost") PUBLISH
+    
+
+
 </template>
 
-<script>
 
-import CourseService from '../CourseService';
+
+<script>
+import CourseService from "../CourseService";
 export default {
   name: "Courses",
   data() {
-      return {
-          courses: [],
-          error: '',
-          text: '',
-          courseID: '',
-          courseTitle: '',
-          couseTerm: '',
-          termStart: '',
-          objID: '',
-          at: '',
-          change: ''
-
-      }
+    return {
+      courses: [],
+      error: "",
+      text: "",
+      courseID: "",
+      courseTitle: "",
+      courseTerm: "",
+      termStart: "",
+      googleCal: "",
+      iCal: "",
+      grades: "",
+      announcements: "",
+      resourceLink: "",
+      contactInfo: "",
+      generalText: "",
+      objID: "",
+      at: "",
+      change: ""
+    };
   },
-  async created() { //runs automatically when component created
+  async created() {
+    //runs automatically when component created
     try {
-        this.posts = await CourseService.getPosts();
-    } catch(err) {
-        this.error = err.message;
+      this.posts = await CourseService.getPosts();
+    } catch (err) {
+      this.error = err.message;
     }
   },
   methods: {
-      async createPost() {
-          const t = this.courseID + "cmsplit" + this.courseTitle + "cmsplit" + this.couseTerm + "cmsplit" + this.termStart;
-          console.log(t)
-          await CourseService.insertPost(t);
-          //this.courses = await CourseService.getPosts();
-      },
-       async getPost() {
-         //console.log("hello");
-         this.courses = await CourseService.getPosts();
-         //var horses = await CourseService.getPosts();
-         //var camels = JSON.stringify(horses).split("}");
-         //console.log(camels)
-      },
+    async createPost() {
+      const t =
+        this.courseID +
+        "cmsplit" +
+        this.courseTitle +
+        "cmsplit" +
+        this.courseTerm +
+        "cmsplit" +
+        this.termStart +
+        "cmsplit" +
+        this.googleCal +
+        "cmsplit" +
+        this.iCal +
+        "cmsplit" +
+        this.grades +
+        "cmsplit" +
+        this.announcements +
+        "cmsplit" +
+        this.resourceLink +
+        "cmsplit" +
+        this.contactInfo +
+        "cmsplit" +
+        this.generalText;
+      console.log(t);
+      await CourseService.insertPost(t);
+      //this.courses = await CourseService.getPosts();
+    },
+    async getPost() {
+      //console.log("hello");
+      this.courses = await CourseService.getPosts();
+      //var horses = await CourseService.getPosts();
+      //var camels = JSON.stringify(horses).split("}");
+      //console.log(camels)
+    },
 
-      async deletePost(id) {
-          await CourseService.deletePost(id);
-          this.courses = await CourseService.getPosts();
-      },
-       async modifyPost() {
-         //id=this.objID;
-         const id=this.objID; 
-         this.courses = await CourseService.modifyPost(id);
-      }
+    async deletePost(id) {
+      await CourseService.deletePost(id);
+      this.courses = await CourseService.getPosts();
+    },
+    async modifyPost() {
+      //id=this.objID;
+      const id = this.objID;
+      this.courses = await CourseService.modifyPost(id);
+    }
   }
 };
 </script>
 
-<style scope>
-div.container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-p.error {
-  border: 1px solid #ff5b5f;
-  background-color: #ffc5c1;
-  padding: 10px;
-  margin-bottom: 15px;
-}
-div.post {
-  position: relative;
-  border: 1px solid #5bd658;
-  background-color: 3bcffb8;
-  padding: 10px 10px 30px 10px;
-  margin-bottom: 15px;
-}
-div.created-at {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 5px 15px 5px 15px;
-  background-color: darkgreen;
-}
-p.text {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 0;
-}
+<style scoped>
 </style> 

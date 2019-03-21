@@ -2,18 +2,14 @@
   <div>
     <div class="header">
       <v-toolbar flat style="background-color:rgb(169, 204, 146);">
-        <router-link to="/"
-          ><img
-            class="logo"
-            style="padding-bottom:22px;"
-            alt="logo"
-            src="@/assets/logos/logo.svg"
-        /></router-link>
-        <v-toolbar-title
-          ><router-link to="/"
-            ><h3>Coursemeleon</h3></router-link
-          ></v-toolbar-title
-        >
+        <router-link to="/">
+          <img class="logo" style="padding-bottom:22px;" alt="logo" src="@/assets/logos/logo.svg">
+        </router-link>
+        <v-toolbar-title>
+          <router-link to="/">
+            <h3>Coursemeleon</h3>
+          </router-link>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <div id="searchBox">
@@ -38,18 +34,24 @@
                 <v-list-tile v-for="(field, i) in fields" :key="i">
                   <v-list-tile-content>
                     <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                    <v-list-tile-sub-title
-                      v-text="field.key"
-                    ></v-list-tile-sub-title>
+                    <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
                   </v-list-tile-content>
                 </v-list-tile>
               </v-list>
             </v-expand-transition>
           </div>
-          <v-btn to="/explore" flat><h4>Explore</h4></v-btn>
-          <v-btn to="/about" flat><h4>About</h4></v-btn>
-          <v-btn to="/help" flat><h4>Help</h4></v-btn>
-          <v-btn to="/coursepage" flat><h4>My page</h4></v-btn>
+          <v-btn to="/explore" flat>
+            <h4>Create Course</h4>
+          </v-btn>
+          <v-btn to="/about" flat>
+            <h4>About</h4>
+          </v-btn>
+          <v-btn to="/help" flat>
+            <h4>Help</h4>
+          </v-btn>
+          <v-btn to="/coursepage" flat>
+            <h4>My page</h4>
+          </v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </div>
