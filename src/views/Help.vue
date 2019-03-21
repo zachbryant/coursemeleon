@@ -1,10 +1,12 @@
 <template>
  <div class="help">
-    <v-container grid-list-xl>
 
+  
+    <v-container grid-list-xl>
+     <div><Grade/>></div>
     </v-container>
 
-   <v-container grid-list-xl>
+    <v-container grid-list-xl>
      <v-layout row wrap align-center>
        <v-flex xs3>
          <v-card id="imageBox">
@@ -145,11 +147,13 @@
 
 <script>
 import Navigation from "@/components/Navigation.vue";
+import Grade from "@/components/Grade.vue";
 
 export default {
  name: "help",
  components: {
-   Navigation
+   Navigation,
+   Grade
  }
 };
 </script>

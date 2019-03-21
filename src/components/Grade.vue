@@ -15,8 +15,6 @@
  </div>
 </template>
 <script>
-import CourseService from '../CourseService';
-
 export default {
  name: "Grade",
   data() {
@@ -32,21 +30,14 @@ export default {
     else
       localStorage.removeItem('firstLoad');
   }
-})()
+})();
    return {
-       courses: []
+    
     
    };
- },async created() { //runs automatically when component created
-        try {
-            this.courses = await CourseService.getPosts(); //populate courses array
-        } catch(err) {
-            this.error = err.message;
-        }
-}
+ }
 };
 var str = "These are the score on the last midterm 60 30 40 50 30 32 100 97 80 44 32 44 55 78 88 Thats it";
-//var str=this.courses[courses.length-1].grades;
 var res = str.split(" ");
 var k;
 var sum=0;
