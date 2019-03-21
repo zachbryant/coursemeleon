@@ -1,13 +1,12 @@
 <template lang="pug">
-    v-flex(v-switch="getType()")
-        h5(v-case="'h5'") {{ text }}
-        h4(v-case="'h4'") {{ text }}
-        h3(v-case="'h3'") {{ text }}
-        h2(v-case="'h2'") {{ text }}
-        h1(v-case="'h1'") {{ text }}
-        p(v-case="'p'") {{ text }}
-        span(v-default) {{ text }}
-
+    div(v-switch="getType()")
+        h5(v-case="'h5'" :style="style") {{ text }}
+        h4(v-case="'h4'" :style="style") {{ text }}
+        h3(v-case="'h3'" :style="style") {{ text }}
+        h2(v-case="'h2'" :style="style") {{ text }}
+        h1(v-case="'h1'" :style="style") {{ text }}
+        p(v-case="'p'" :style="style") {{ text }}
+        span(v-default :style="style") {{ text }}
 </template>
 
 <script>
@@ -18,7 +17,8 @@ export default {
     extends: SimpleCourseElement,
     data() {
         return {
-            text: this.data.data
+            text: this.data.data,
+            style: this.data.style || ""
         }
     },
     methods: {
@@ -26,7 +26,9 @@ export default {
 }
 </script>
 
-<style lang="less">
-
+<style scoped lang="less">
+div {
+    display: inline;
+}
 </style>
 
