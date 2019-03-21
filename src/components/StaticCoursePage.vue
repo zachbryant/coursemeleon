@@ -1,6 +1,7 @@
 <template lang="pug">
     v-layout(column align-start justify-start)
       h2 {{ data }}
+      textItem(:data="temp" ref="textItemTest")
       br
       br
       v-layout(column justify-text)
@@ -29,10 +30,20 @@
 </template>
 
 <script>
+import textItem from "@/components/CourseCreation/Text.vue";
+
 export default {
   name: "staticcoursepage",
+  components: {
+    textItem
+  },
   props: {
     data: String
+  },
+  data() {
+    return {
+      temp: {type: 'h3', data: "Testing H3 Text!", style:"color: red !important;"}
+    }
   }
 };
 </script>
