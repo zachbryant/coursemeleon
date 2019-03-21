@@ -2,8 +2,6 @@
     <div>
         <Title/>
         <Calendar/>
-        <h1 v-if="ifShow()">yay</h1>
-        <h1 v-else>fuck</h1>
     </div>
 </template>
 
