@@ -9,12 +9,11 @@ export default {
     name: "textItem",
     extends: SimpleCourseElement,
     data() {
-
-    },
-    methods: {
-        getType() {
+        return {
             
         }
+    },
+    methods: {
     }
 }
 </script>
