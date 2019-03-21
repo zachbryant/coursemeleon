@@ -13,11 +13,13 @@ import Title from "@/components/Title.vue";
 import Null from "@/components/Null.vue";
 import CourseService from '../CourseService';
 import Calendar from "@/components/Calendar.vue";
+//import Grade from "@/components/Grade.vue";
 
 export default {
     name: "coursepage",
     components: {
         Courses,
+        //Grade,
         Title,
         Calendar,
         Null
