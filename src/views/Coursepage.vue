@@ -6,6 +6,7 @@
         <Contact/>
         <Info/>
         <Resources/>
+        <Grade/>
     </div>
 </template>
 

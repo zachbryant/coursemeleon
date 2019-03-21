@@ -3,7 +3,8 @@
         <v-container grid-list-xl></v-container>
         <h1>Resources</h1>
         <v-container grid-list-xl style="border-style: dashed; border-color: #b7b7b7; border-width: 2px;">
-            <h3>{{ courses[courses.length-1].resources }}</h3>
+            <a v-bind:href="courses[courses.length-1].resources" target="_blank">{{ courses[courses.length-1].resources }}</a>
+
         </v-container>
         <v-container grid-list-xl></v-container>
     </div>
