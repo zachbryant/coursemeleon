@@ -4,6 +4,8 @@
         <Calendar/>
         <Announcements/>
         <Contact/>
+        <Info/>
+        <Resources/>
     </div>
 </template>
 
@@ -16,6 +18,8 @@ import Calendar from "@/components/Calendar.vue";
 import Grade from "@/components/Grade.vue";
 import Announcements from "@/components/Announcements.vue";
 import Contact from "@/components/Contact.vue";
+import Info from "@/components/Info.vue";
+import Resources from "@/components/Resources.vue";
 
 export default {
     name: "coursepage",
@@ -26,7 +30,9 @@ export default {
         Calendar,
         Null,
         Announcements,
-        Contact
+        Contact,
+        Info,
+        Resources
     },
     data() {
         return {
