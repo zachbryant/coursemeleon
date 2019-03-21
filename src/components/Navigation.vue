@@ -18,6 +18,7 @@
               :items="items"
               :loading="isLoading"
               search-input.sync="search"
+              color="white"
               hide-no-data
               hide-selected
               clearable
@@ -28,15 +29,28 @@
               @change="queryCourses"
             ></v-autocomplete>
             <v-divider></v-divider>
+            <v-expand-transition>
+              <v-list v-if="model" class="red lighten-3">
+                <v-list-tile v-for="(field, i) in fields" :key="i">
+                  <v-list-tile-content>
+                    <v-list-tile-title v-text="field.value"></v-list-tile-title>
+                    <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+            </v-expand-transition>
           </div>
           <v-btn to="/explore" flat>
-            <h4>Explore</h4>
+            <h4>Create Course</h4>
           </v-btn>
           <v-btn to="/about" flat>
             <h4>About</h4>
           </v-btn>
           <v-btn to="/help" flat>
             <h4>Help</h4>
+          </v-btn>
+          <v-btn to="/coursepage" flat>
+            <h4>My page</h4>
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>

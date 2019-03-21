@@ -53,6 +53,18 @@ let router = new Router({
       component: () => import("./views/Help.vue")
     },
     {
+      path: "/coursepage",
+      name: "coursepage",
+      // route level code-splitting (lazy load
+      component: () => import(/* webpackChunkName: "help" */ "./views/Coursepage.vue")
+    },
+    {
+      path: "/createcourse",
+      name: "createcourse",
+      // route level code-splitting (lazy load)
+      component: () => import(/* webpackChunkName: "inputInfo" */ "./views/CreateCourse")
+    },
+    {
       path: "*",
       name: "error",
       // route level code-splitting (lazy load)

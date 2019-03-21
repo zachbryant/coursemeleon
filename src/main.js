@@ -8,6 +8,8 @@ import "vuetify/dist/vuetify.min.css";
 import colors from "vuetify/es5/util/colors";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+import "chart.js";
+import "hchs-vue-charts";
 
 import App from "./App.vue";
 import store from "./store";
