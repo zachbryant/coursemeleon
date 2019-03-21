@@ -45,6 +45,12 @@ def url_equals(target):
         target.strip('/') == cur_url, "URL not equal to target: " + cur_url)
 
 
+def type_text(target):
+    values = target.split("::", 2)
+    elem = sw.web.find_element_by_css_selector(values[0])
+    elem.send_keys(values[1])
+
+
 def get(url):
     sw.get(url)
 
@@ -83,8 +89,7 @@ def text_equals(value):
     selector = values[0]
     innerHtml = values[1]
     sw.wait_for_csssel(selector)
-    elem = sw.web.find_element_by_css_selector(selector).get_attribute(
-        'innerHTML')
+    elem = sw.web.find_element_by_css_selector(selector).get_attribute('innerHTML')
     _assert(innerHtml == elem, "%s =/= %s" % (innerHtml, elem))
 
 
