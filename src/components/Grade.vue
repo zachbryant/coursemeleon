@@ -1,6 +1,9 @@
 <template>
  <div id="grade">
    <h1>Grade Statistics</h1>
+   <h6>Mean: The mean is the average of a data set</h6>
+   <h6>Median: The "median" is the "middle" value in a data set</h6>
+   <h6>Standard Deviation: Quantifies the amount of variation of a set of data values</h6>
    <input id="mean" type="text" value="" />
    <input id="median" type="text" value="" />
    <input id="sd" type="text" value="" />
@@ -121,11 +124,11 @@ window.addEventListener("load", function(event) {
        datasets: [
        {
          data: [A_num, B_num, C_num,D_num,F_num],
-         backgroundColor: ["#fcc43c", "#e8ad1e", "#eaad19","#d6a224","#bc8705"],
+         backgroundColor: ["#cde8a0", "#bed695", "#b7cc92","#a3b585","#98aa79"],
          hoverBackgroundColor: ["#5B6870", "#5B6870", "#5B6870","#5B6870","#5B6870"]
        }
      ],
-     labels: ["F", "D", "C","B","A"],
+     labels: ["A", "B", "C","D","F"],
      option: {}
     },
     
@@ -135,11 +138,11 @@ window.addEventListener("load", function(event) {
     type: 'bar',
     width:200,
     data: {
-        labels: ["A", "B", "C", "D", "F"],
+        labels: ["F", "D", "C", "B", "A"],
         datasets: [{
             label: '# of students',
             data: [F_num, D_num, C_num,A_num,B_num],
-            backgroundColor: ["#fcc43c", "#e8ad1e", "#eaad19","#d6a224","#bc8705"],
+            backgroundColor: ["#98aa79", "#a3b585", "#b7cc92","#bed695","#cde8a0"],
             hoverBackgroundColor: ["#5B6870", "#5B6870", "#5B6870","#5B6870","#5B6870"],
             borderWidth: 1
         }]
@@ -163,7 +166,7 @@ var scatterChart = new Chart(ctx, {
     
     data: {
         datasets: [{
-            backgroundColor: "#fcc43c",
+            backgroundColor: "#b7cc92",
             label: 'Scatter Dataset',
             data: [{
                 x: 70,
@@ -227,38 +230,38 @@ var scatterChart = new Chart(ctx, {
 #mean{
 font-family: "Nunito", Helvetica, Arial, sans-serif;
 font-size: 30px;
- color:#C28E0E;
+ color:#b7cc92;
  font-weight: bold;
   text-align: center;
 }
 #median{
 font-family: "Nunito", Helvetica, Arial, sans-serif;
 font-size: 30px;
- color:#C28E0E;
+ color:#b7cc92;
  font-weight: bold;
   text-align: center;
 }
 #sd{
 font-family: "Nunito", Helvetica, Arial, sans-serif;
 font-size: 30px;
- color:#C28E0E;
+ color:#b7cc92;
  font-weight: bold;
   text-align: center;
 }
 #grade h1 {
  font-size: 90px;
  text-decoration: underline;
- color:#C28E0E;
+ color:#b7cc92;
  font-weight: bold;
 }
 #grade h2 {
  font-size: 40px;
- color:#C28E0E;
+ color:#b7cc92;
  font-weight: normal;
 }
 #grade h3 {
  font-size: 40px;
- background-color: #C28E0E;
+ background-color: #b7cc92;
  color:white;
   text-align: center;
  font-weight: normal;
@@ -267,6 +270,13 @@ font-size: 30px;
  font-size: 40px;
  background-color:transparent;
  color:white;
+  text-align: center;
+ font-weight: normal;
+}
+#grade h6 {
+font-family: "Nunito", Helvetica, Arial, sans-serif;
+ font-size: 20px;
+ color:#b7cc92;
   text-align: center;
  font-weight: normal;
 }
@@ -279,12 +289,12 @@ font-size: 30px;
    max-width: 70%;
   max-height: 70%;
   margin: auto;
-  color: #C28E0E
+  color: #b7cc92
 }
 #myC {
    max-width: 85%;
   max-height: 85%;
   margin: auto;
-  color: #C28E0E
+  color: #b7cc92
 }
 </style>
