@@ -17,7 +17,7 @@ export default {
     extends: BaseElement,
     data() {
         return {
-            text: this.data.data || "",
+            text: this.data.text || "",
             style: this.data.style || ""
         }
     },
