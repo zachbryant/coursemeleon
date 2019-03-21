@@ -1,0 +1,45 @@
+//Imports
+@import (css) url("https://fonts.googleapis.com/css?family=Nunito");
+@import (css)
+  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+//Colors
+@primary: var(--v-primary-base);
+@secondary: var(--v-secondary-base);
+@accent: var(--v-accent-base);
+@error: var(--v-error-base);
+@info: var(--v-info-base);
+@success: var(--v-success-base);
+@warning: var(--v-warning-base);
+@textColor: rgba(0, 0, 0, 0.65);
+
+// Font weights
+@semibold: 600;
+@regular: 400;
+
+// Responsive variables
+@minViewWidthPx: 384px;
+@minViewWidth: 384;
+@maxViewWidth: 1920;
+@viewWidthDiff: @maxViewWidth - @minViewWidth;
+
+@minViewHeightPx: 216px;
+@minViewHeight: 216;
+@maxViewHeight: 1080;
+@viewHeightDiff: @maxViewHeight - @minViewHeight;
+
+.responsiveSizeW(@property, @minSize, @minSizePx, @maxSize) {
+  //calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
+  @sizeDiff: @maxSize - @minSize;
+  @{property}: calc(
+    @minSizePx + @sizeDiff * ((100vw - @minViewWidthPx) / (@viewWidthDiff))
+  );
+}
+
+.responsiveSizeH(@property, @minSize, @minSizePx, @maxSize) {
+  //calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
+  @sizeDiff: @maxSize - @minSize;
+  @{property}: calc(
+    @minSizePx + @sizeDiff * ((100vh - @minViewHeightPx) / (@viewHeightDiff))
+  );
+}

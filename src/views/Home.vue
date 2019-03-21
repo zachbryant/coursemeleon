@@ -1,47 +1,45 @@
 <template lang="pug">
-  v-container(fluid fill-height py-5)
-    v-layout(justify-space-between row fill-height)
-      v-flex#flexSidebar(xs4)
-        Sidebar
-      v-spacer
-      v-flex(xs8)
-        keep-alive
-          component(:is="currentCourseComponent" :data="currentCourseName")
+  v-container#home(fluid fill-height px-2)
+      v-layout
+        v-layout(row)
+          v-flex#flexSidebar(xs4 scroll-y)
+            Sidebar
+          v-flex#coursePage(xs10 justify-center scroll-y)
+            keep-alive
+              component(:is="currentCourseComponent" :data="courseData")
 </template>
 
 <script>
 // @ is an alias to /src
 import Sidebar from "@/components/Sidebar";
 import Overview from "@/components/Overview";
-import StaticCoursePage from "@/components/StaticCoursePage";
+import Course from "@/components/Course";
 
 export default {
   name: "home",
   components: {
     Sidebar,
-    Overview
+    Overview,
+    Course
   },
   props: {},
   data() {
     return {
-      currentCourseName: null
+      courseData: {
+        name: ""
+      }
     };
   },
   methods: {
-    checkSelectedCoursePage() {
-      this.currentCourseName = this.$route.query.course;
-      return (
-        this.currentCourseName != null &&
-        this.currentCourseName.length > 4 &&
-        this.currentCourseName.startsWith("CS 3")
-      );
+    validateCourseName() {
+      this.courseData.name = this.$route.query.course;
+      return this.courseData.name != null && this.courseData.name.length > 2;
     }
   },
   computed: {
     currentCourseComponent: function() {
-      console.log(this.$route.query.course);
-      if (this.checkSelectedCoursePage()) {
-        return StaticCoursePage;
+      if (this.validateCourseName()) {
+        return Course;
       } else {
         return "overview";
       }
@@ -51,8 +49,18 @@ export default {
 </script>
 
 <style lang="less">
+@import (reference) "../App.less";
+
 #flexSidebar {
-  max-width: 25vw;
-  min-width: 15vw;
+  min-width: 33vw;
+  //border-right: 1px solid @primary;
+}
+#coursePage {
+  padding: 0 5% 0 5%;
+}
+
+#coursePage,
+#flexSidebar {
+  min-height: 100%;
 }
 </style>
