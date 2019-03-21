@@ -2,7 +2,7 @@
     <div>
       <v-container grid-list-xl></v-container>
       <h1>Calendar</h1>
-      <!--<p>{{ $data.cal }}</p>-->
+      <!--<p>{{ courses[courses.length-1].cal_google }}</p>-->
       <iframe 
           v-bind:src="courses[courses.length-1].cal_google"
           style="border: 0" 
@@ -17,7 +17,7 @@
           <v-btn id="linkItem"
             color="blue-grey"
             class="white--text"
-            href="https://www.google.com/calendar/ical/256h9v68bnbnponkp0upmfq07s%40group.calendar.google.com/public/basic.ics"
+            v-bind:href="courses[courses.length-1].cal_ical"
           >
             Ical
             <v-icon right dark>cloud_download</v-icon>
@@ -74,7 +74,7 @@ export default {
 
 <style scoped lang="less">
 .links {
-  width: 75%;
+  width: 65%;
   text-align: right;
   margin: auto;
   /*white-space: nowrap;*/
