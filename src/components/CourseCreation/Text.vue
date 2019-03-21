@@ -1,19 +1,19 @@
 <template lang="pug">
-    div(v-switch="getType()")
-        h5(v-case="'h5'" :style="style") {{ text }}
-        h4(v-case="'h4'" :style="style") {{ text }}
-        h3(v-case="'h3'" :style="style") {{ text }}
-        h2(v-case="'h2'" :style="style") {{ text }}
-        h1(v-case="'h1'" :style="style") {{ text }}
-        p(v-case="'p'" :style="style") {{ text }}
-        span(v-default :style="style") {{ text }}
+    div()
+        h5(v-if="type === 'h5'" :style="style") {{ text }}
+        h4(v-else-if="type === 'h4'" :style="style") {{ text }}
+        h3(v-else-if="type === 'h3'" :style="style") {{ text }}
+        h2(v-else-if="type === 'h2'" :style="style") {{ text }}
+        h1(v-else-if="type === 'h1'" :style="style") {{ text }}
+        p(v-else-if="type === 'p'" :style="style") {{ text }}
+        span(v-else :style="style") {{ text }}
 </template>
 
 <script>
-import BaseElement from "@/components/CourseCreation/BaseElement.vue";
+import { BaseElement } from "@/components/componentImports";
 
 export default {
-    name: "textItem",
+    name: "text-item",
     extends: BaseElement,
     data() {
         return {

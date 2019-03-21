@@ -10,34 +10,32 @@ export default {
         }
     },
     methods: {
-        getType() {
-            return this.data.type;
-        },
-        getComponents() {
-            console.log("No sub components for simpleCourseElement");
-            return this.data.components;
-        },
-        getData() {
+        getAllData() {
             var allData = {
                 type: getType(),
                 data: () => {
                     var dataList = [];
-                    for (component in getComponents()) {
-                        dataList.push(component.getData());
+                    for (component in components) {
+                        dataList.push(component.getAllData());
                     }
                     return dataList;
                 }
             };
             return allData;
-        },
-        getOwnData() {
-            return this.data;
         }
     },
     computed: {
-        getInstance() {
-            const name = getType();
-            return () => import(`@/components/${name}`);
+        elements() {
+            return this.data.elements || [];
+        },
+        type() {
+            return this.data.type;
+        },
+        ownData() {
+            return this.data;
+        },
+        isEditMode(){
+            return this.$store.getters.isEditMode;
         }
     }
 }
