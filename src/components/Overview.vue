@@ -19,7 +19,7 @@ export default {
   props: {},
   data() {
     return {
-      temp: {type: 'hello'}
+      temp: {type: 'h3', data: "Testing H3 Text!"}
     };
   },
   methods: {

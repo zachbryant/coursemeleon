@@ -29,6 +29,9 @@ export default {
                 }
             };
             return allData;
+        },
+        getOwnData() {
+            return this.data;
         }
     }
 }
