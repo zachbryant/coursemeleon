@@ -28,7 +28,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 div {
     display: inline;
 }
