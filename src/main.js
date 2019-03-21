@@ -3,6 +3,7 @@ import Axios from "axios";
 import "es6-promise/auto";
 import Vuetify from "vuetify";
 import VToolTip from "v-tooltip";
+import VSwitch from "v-switch-case";
 import VeeValidate from "vee-validate";
 import "vuetify/dist/vuetify.min.css";
 import colors from "vuetify/es5/util/colors";
@@ -25,6 +26,8 @@ if (token) {
 }
 
 // Vue Plugins
+// V-switch attribute
+Vue.use(VSwitch);
 // Vue form validation
 Vue.use(VeeValidate);
 // Vue tooltips

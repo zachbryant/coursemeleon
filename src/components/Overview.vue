@@ -7,13 +7,18 @@
 </template>
 
 <script>
+
 export default {
   name: "overview",
-  components: {},
+  components: {
+  },
   props: {},
   data() {
-    return {};
+    return {
+    };
   },
-  methods: {}
+  methods: {
+
+  }
 };
 </script>
