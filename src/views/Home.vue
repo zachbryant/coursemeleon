@@ -11,9 +11,7 @@
 
 <script>
 // @ is an alias to /src
-import Sidebar from "@/components/Sidebar";
-import Overview from "@/components/Overview";
-import Course from "@/components/Course";
+import { Sidebar, Overview, Course } from "@/components/componentImports";
 
 export default {
   name: "home",
