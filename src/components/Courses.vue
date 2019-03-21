@@ -166,6 +166,7 @@ export default {
         this.generalText;
       console.log(t);
       await CourseService.insertPost(t);
+      alert("Success! Course created!");
       //this.courses = await CourseService.getPosts();
     },
     async getPost() {
