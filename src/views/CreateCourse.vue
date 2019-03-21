@@ -179,6 +179,17 @@ export default {
         },
         publish() {
             // TO BACKEND
+        this.$store
+        .dispatch("sendCourseData", { assNum })
+        .dispatch("sendCourseData", { custNum })
+        .dispatch("sendCourseData", { lectureNum })
+        .dispatch("sendCourseData", { officehoursNum })
+        .then(() => this.$router.push(routerTarget))
+        // eslint-disable-next-line no-unused-vars
+        .catch(err => {
+          //console.log(err);
+          this.codeError = true;
+        });
         }
     }
 }

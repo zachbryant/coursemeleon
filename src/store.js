@@ -15,7 +15,8 @@ export default new Vuex.Store({
     user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
     status: "",
-    userCourses: {}
+    userCourses: {},
+    text: []
   },
   getters: {
     isLoggedIn: state => !!state.token,
@@ -46,6 +47,16 @@ export default new Vuex.Store({
       state.token = "";
       state.user = "";
       state.userCourses = {};
+    },
+    sendCourseData_request(state){
+      state.status = "Wait";
+    },
+    sendCourseData_success(state, text){
+      state.status = "Success";
+      state.text = text;
+    },
+    sendCourseData_error(state, message){
+      state.status = message || "Unknown Error";
     }
   },
   actions: {
@@ -107,6 +118,27 @@ export default new Vuex.Store({
         delete Axios.defaults.headers.common["Authorization"];
         resolve();
       });
+    },
+    sendCourseData({ commit }, text) {
+      return new Promise((resolve, reject) => {
+        commit("sendCourseData_request");
+        Axios({
+          url: apiCourse,
+          data: text,
+          method: "POST"
+        })
+          .then(resp => {
+            console.log("Text Request " + JSON.stringify(resp.data));
+            commit("sendCourseData_success", text);
+            resolve(resp);
+          })
+          .catch(err => {
+            var message;
+            message = "Something went wrong and I don't know what I'm doing someone please help me";
+            commit("sendCourseData_error", message);
+            reject(err);
+          })
+      })
     }
   },
   strict: isDev
