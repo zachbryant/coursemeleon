@@ -2,8 +2,8 @@
     <div>
         <Title/>
         <Calendar/>
-        <h1 v-if="ifShow()">yay</h1>
-        <h1 v-else>fuck</h1>
+        <Announcements/>
+        <Contact/>
     </div>
 </template>
 
@@ -13,16 +13,20 @@ import Title from "@/components/Title.vue";
 import Null from "@/components/Null.vue";
 import CourseService from '../CourseService';
 import Calendar from "@/components/Calendar.vue";
-//import Grade from "@/components/Grade.vue";
+import Grade from "@/components/Grade.vue";
+import Announcements from "@/components/Announcements.vue";
+import Contact from "@/components/Contact.vue";
 
 export default {
     name: "coursepage",
     components: {
         Courses,
-        //Grade,
+        Grade,
         Title,
         Calendar,
-        Null
+        Null,
+        Announcements,
+        Contact
     },
     data() {
         return {
