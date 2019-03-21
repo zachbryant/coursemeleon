@@ -1,5 +1,5 @@
 <template lang="pug">
-  StaticCoursePage(:data="data.name")
+  StaticCoursePage()
 </template>
 
 <script>
@@ -19,8 +19,7 @@ export default {
       type: Object,
       required: true
     }
-  },
-  created: function() {}
+  }
 };
 </script>
 
