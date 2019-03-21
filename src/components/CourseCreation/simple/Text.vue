@@ -1,15 +1,20 @@
 <template lang="pug">
-    
+    p Type is {{getType()}}
 </template>
 
 <script>
-import SimpleCourseElement from "SimpleCourseElement.vue";
+import SimpleCourseElement from "@/components/CourseCreation/simple/SimpleCourseElement.vue";
 
 export default {
-    name: "text",
+    name: "textItem",
     extends: SimpleCourseElement,
     data() {
-        
+
+    },
+    methods: {
+        getType() {
+            
+        }
     }
 }
 </script>
@@ -17,3 +22,4 @@ export default {
 <style lang="less">
 
 </style>
+

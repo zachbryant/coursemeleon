@@ -11,11 +11,11 @@ export default {
     },
     methods: {
         getType() {
-            return name;
+            return data.type;
         },
         getComponents() {
             console.log("No sub components for simpleCourseElement");
-            return [];
+            return data.components;
         },
         getData() {
             var allData = {

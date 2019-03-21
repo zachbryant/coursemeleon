@@ -4,15 +4,23 @@
     br
     br
     p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    textItem(:data="temp")
+    p end textItem
 </template>
 
 <script>
+import textItem from "@/components/CourseCreation/simple/Text.vue";
+
 export default {
   name: "overview",
-  components: {},
+  components: {
+    textItem
+  },
   props: {},
   data() {
-    return {};
+    return {
+      temp: {type: 'hello'}
+    };
   },
   methods: {}
 };
