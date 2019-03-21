@@ -1,0 +1,45 @@
+{
+  "cases": [
+    [
+      { "get": "http://localhost:8080/" },
+      { "click_css": "#nav > div > div > div > nav > div > a > img" },
+      { "url_equals": "http://localhost:8080/" }
+    ],
+    [
+      {
+        "get": "http://localhost:8080/edit"
+      },
+      { "url_equals": "http://localhost:8080/login" },
+      {
+        "type_text": ".align-center > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > input:nth-child(2)::hello"
+      },
+      {
+        "attr_equals": "#routerView > div > div > div > div:nth-child(1) > button::disabled::true"
+      },
+      {
+        "type_text": ".align-center > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > input:nth-child(2)::@world.e"
+      },
+      {
+        "attr_equals": "#routerView > div > div > div > div:nth-child(1) > button::disabled::true"
+      },
+      {
+        "type_text": ".align-center > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > input:nth-child(2)::du"
+      },
+      {
+        "click_css": "#routerView > div > div > div > div:nth-child(1) > button"
+      },
+      {
+        "click_css": "#routerView > div > div > div > div:nth-child(1) > button"
+      },
+      {
+        "click_css": "body"
+      },
+      {
+        "type_text": "#routerView > div > div > div > div:nth-child(2) > div > div > div.v-input__slot > div.v-text-field__slot > input[type=\"text\"]::fgsgfgdsgfdg"
+      },
+      {
+        "click_css": "#routerView > div > div > div > div:nth-child(2) > button.v-btn.v-btn--block.theme--light.primary > div"
+      }
+    ]
+  ]
+}
