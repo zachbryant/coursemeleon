@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="header">
-      <v-toolbar flat style="background-color:rgb(169, 204, 146);">
+      <v-toolbar dark flat id="toolbar" align-center>
         <router-link to="/">
-          <img class="logo" style="padding-bottom:22px;" alt="logo" src="@/assets/logos/logo.svg">
+          <img class="logo" alt="logo" src="@/assets/logos/logo_white.svg" />
         </router-link>
         <v-toolbar-title>
           <router-link to="/">
-            <h3>Coursemeleon</h3>
+            <h3 id="title">Coursemeleon</h3>
           </router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
@@ -86,109 +86,28 @@ export default {
 </script>
 
 <style scoped lang="less">
-.header {
-  /*background-color: #fff;*/
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.11);
-  /*position: fixed;
-  z-index: 100;*/
-  width: 100%;
-  max-height: 90px;
-}
+@import (reference) "../App.less";
 
+#toolbar {
+  background-color: @primary;
+}
+#title {
+  color: white;
+}
+.header {
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.11);
+  width: 100%;
+}
 .header h4 {
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  font-size: 20px;
-  /*color: rgb(137, 175, 111);*/
   color: white;
   text-transform: lowercase;
 }
-
-.header h3 {
-  color: white;
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-}
-
-.header h4:hover {
-  color: rgb(8, 48, 13);
-}
-
 .header #searchBox {
-  padding-right: 13px;
-  color: "#fff";
+  padding-right: 50px;
 }
-
-.buttons {
-  float: right;
-}
-
-.header .menu {
-  clear: both;
-  max-height: 0;
-  transition: max-height 0.2s ease-out;
-}
-
-.header ul {
-  margin: 0;
-  padding: 10px;
-  list-style: none;
-  overflow: hidden;
-  text-align: right;
-  text-decoration: none;
-}
-
-.header li {
-  display: inline-flex;
-  /*padding: 15px 15px;*/
-  padding: 10px 10px;
-  border-left: 1px solid rgb(214, 228, 206);
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  text-decoration: none;
-  font-size: auto;
-  max-height: auto;
-}
-
-.header a {
-  font-size: 20px;
-  color: rgb(137, 175, 111);
-  text-decoration: none;
-}
-
-header a:hover {
-  color: rgb(12, 68, 19);
-}
-
 .logo {
-  float: left;
-  height: 70px;
-  width: 60px;
-  padding: 15px;
-}
-
-.title {
-  float: left;
-}
-
-.header .title ul {
-  margin: 0;
-  padding: 10px;
-  list-style: none;
-  overflow: hidden;
-  text-align: left;
-  text-decoration: none;
-}
-
-.header .title li {
-  padding: 25px 25px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 650;
-  letter-spacing: 1px;
-  font-size: large;
-  text-decoration: none;
-  color: rgb(137, 175, 111);
-  border-left: 1px solid rgb(255, 255, 255);
+  margin-bottom: -25px;
+  padding-bottom: 20px;
+  height: calc(35px + 3vh);
 }
 </style>
