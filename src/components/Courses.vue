@@ -97,9 +97,30 @@
         v-flex(xs3)
           v-text-field(v-model="iCal" single-line outline id="iCal" placeholder="optional")
 
+
       // PUBLISH 
       v-layout(align-center justify-start row wrap fill-height)
         v-btn(large color="primary", @click="createPost") PUBLISH
+
+      // Modify
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Modify Name
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Object ID
+        v-flex(xs3)
+          h3 New Name
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="objIDM" single-line outline id="objIDM")
+        v-flex(xs3)
+          v-text-field(v-model="newName" single-line outline id="newName")
+          
+      v-layout(align-center justify-start row wrap fill-height)
+        v-btn(large color="primary", @click="modifyPost") Modify
     
 
 
@@ -129,7 +150,10 @@ export default {
       generalText: "",
       objID: "",
       at: "",
-      change: ""
+      change: "",
+      objIDM: "",
+      newName: ""
+
     };
   },
   async created() {
@@ -181,9 +205,11 @@ export default {
       this.courses = await CourseService.getPosts();
     },
     async modifyPost() {
-      //id=this.objID;
-      const id = this.objID;
-      this.courses = await CourseService.modifyPost(id);
+      const par= this.objIDM+
+        "cmsplit" +
+        this.newName
+      //console.log(par)  
+      this.courses = await CourseService.modifyPost(par);
     }
   }
 };

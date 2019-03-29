@@ -33,8 +33,13 @@ static insertPost(text) {
     
   //Modify post
   static modifyPost(id) {
-     console.log(id) 
-    return axios.put(`${url}${id}`);
+     var rad = id.split("cmsplit");
+     var idb=rad[0];
+     var body=rad[1];
+     //console.log(rad[0])
+     //console.log(rad[1])
+    return axios.put(`${url}${idb}`,{course_name:body});
+    //return axios.put(`${url}${idb}`);
 }
 
 }
