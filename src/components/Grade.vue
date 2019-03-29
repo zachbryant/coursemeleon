@@ -21,28 +21,6 @@
 import CourseService from '../CourseService';
 
 export default {
-<<<<<<< HEAD
-name: "Grade",
- data() {
- (function()
-{
- if( window.localStorage )
- {
-   if( !localStorage.getItem('firstLoad') )
-   {
-     localStorage['firstLoad'] = true;
-     window.location.reload();
-   } 
-   else
-     localStorage.removeItem('firstLoad');
- }
-})();
-  return {
-  
-  
-  };
-}
-=======
     name: "Grade",
     data() {
     (function()
@@ -72,7 +50,6 @@ name: "Grade",
     methods: {
         
     }
->>>>>>> 5aff811bc9ffd0cee3240859eeedd3817f280d5c
 };
 
 
