@@ -18,7 +18,10 @@
 </div>
 </template>
 <script>
+import CourseService from '../CourseService';
+
 export default {
+<<<<<<< HEAD
 name: "Grade",
  data() {
  (function()
@@ -39,7 +42,40 @@ name: "Grade",
   
   };
 }
+=======
+    name: "Grade",
+    data() {
+    (function()
+    {
+    if( window.localStorage )
+    {
+        if( !localStorage.getItem('firstLoad') )
+        {
+        localStorage['firstLoad'] = true;
+        window.location.reload();
+        }  
+        else
+        localStorage.removeItem('firstLoad');
+    }
+    })()
+    return {
+        courses: []
+        
+    };
+    },async created() { //runs automatically when component created
+            try {
+                this.courses = await CourseService.getPosts(); //populate courses array
+            } catch(err) {
+                this.error = err.message;
+            }
+    },
+    methods: {
+        
+    }
+>>>>>>> 5aff811bc9ffd0cee3240859eeedd3817f280d5c
 };
+
+
 var str = "These are the score on the last midterm 60 30 40 50 30 32 100 97 80 44 32 44 55 78 88 Thats it";
 var res = str.split(" ");
 var k;
@@ -296,4 +332,7 @@ font-weight: normal;
  color: #b7cc92
 }
 </style>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5aff811bc9ffd0cee3240859eeedd3817f280d5c

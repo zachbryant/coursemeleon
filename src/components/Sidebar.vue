@@ -1,15 +1,15 @@
 <template lang="pug">
-	v-container#scroll-target(align-start justify-start fluid pa-0 style="height: 100%;" scroll-y row)
-		v-layout(row)
-			h1 Your Courses
+	v-container(align-start justify-start fluid pa-0 row)
+		v-layout(row justify-center)
+			h3 Your Courses
 			//-v-btn(:disabled="saved.length == 0" flat icon color="primary")
-					v-icon fa-th-large
-		v-layout(column mt-2)
-			h3(v-if="saved.length == 0") It's lonely in here. Search for a course to get started.
+				v-icon fa-th-large
+		v-layout(column)
+			h5(v-if="saved.length == 0") It's lonely in here. Search for a course to get started.
 			ul#termlist(full-width)
 				v-list-group#courselist(v-for="term in saved" :key="term.title" v-model="term.active" no-action)
 					v-list-tile(slot="activator")
-						h3 {{ term.title }}
+						h4 {{ term.title }}
 					li(v-for="course in term.courses" :key="course.id" @click.stop="openCourse(course, $event)")
 							CourseListItem(:title="course.title" :id="course.id" :saved="course.saved")
 
@@ -27,7 +27,6 @@ export default {
   props: {},
   data() {
     return {
-      offsetY: 0,
       saved: [
         {
           title: "Spring 2019",
@@ -39,8 +38,7 @@ export default {
               saved: true
             },
             {
-              title:
-                "CS 308: Principles of Software Engineering & more text here & more & more & more",
+              title: "CS 308: Principles of Software Engineering",
               id: "2",
               saved: false
             },
@@ -73,21 +71,15 @@ export default {
   },
   methods: {
     openCourse(courseObject, event) {
-      console.log(JSON.stringify(courseObject));
-      console.log(event);
       this.$router.push({ path: "/", query: { course: courseObject.title } });
-    },
-    onScroll(e) {
-      this.offsetTop = e.target.scrollTop;
     }
   }
 };
 </script>
 
 <style lang="less">
-#scroll-target {
-  max-height: 100vh;
-}
+@import (reference) "../App.less";
+
 ul,
 ol {
   width: 100%;
@@ -101,6 +93,6 @@ ol {
   }
 }
 #courselist li {
-  margin-top: 10px;
+  margin-top: calc(5px + 1vh);
 }
 </style>

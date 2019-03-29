@@ -3,7 +3,6 @@
 
   
     <v-container grid-list-xl>
-     <div><Grade/>></div>
     </v-container>
 
     <v-container grid-list-xl>
