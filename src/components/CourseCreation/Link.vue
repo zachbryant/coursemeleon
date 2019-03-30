@@ -7,7 +7,7 @@
 import { BaseElement, ListItem } from "@/components/componentImports";
 
 export default {
-    name: "link-item",
+    name: "linkitem",
     components: {
         ListItem
     },
@@ -25,4 +25,9 @@ export default {
 }
 </script>
 
-<style lang="less"></style>
+<style scoped lang="less">
+@import (reference) "../../App.less";
+    a {
+        color: @primary;
+    }
+</style>
