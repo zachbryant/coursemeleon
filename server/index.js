@@ -1,6 +1,6 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 
@@ -8,11 +8,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const posts = require('./routes/api/posts');
-const course = require('./routes/api/course');
+const posts = require("./routes/api/posts");
+const course = require("./routes/api/course");
 
-app.use('/api/posts', posts);
-app.use('/api/course', course);
+app.use("/api/posts", posts);
+app.use("/api/course", course);
 
 const port = process.env.PORT || 5000;
 
