@@ -1,22 +1,17 @@
 <template lang="pug">
-  v-container#home(fluid fill-height px-2)
-      v-layout
-        v-layout(row)
-          v-flex#flexSidebar(xs4 scroll-y)
-            Sidebar
-          v-flex#coursePage(xs10 justify-center scroll-y)
-            keep-alive
-              component(:is="currentCourseComponent" :data="courseData")
+  v-container#home(fluid fill-height px-5)
+    v-layout(row)
+      keep-alive
+        component(:is="currentCourseComponent" :data="courseData")
 </template>
 
 <script>
 // @ is an alias to /src
-import { Sidebar, Overview, Course } from "@/components/componentImports";
+import { Overview, Course } from "@/components/componentImports";
 
 export default {
   name: "home",
   components: {
-    Sidebar,
     Overview,
     Course
   },
