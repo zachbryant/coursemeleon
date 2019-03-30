@@ -40,7 +40,7 @@
         <slot name="body">
           New term 
           <v-text-field
-            label="Term"
+            label="Enter new term"
           ></v-text-field>
         </slot>
         
@@ -51,7 +51,7 @@
               class="btn-green"
               @click="close"
             >
-              Close
+              Clone
           </button>
       </footer>
     </div>
@@ -79,17 +79,21 @@
     overflow-x: auto;
     display: flex;
     flex-direction: column;
+    width: 20%;
+    padding:20px;
   }
 
   .modal-header,
   .modal-footer {
-    padding: 15px;
+    padding: 10px;
     display: inline;
   }
 
   .modal-header {
     border-bottom: 1px solid #eeeeee;
     color: #AED581;
+    font-size: 20px;
+    font-weight: 600;
     justify-content: space-between;
   }
 
@@ -110,7 +114,7 @@
     padding: 20px;
     cursor: pointer;
     font-weight: bold;
-    color: #AED581;
+    color: rgb(121, 121, 121);
     background: transparent;
   }
 
