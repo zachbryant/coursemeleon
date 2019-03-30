@@ -1,26 +1,24 @@
 <template lang="pug">
   v-app#app(light)
+    Navigation(v-on:toggleHamburgerEvent="toggleHamburger")
+    hamburger(ref="hamburgerMenu")
     v-content
       v-container#container(fluid align-content-center fill-height fill-width)
         v-layout(column justify-start)
-          v-layout#nav(row justify-center)
-            v-flex(xs12)
-              Navigation
-          v-flex(xs12)
-            router-view#routerView
+          router-view#routerView
 </template>
 
 <script>
-import Navigation from "@/components/Navigation.vue";
+import { Navigation, Drawer } from "@/components/componentImports";
 
 export default {
   name: "app",
   data() {
     return {};
   },
-  methods: {},
   components: {
-    Navigation
+    Navigation,
+    hamburger: Drawer
   },
   created: function() {
     this.$http.interceptors.response.use(undefined, function(err) {
@@ -37,6 +35,11 @@ export default {
         throw err;
       });
     });
+  },
+  methods: {
+    toggleHamburger() {
+      this.$refs.hamburgerMenu.toggleDrawer();
+    }
   }
 };
 </script>
