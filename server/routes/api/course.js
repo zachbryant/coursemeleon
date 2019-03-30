@@ -21,7 +21,11 @@ router.post("/", async (req, res) => {
     term: r[2],
     term_start: r[3],
     cal_google: r[4],
-    cal_ical: r[5]
+    cal_ical: r[5],
+    announcements: r[7],
+    resources: r[8],
+    contact_info: r[9],
+    course_info: r[10]
   });
   res.status(201).send();
 });
