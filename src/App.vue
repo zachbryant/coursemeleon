@@ -82,6 +82,11 @@ html {
   }
 }
 
+.justify-text {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
 h1,
 h2 {
   color: @primary;
@@ -93,11 +98,6 @@ h3,
 h4,
 h5 {
   color: @textColor;
-}
-
-.justify-text {
-  text-align: justify;
-  text-justify: inter-word;
 }
 
 h1,
@@ -146,5 +146,14 @@ p {
 
 .light {
   font-weight: 200;
+}
+
+// Style the vertical drawer divider
+.v-navigation-drawer__border {
+  background-color: rgba(174, 213, 129, 0.5) !important;
+}
+//Remove 72px padding in expandable lists
+div.v-list__group__items.v-list__group__items--no-action > div > div {
+  padding-left: 20px !important;
 }
 </style>

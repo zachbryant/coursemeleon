@@ -23,19 +23,10 @@ export default {
       }
     };
   },
-  methods: {
-    validateCourseName() {
-      this.courseData.name = this.$route.query.course;
-      return this.courseData.name != null && this.courseData.name.length > 2;
-    }
-  },
+  methods: {},
   computed: {
     currentCourseComponent: function() {
-      if (this.validateCourseName()) {
-        return Course;
-      } else {
-        return "overview";
-      }
+      return !this.courseData.invalid ? Course : "overview";
     }
   }
 };
@@ -43,17 +34,4 @@ export default {
 
 <style lang="less">
 @import (reference) "../App.less";
-
-#flexSidebar {
-  min-width: 33vw;
-  //border-right: 1px solid @primary;
-}
-#coursePage {
-  padding: 0 5% 0 5%;
-}
-
-#coursePage,
-#flexSidebar {
-  min-height: 100%;
-}
 </style>

@@ -15,15 +15,59 @@ export default new Vuex.Store({
     user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
     status: "",
-    userCourses: {}
+    userCourses: {},
+    drawer: {
+      // sets the open status of the drawer
+      open: !!localStorage.getItem("drawer.open") || false,
+      // sets if the drawer is shown above (false) or below (true) the toolbar
+      clipped: !!localStorage.getItem("drawer.clipped") || true,
+      // sets if the drawer is CSS positioned as 'fixed'
+      fixed: !!localStorage.getItem("drawer.fixed") || true,
+      // sets if the drawer remains visible all the time (true) or not (false)
+      permanent: !!localStorage.getItem("drawer.permanent") || false,
+      // sets the drawer to the mini variant, showing only icons, of itself (true)
+      // or showing the full drawer (false)
+      mini: !!localStorage.getItem("drawer.mini") || false
+    }
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
-    getUserCourses: state => state.userCourses
+    getUserCourses: state => state.userCourses,
+    navDrawerState: state => state.drawer
   },
   mutations: {
+    // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
+    toggleNavDrawer(state) {
+      if (state.drawer.permanent) {
+        state.drawer.permanent = false;
+        localStorage.removeItem("drawer.permanent");
+        // set the clipped state of the drawer and toolbar
+        state.drawer.clipped = true;
+        localStorage.setItem("drawer.clipped", state.drawer.clipped);
+      }
+      state.drawer.open = !state.drawer.open;
+    },
+    // toggles the drawer variant (mini/full)
+    toggleMiniNavDrawer(state) {
+      state.drawer.mini = !state.drawer.mini;
+      console.log(state.drawer.mini);
+      if (state.drawer.mini)
+        localStorage.setItem("drawer.mini", state.drawer.mini);
+      else localStorage.removeItem("drawer.mini");
+    },
+    // changes the drawer to permanent
+    makeNavDrawerPermanent(state) {
+      state.drawer.permanent = true;
+      localStorage.setItem("drawer.permanent", state.drawer.permanent);
+      // set the clipped state of the drawer and toolbar
+      state.drawer.clipped = false;
+      localStorage.removeItem("drawer.clipped");
+    },
+    userCourses(state, courses) {
+      state.userCourses = courses;
+    },
     unSaveCourse(state, cid) {
       state.userCourses[cid].saved = false;
     },
@@ -58,7 +102,7 @@ export default new Vuex.Store({
           })
             .then(resp => {
               console.log("User courses: " + JSON.stringify(resp.data));
-              state.userCourses = resp.data.courses;
+              state.commit("userCourses", resp.data.courses);
               resolve(resp);
             })
             .catch(err => {

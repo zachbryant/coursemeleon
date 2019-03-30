@@ -1,13 +1,11 @@
 <template lang="pug">
-  v-toolbar(app dark fixed clipped-right flat id="toolbar" align-center px-0)
-    router-link(to="/")
-      img(class="logo" alt="logo" src="@/assets/logos/logo_white.svg")
-    v-toolbar-title
-      router-link(to="/")
-        h3(id="title") Coursemeleon
-    v-spacer
-    v-toolbar-items
-      div(id="searchBox")
+  v-toolbar#toolbar(app dark fixed clipped-right flat align-center px-0)
+    v-layout(row align-center)
+      v-flex(xs2 md4 justify-content-start)
+        router-link(to="/")
+          img(class="logo" alt="logo" src="@/assets/logos/logo_white.svg")
+          h3#title(class="hidden-sm-and-down") Coursemeleon
+      v-flex(xs6)
         v-autocomplete(
           v-model="model"
           :items="items"
@@ -29,8 +27,9 @@
               v-list-tile-content
                 v-list-tile-title(v-text="field.value")
                 v-list-tile-sub-title(v-text="field.key")
-      v-btn(flat @click.stop="toggleHamburger")
-        v-icon fa-bars
+      v-flex(xs2)
+        v-btn(flat @click.stop="toggleHamburger")
+          v-icon fa-bars
 </template>
 
 <script>
@@ -71,6 +70,8 @@ export default {
 }
 #title {
   color: white;
+  display: inline;
+  padding-left: 10px;
 }
 .header {
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.11);
@@ -80,9 +81,7 @@ export default {
   color: white;
   text-transform: lowercase;
 }
-#toolbar #searchBox {
-  padding-right: 50px;
-}
+
 .logo {
   margin-bottom: -25px;
   padding-bottom: 20px;
