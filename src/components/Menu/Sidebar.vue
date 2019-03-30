@@ -11,13 +11,13 @@
 					v-list-tile(slot="activator")
 						h4 {{ term.title }}
 					li(v-for="course in term.courses" :key="course.id" @click.stop="openCourse(course, $event)")
-							CourseListItem(:title="course.title" :id="course.id" :saved="course.saved")
+							course-list-item(:title="course.title" :id="course.id" :saved="course.saved")
 
 
 </template>
 
 <script>
-import CourseListItem from "@/components/CourseListItem";
+import { CourseListItem } from "@/components/componentImports";
 
 export default {
   name: "sidebar",
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style lang="less">
-@import (reference) "../App.less";
+@import (reference) "../../App.less";
 
 ul,
 ol {

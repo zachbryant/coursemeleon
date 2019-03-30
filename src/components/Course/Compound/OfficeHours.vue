@@ -12,19 +12,10 @@
 
 </template>
 
-
-
 <script>
-
 export default {
-    name: 'officehours'
-}
-
-
+  name: "officehours"
+};
 </script>
 
-
-
-<style>
-
-</style>
+<style></style>

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "courselistitem",
+  name: "course-list-item",
   props: {
     title: String,
     id: String,

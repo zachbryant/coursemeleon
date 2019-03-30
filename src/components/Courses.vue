@@ -105,10 +105,8 @@
 
 </template>
 
-
-
 <script>
-import CourseService from "../CourseService";
+import CourseService from "@/services/CourseService";
 export default {
   name: "Courses",
   data() {
@@ -190,5 +188,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style> 
+<style scoped></style>

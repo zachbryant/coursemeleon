@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style lang="less">
-@import (reference) "../App.less";
+@import (reference) "../../App.less";
 
 h1 {
   margin-bottom: 20px;

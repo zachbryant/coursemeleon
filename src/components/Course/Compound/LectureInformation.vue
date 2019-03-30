@@ -10,20 +10,10 @@
 
 </template>
 
-
-
 <script>
-
 export default {
-    name: 'lectureinformation'
-}
-
-
-
+  name: "lectureinformation"
+};
 </script>
 
-
-
-<style>
-
-</style>
+<style></style>
