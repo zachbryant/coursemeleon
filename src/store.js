@@ -3,10 +3,10 @@ import Vuex from "vuex";
 import Axios from "axios";
 
 Vue.use(Vuex);
-const BASE_URL = "http://localhost:8080";
-let apiLogin = BASE_URL + "/api/login/";
-let apiPermission = BASE_URL + "/api/permission/";
-let apiCourse = BASE_URL + "/api/course/";
+const BASE_URL = "http://localhost:5000";
+let apiLogin = BASE_URL + "/api/auth/login/";
+let apiPermission = BASE_URL + "/api/access/";
+//let apiCourse = BASE_URL + "/api/course/";
 let apiUserCourses = apiPermission + "";
 let isDev = process.env.NODE_ENV !== "production";
 
@@ -77,10 +77,9 @@ export default new Vuex.Store({
     auth_request(state) {
       state.status = "loading";
     },
-    auth_success(state, token, user) {
+    auth_success(state, token) {
       state.status = "success";
       state.token = token;
-      state.user = user;
     },
     auth_error(state, message) {
       state.status = message || "Unknown error";
@@ -122,17 +121,16 @@ export default new Vuex.Store({
           .then(resp => {
             console.log("Auth request " + JSON.stringify(resp.data));
             const token = resp.data.token;
-            const user = resp.data.user;
             localStorage.setItem("token", token);
-            localStorage.setItem("user", user);
-            Axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, user);
+            Axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+            commit("auth_success", token);
             resolve(resp);
           })
           .catch(err => {
             var message;
-            if (err.status == 401) {
-              message = "Your code was invalid or expired.";
+            console.log(err);
+            if (err.response.status == 401) {
+              message = "Your code didn't work.";
             } else {
               message = "That's an error! Try again in a few minutes.";
             }
@@ -147,7 +145,6 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit("logout");
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
         delete Axios.defaults.headers.common["Authorization"];
         resolve();
       });
