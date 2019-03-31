@@ -1,12 +1,28 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-const uuidv4 = require("uuid/v4");
 
 var accessSchema = new Schema({
   uid: String,
   cid: String,
   level: Number
 });
-var Access = mongoose.model("Access", accessSchema);
+accessSchema.index({ uid: 1, cid: 1 });
+
+accessSchema.statics.byUser = function(user, callback) {
+  return this.find({ uid: user.id || user }, callback);
+};
+accessSchema.statics.byCourse = function(course, callback) {
+  return this.find({ cid: course.id || course }, callback);
+};
+accessSchema.statics.findAccess = function(user, course, callback) {
+  return this.find(
+    { uid: user.id || user, cid: course.id || course },
+    callback
+  );
+};
+accessSchema.statics.byCourseAndLevel = function(course, level, callback) {
+  return this.find({ cid: course.id || course, level: level }, callback);
+};
+var Access = mongoose.model("Access", accessSchema, "Access");
 
 module.exports = Access;
