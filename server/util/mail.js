@@ -27,15 +27,16 @@ function sendLoginCode(email, code) {
     text: "Your temporary login code is: " + code,
     html: "Your temporary login code is: <b>" + code + "</b>"
   };
-  transporter
-    .sendMail(options)
-    .then(info => {
+  transporter.sendMail(options, (err, info) => {
+    if (err) {
+      console.log(err);
+      return process.exit(1);
+    }
+    if (info) {
       console.log("Message sent: %s", info.messageId);
       console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    }
+  });
 }
 
 module.exports = {
