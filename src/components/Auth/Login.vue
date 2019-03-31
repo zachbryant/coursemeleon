@@ -10,6 +10,7 @@
                     v-model="email" 
                     browser-autocomplete 
                     clearable 
+                    :loading="codeLoading"
                     label="Enter your email" 
                     required 
                     :hint="errors.first('email')" 
@@ -48,6 +49,7 @@ export default {
     return {
       email: null,
       codeRequested: false,
+      codeLoading: false,
       codeError: false,
       code: null
     };
@@ -66,31 +68,47 @@ export default {
       return this.codeRequested ? "Code" : "Email";
     },
     generateCode() {
-      this.codeRequested = true;
-      this.code = null;
+      let email = this.email;
+      this.codeLoading = true;
+      let self = this;
+      this.login({ email }, function() {
+        console.log("Code requested");
+        self.codeLoading = false;
+        self.codeRequested = true;
+      });
     },
     validateCode() {
       let email = this.email;
       let code = this.code;
       let routerTarget = this.redirect;
+      console.log("Router Target: %s", JSON.stringify(routerTarget));
+      let self = this;
+      this.login({ email, code }, function() {
+        self.codeError = false;
+        if (self.code) self.$router.push(routerTarget);
+      });
       //dispatch is async
+    },
+    login(credentials, callback) {
+      let self = this;
       this.$store
-        .dispatch("login", { email, code })
-        .then(() => this.$router.push(routerTarget))
+        .dispatch("login", credentials)
+        .then(callback)
         // eslint-disable-next-line no-unused-vars
         .catch(err => {
-          //console.log(err);
-          this.codeError = true;
+          console.log(err);
+          self.codeError = true;
+          self.codeLoading = false;
         });
     },
     resendCode() {
-      this.resetCodeState();
+      this.codeError = false;
       this.generateCode();
     },
     resetCodeState() {
-      this.codeRequested = false;
       this.codeError = false;
-      this.code = "";
+      this.codeRequested = false;
+      this.code = null;
     }
   },
   components: {},
