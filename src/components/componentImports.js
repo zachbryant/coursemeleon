@@ -16,6 +16,7 @@ export {
 } from "@/components/Course/Compound/Assignments";
 export { default as Calendar } from "@/components/Course/Compound/Calendar";
 export { default as Contact } from "@/components/Course/Compound/Contact";
+export { default as Course } from "@/components/Course/Course";
 export {
   default as CourseInformation
 } from "@/components/Course/Compound/CourseInformation";
