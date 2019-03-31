@@ -16,11 +16,45 @@
 <script>
   export default {
     name: 'CloneModal',
-
+    async created() { //runs automatically when component created
+        try {
+            this.courses = await CourseService.getPosts(); //populate courses array
+        } catch(err) {
+            this.error = err.message;
+        }
+    },
     methods: {
       close() {
         this.$emit('close');
       },
+      async cloneCourse() {
+        const t =
+          this.courses[this.courses.length-1].courseID +
+          "cmsplit" +
+          this.courses[this.courses.length-1].courseTitle +
+          "cmsplit" +
+          this.courses[this.courses.length-1].courseTerm +
+          "cmsplit" +
+          this.courses[this.courses.length-1].termStart +
+          "cmsplit" +
+          this.courses[this.courses.length-1].googleCal +
+          "cmsplit" +
+          this.courses[this.courses.length-1].iCal +
+          "cmsplit" +
+          this.courses[this.courses.length-1].grades +
+          "cmsplit" +
+          this.courses[this.courses.length-1].announcements +
+          "cmsplit" +
+          this.courses[this.courses.length-1].resourceLink +
+          "cmsplit" +
+          this.courses[this.courses.length-1].contactInfo +
+          "cmsplit" +
+          this.courses[this.courses.length-1].generalText;
+      console.log(t);
+      await CourseService.insertPost(t);
+      alert("Success! Course created!");
+      //this.courses = await CourseService.getPosts();
+    },
     },
   };
 </script>
@@ -41,6 +75,7 @@
           New term 
           <v-text-field
             label="Enter new term"
+            id="new_term"
           ></v-text-field>
         </slot>
         
@@ -49,7 +84,7 @@
           <button
               type="button"
               class="btn-green"
-              @click="close"
+              @click="cloneCourse"
             >
               Clone
           </button>

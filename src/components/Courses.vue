@@ -132,8 +132,9 @@
         v-btn(large color="primary", @click="createPost") PUBLISH
     
       // CLONE 
-      v-btn(type="button" class="btn" @click="showModal") Clone
-      CloneModal(v-show="isModalVisible" @close="closeModal")
+      v-layout(align-center justify-start row wrap)
+        v-btn(type="button" class="btn" @click="showModal") Clone
+        CloneModal(v-show="isModalVisible" @close="closeModal")
       
 </template>
 
@@ -221,10 +222,6 @@ export default {
       //id=this.objID;
       const id = this.objID;
       this.courses = await CourseService.modifyPost(id);
-    },
-
-    async cloneCourse() {
-      //clone the selected course
     },
 
     showModal() {
