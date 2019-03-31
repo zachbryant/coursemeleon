@@ -1,116 +1,152 @@
+<script type="text/x-template" id="modal-template">
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+
+          <div class="modal-header">
+            <slot name="header">
+              default header
+            </slot>
+          </div>
+
+          <div class="modal-body">
+            <slot name="body">
+              default body
+            </slot>
+          </div>
+
+          <div class="modal-footer">
+            <slot name="footer">
+              default footer
+              
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</script>
+
 <template lang="pug">
   div
     v-container(grid-list-md)
       // COURSE INFO - ID & Name
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           h2 Course Information
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           h3 Course ID
         v-flex(xs3)
           h3 Course Name
         
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           v-text-field(v-model="courseID" single-line outline id="courseID")
         v-flex(xs3)
           v-text-field(v-model="courseTitle" single-line outline id="courseTitle")
         
       // DATES - Course Term & Start Date
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           h2 Course Term
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           h3 Term
         v-flex(xs3)
           h3 Start Date
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           v-text-field(v-model="courseTerm" single-line outline id="courseTerm")
         v-flex(xs3)
           v-text-field(v-model="termStart" single-line outline id="termStart")
       
       // ANNOUNCEMENTS
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           h2 Announcements
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           v-textarea(v-model="announcements" outline id="announcements")
       
       // GENERAL INFORMATION
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           h2 General Course Information
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           v-textarea(v-model="generalText" outline id="generalText")
 
       // EMAIL
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           h2 Contact Information
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           v-textarea(v-model="contactInfo" outline id="contactInfo")
 
       // RESOURCE LINKS
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg3)
           h2 Links
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           v-text-field(v-model="resourceLink" single-line outline id="resourceLink")
 
       // GRADES
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg3)
           h2 Grades
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           v-text-field(v-model="grades" single-line outline id="grades")
 
       // CALENDAR
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(lg6)
           h2 Calendar
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           h3 Google Calendar Link
         v-flex(xs3)
           h3 iCal Link
       
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           v-text-field(v-model="googleCal" single-line outline id="googleCal" placeholder="optional")
         v-flex(xs3)
           v-text-field(v-model="iCal" single-line outline id="iCal" placeholder="optional")
 
       // PUBLISH 
-      v-layout(align-center justify-start row wrap fill-height)
+      v-layout(align-center justify-start row wrap)
         v-btn(large color="primary", @click="createPost") PUBLISH
     
-
-
+      // CLONE 
+      v-layout(align-center justify-start row wrap)
+        v-btn(type="button" class="btn" @click="showModal") Clone
+        CloneModal(v-show="isModalVisible" @close="closeModal")
+      
 </template>
-
 
 
 <script>
 import CourseService from "../CourseService";
+import CloneModal from "@/components/CloneModal.vue";
 export default {
   name: "Courses",
+  components: {
+    CloneModal
+  },
   data() {
     return {
       courses: [],
@@ -129,7 +165,8 @@ export default {
       generalText: "",
       objID: "",
       at: "",
-      change: ""
+      change: "",
+      isModalVisible: false,
     };
   },
   async created() {
@@ -185,10 +222,21 @@ export default {
       //id=this.objID;
       const id = this.objID;
       this.courses = await CourseService.modifyPost(id);
+    },
+
+    showModal() {
+      this.isModalVisible = true;
+    },
+
+    closeModal() {
+      this.isModalVisible = false;
     }
   }
+
+  
 };
 </script>
 
 <style scoped>
+
 </style> 
