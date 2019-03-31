@@ -22,7 +22,7 @@ Vue.prototype.$http = Axios;
 // Set Axios authorization to token
 const token = localStorage.getItem("token");
 if (token) {
-  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+  Vue.prototype.$http.defaults.headers.common["Authorization"] = `JWT ${token}`;
 }
 
 // Vue Plugins
