@@ -5,7 +5,6 @@
     <Announcements />
     <Contact />
     <Info />
-    <Resources />
     <Grade />
   </div>
 </template>
@@ -17,7 +16,6 @@ import {
   Contact,
   Grade,
   Info,
-  Resources,
   Title
 } from "@/components/componentImports";
 import CourseService from "@/services/CourseService";
@@ -30,8 +28,7 @@ export default {
     Calendar,
     Announcements,
     Contact,
-    Info,
-    Resources
+    Info
   },
   data() {
     return {
