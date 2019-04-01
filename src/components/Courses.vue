@@ -122,7 +122,27 @@
       v-layout(align-center justify-start row wrap fill-height)
         v-btn(large color="primary", @click="modifyPost") Modify
     
-
+      //Add Anoucement
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Add Announcements
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Object ID
+        v-flex(xs3)
+          h3 New Announcement
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="objIDMA" single-line outline id="objIDM")
+        v-flex(xs3)
+          v-text-field(v-model="newAnn" single-line outline id="newName")
+          
+      v-layout(align-center justify-start row wrap fill-height)
+        v-btn(large color="primary", @click="modifyPostA") Add Announcement
+    
+    
 
 </template>
 
@@ -152,7 +172,9 @@ export default {
       at: "",
       change: "",
       objIDM: "",
-      newName: ""
+      newName: "",
+      objIDMA: "",
+      newAnn: ""
 
     };
   },
@@ -209,6 +231,13 @@ export default {
         "cmsplit" +
         this.newName
       //console.log(par)  
+      this.courses = await CourseService.modifyPost(par);
+    },
+    async modifyPostA() {
+      const par= this.objIDMA+
+        "dipShit" +
+        this.newAnn
+        console.log(par)  
       this.courses = await CourseService.modifyPost(par);
     }
   }
