@@ -14,6 +14,7 @@
 import Sidebar from "@/components/Sidebar";
 import Overview from "@/components/Overview";
 import StaticCoursePage from "@/components/StaticCoursePage";
+//test
 
 export default {
   name: "home",
