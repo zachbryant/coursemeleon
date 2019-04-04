@@ -13,9 +13,53 @@
   </div>
 </template>
 
+
+
+<template>
+  <div class="modal-backdrop">
+    <div class="modal">
+      <header class="modal-header">
+        <slot name="header">
+          Update term
+        </slot>
+
+        <button type="button" class="btn-close" @click="close"> x </button>
+
+      </header>
+      <section class="modal-body">
+        <slot name="body">
+          New term 
+          <v-text-field
+            v-model="new_term"
+            label="Enter new term"
+            id="new_term"
+          ></v-text-field>
+        </slot>
+        
+       </section>
+       <footer class="modal-footer">
+          <button
+              type="button"
+              class="btn-green"
+              @click="cloneCourse"
+            >
+              Clone
+          </button>
+      </footer>
+    </div>
+  </div>
+</template>
+
 <script>
+  import CourseService from "../CourseService";
   export default {
     name: 'CloneModal',
+    data() {
+      return {
+        courses: [],
+        new_term: "",
+      };
+    },
     async created() { //runs automatically when component created
         try {
             this.courses = await CourseService.getPosts(); //populate courses array
@@ -28,12 +72,17 @@
         this.$emit('close');
       },
       async cloneCourse() {
+        try {
+            this.courses = await CourseService.getPosts(); //populate courses array
+        } catch(err) {
+            this.error = err.message;
+        }
         const t =
           this.courses[this.courses.length-1].courseID +
           "cmsplit" +
           this.courses[this.courses.length-1].courseTitle +
           "cmsplit" +
-          this.courses[this.courses.length-1].courseTerm +
+          this.new_term +
           "cmsplit" +
           this.courses[this.courses.length-1].termStart +
           "cmsplit" +
@@ -58,40 +107,6 @@
     },
   };
 </script>
-
-<template>
-  <div class="modal-backdrop">
-    <div class="modal">
-      <header class="modal-header">
-        <slot name="header">
-          Update term
-        </slot>
-
-        <button type="button" class="btn-close" @click="close"> x </button>
-
-      </header>
-      <section class="modal-body">
-        <slot name="body">
-          New term 
-          <v-text-field
-            label="Enter new term"
-            id="new_term"
-          ></v-text-field>
-        </slot>
-        
-       </section>
-       <footer class="modal-footer">
-          <button
-              type="button"
-              class="btn-green"
-              @click="cloneCourse"
-            >
-              Clone
-          </button>
-      </footer>
-    </div>
-  </div>
-</template>
 
 <style>
   .modal-backdrop {
