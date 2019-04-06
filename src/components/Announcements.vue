@@ -5,8 +5,10 @@
         <h1>Announcements</h1>
         <v-container grid-list-xl style="border-style: dashed; border-color: #b7b7b7; border-width: 2px;">
             <h3>{{ courses[courses.length-1].announcements }}</h3>
+            <button @click="push">press</button>
         </v-container>
         <v-container grid-list-xl></v-container>
+        
     </div>
 </template>
 
@@ -28,7 +30,14 @@ export default {
         } catch(err) {
             this.error = err.message;
         }
+    },
+     push() {
+      console.log("hell")   
+      var i;
+      var s;  
+      for(i=0;i<courses.length;i++){
+          
+      }
     }
-    
 };
 </script>

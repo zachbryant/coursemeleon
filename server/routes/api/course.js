@@ -61,7 +61,7 @@ router.put('/:id', async (req , res) => {
 
         //"course_id" : req.body.course_id, 
         //"course_name": req.body.course_name,
-        "announcements": req.body.announcements + gettit[0]["announcements"] 
+        "announcements": "Announcement: " +  req.body.announcements + "\n" + gettit[0]["announcements"] 
         //"term": req.body.term,
         //"term_start": req.body.term_start
     }});
