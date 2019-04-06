@@ -98,6 +98,26 @@
           v-text-field(v-model="iCal" single-line outline id="iCal" placeholder="optional")
 
 
+      // Design
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Page Color
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Primary Color 
+        v-flex(xs3)
+          h3 Secondary Color 
+        
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="color" single-line outline id="color")
+        v-flex(xs3)
+          v-text-field(v-model="color2" single-line outline id="color2")
+        
+    
+
+
       // PUBLISH 
       v-layout(align-center justify-start row wrap fill-height)
         v-btn(large color="primary", @click="createPost") PUBLISH
@@ -163,6 +183,8 @@ export default {
       termStart: "",
       googleCal: "",
       iCal: "",
+      color: "",
+      color2: "",
       grades: "",
       announcements: "",
       resourceLink: "",
@@ -207,9 +229,14 @@ export default {
         "cmsplit" +
         this.resourceLink +
         "cmsplit" +
+        this.color +
+        "cmsplit" +
+        this.color2 +
+        "cmsplit" +
         this.contactInfo +
         "cmsplit" +
-        this.generalText;
+        this.generalText
+      
       console.log(t);
       await CourseService.insertPost(t);
       //this.courses = await CourseService.getPosts();

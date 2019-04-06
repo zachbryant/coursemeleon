@@ -14,8 +14,9 @@ router.post('/', async (req , res) => {
   const posts = await loadPostsCollection();
   var str = JSON.stringify(req.body);
   str=str.substring(9,str.length-2)
-  console.log(str)
+  //console.log(str)
   var r = str.split("cmsplit");
+  console.log(r[9])
   await posts.insertOne({     
       course_id: r[0],
       course_name: r[1],
@@ -26,7 +27,9 @@ router.post('/', async (req , res) => {
       grades: r[6],
       announcements: r[7],
       resources: r[8],
-      contact_info:[9]
+      color: r[9],
+      color2: r[10],
+      
       
   });
   res.status(201).send();
