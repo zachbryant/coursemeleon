@@ -109,8 +109,8 @@
           this.courses[this.courses.length-1].contact_info;
         console.log(t);
         await CourseService.insertPost(t);
-        alert("Success! Course created!");
-        //this.courses = await CourseService.getPosts();
+        alert("Success! Course cloned!");
+        this.$emit('close');
     },
     },
   };
