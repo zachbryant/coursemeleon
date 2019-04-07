@@ -197,15 +197,14 @@ export default {
       newName: "",
       objIDMA: "",
       newAnn: ""
-
     };
   },
   async created() {
     //runs automatically when component created
     try {
+      this.$vuetify.theme.primary = "#000000";
+      this.$vuetify.theme.secondary = "#C28E0E";
       this.posts = await CourseService.getPosts();
-      this.$vuetify.theme.primary = '#000000'
-      this.$vuetify.theme.secondary = '#C28E0E'
     } catch (err) {
       this.error = err.message;
     }
@@ -237,8 +236,8 @@ export default {
         "cmsplit" +
         this.contactInfo +
         "cmsplit" +
-        this.generalText
-      
+        this.generalText;
+
       console.log(t);
       await CourseService.insertPost(t);
       //this.courses = await CourseService.getPosts();
@@ -256,17 +255,13 @@ export default {
       this.courses = await CourseService.getPosts();
     },
     async modifyPost() {
-      const par= this.objIDM+
-        "cmsplit" +
-        this.newName
-      //console.log(par)  
+      const par = this.objIDM + "cmsplit" + this.newName;
+      //console.log(par)
       this.courses = await CourseService.modifyPost(par);
     },
     async modifyPostA() {
-      const par= this.objIDMA+
-        "dipShit" +
-        this.newAnn
-        console.log(par)  
+      const par = this.objIDMA + "dipShit" + this.newAnn;
+      console.log(par);
       this.courses = await CourseService.modifyPost(par);
     }
   }
