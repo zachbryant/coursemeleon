@@ -14,6 +14,7 @@ export default new Vuex.Store({
   state: {
     user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
+    edit: false,
     status: "",
     userCourses: {},
     drawer: {
@@ -31,6 +32,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    isEditMode: state => state.edit,
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
@@ -38,6 +40,9 @@ export default new Vuex.Store({
     navDrawerState: state => state.drawer
   },
   mutations: {
+    toggleEditMode(state, mode) {
+      state.edit = !!mode;
+    },
     // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
     toggleNavDrawer(state) {
       if (state.drawer.permanent) {
