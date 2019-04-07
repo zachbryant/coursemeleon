@@ -169,6 +169,7 @@
 
 
 <script>
+import mail from "./mail"
 import CourseService from "../CourseService";
 export default {
   name: "Courses",
@@ -261,6 +262,7 @@ export default {
       this.courses = await CourseService.modifyPost(par);
     },
     async modifyPostA() {
+      //mail.sendLoginCode("rujulakapoor1@gmail.com")
       const par= this.objIDMA+
         "dipShit" +
         this.newAnn
