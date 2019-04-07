@@ -4,16 +4,16 @@ const mail = require('./mail')
 const router = express.Router();
 
 //Get Posts
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   const posts = await loadPostsCollection();
   res.send(await posts.find().toArray());
   //console.log("hello")
 });
 //Add post revised, does not need string parsng anymore
-router.post('/', async (req , res) => {
+router.post("/", async (req, res) => {
   const posts = await loadPostsCollection();
   var str = JSON.stringify(req.body);
-  str=str.substring(9,str.length-2)
+  str = str.substring(9, str.length - 2);
   //console.log(str)
   var r = str.split("cmsplit");
   console.log(r[9])
@@ -30,25 +30,26 @@ router.post('/', async (req , res) => {
       color: r[9],
       color2: r[10],
       
-      
   });
   res.status(201).send();
 });
 
 //Delete Post
-router.delete('/:id', async (req, res) => {
-  const posts = await loadPostsCollection(); 
-  await posts.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
+router.delete("/:id", async (req, res) => {
+  const posts = await loadPostsCollection();
+  await posts.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
   res.status(200).send();
 });
 
-
 //Modify Post
+
 router.put('/:id', async (req , res) => {
   
   const posts = await loadPostsCollection();
-  var gettit=await posts.find({_id: new mongodb.ObjectID(req.params.id)}).toArray();
-  console.log(gettit[0]["term_start"])
+  var gettit = await posts
+    .find({ _id: new mongodb.ObjectID(req.params.id) })
+    .toArray();
+  console.log(gettit[0]["term_start"]);
   //var my = JSON.stringify(gettit[0]);
   //var s= my.substring(5,10)
   //var json = JSON.stringify(eval("(" + gettit[0] + ")"));
@@ -87,13 +88,16 @@ if(req.body.flag==2){
 }
 
 });
-    
-async function loadPostsCollection() {
-    const client = await mongodb.MongoClient.connect('mongodb+srv://user:7987@coursemeleon-slknn.mongodb.net/test?retryWrites=true', {
-        useNewUrlParser: true
-    })
 
-    return client.db('coursemeleon').collection('Courses');
+async function loadPostsCollection() {
+  const client = await mongodb.MongoClient.connect(
+    "mongodb+srv://user:7987@coursemeleon-slknn.mongodb.net/test?retryWrites=true",
+    {
+      useNewUrlParser: true
+    }
+  );
+
+  return client.db("coursemeleon").collection("Courses");
 }
 
 module.exports = router;
