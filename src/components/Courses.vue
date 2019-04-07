@@ -204,6 +204,8 @@ export default {
     //runs automatically when component created
     try {
       this.posts = await CourseService.getPosts();
+      this.$vuetify.theme.primary = '#000000'
+      this.$vuetify.theme.secondary = '#C28E0E'
     } catch (err) {
       this.error = err.message;
     }

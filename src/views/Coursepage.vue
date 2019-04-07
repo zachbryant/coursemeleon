@@ -44,6 +44,8 @@ export default {
     async created() { //runs automatically when component created
         try {
             this.courses = await CourseService.getPosts(); //populate courses array
+            this.$vuetify.theme.primary = '#000000'
+            this.$vuetify.theme.secondary = '#C28E0E'
         } catch(err) {
             this.error = err.message;
         }
@@ -73,4 +75,4 @@ export default {
 };
 </script>
 
-<style lang="less"></style>
+
