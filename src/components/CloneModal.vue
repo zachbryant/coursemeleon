@@ -1,54 +1,54 @@
 <template>
-  <div class="modal-backdrop">
-    <div class="modal">
-      <slot name="header">
-      </slot>
-
-      <slot name="body">
-      </slot>
-
-      <slot name="footer">
-      </slot>
-    </div>
-  </div>
-</template>
-
-
-
-<template>
-  <div class="modal-backdrop">
-    <div class="modal">
-      <header class="modal-header">
+  <div>
+    <div class="modal-backdrop">
+      <div class="modal">
         <slot name="header">
-          Update term
         </slot>
 
-        <button type="button" class="btn-close" @click="close"> x </button>
-
-      </header>
-      <section class="modal-body">
         <slot name="body">
-          New term 
-          <v-text-field
-            v-model="new_term"
-            label="Enter new term"
-            id="new_term"
-          ></v-text-field>
         </slot>
-        
-       </section>
-       <footer class="modal-footer">
-          <button
-              type="button"
-              class="btn-green"
-              @click="cloneCourse"
-            >
-              Clone
-          </button>
-      </footer>
+
+        <slot name="footer">
+        </slot>
+      </div>
+    </div>
+
+    <div class="modal-backdrop">
+      <div class="modal">
+        <header class="modal-header">
+          <slot name="header">
+            Update term
+          </slot>
+
+          <button type="button" class="btn-close" @click="close"> x </button>
+
+        </header>
+        <section class="modal-body">
+          <slot name="body">
+            New term 
+            <v-text-field
+              v-model="new_term"
+              label="Enter new term"
+              id="new_term"
+            ></v-text-field>
+          </slot>
+          
+        </section>
+        <footer class="modal-footer">
+            <button
+                type="button"
+                class="btn-green"
+                @click="cloneCourse"
+              >
+                Clone
+            </button>
+        </footer>
+      </div>
     </div>
   </div>
 </template>
+
+
 
 <script>
   import CourseService from "../CourseService";
