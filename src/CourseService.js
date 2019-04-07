@@ -20,11 +20,17 @@ class PostService {
         });
     }
 
-//Create post
-static insertPost(text) {
+    //Create post
+    static insertPost(text) {
+        //console.log({text});
+        return axios.post(url, {text});
+    }
+
+    //Create post
+    static insertCourse(text) {
     //console.log({text});
-    return axios.post(url, {text});
-}
+        return axios.post(url, {text});
+    }
 
     //Delete post
     static deletePost(id) {
