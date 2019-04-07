@@ -22,16 +22,6 @@ let router = new Router({
       }
     },
     {
-      path: "/manage/:cid?",
-      name: "manageCourse",
-      component: () => import("./views/Manage.vue"),
-      alias: "/edit/:cid?",
-      meta: {
-        requiresAuth: true
-      },
-      props: true
-    },
-    {
       path: "/explore",
       name: "explore",
       component: () => import("./views/Explore.vue")
@@ -53,16 +43,14 @@ let router = new Router({
       component: () => import("./views/Help.vue")
     },
     {
-      path: "/coursepage",
-      name: "coursepage",
-      // route level code-splitting (lazy load
-      component: () => import(/* webpackChunkName: "help" */ "./views/Coursepage.vue")
-    },
-    {
-      path: "/createcourse",
-      name: "createcourse",
+      path: "/create",
+      name: "create",
+      meta: {
+        requiresAuth: true
+      },
       // route level code-splitting (lazy load)
-      component: () => import(/* webpackChunkName: "inputInfo" */ "./views/CreateCourse")
+      component: () =>
+        import(/* webpackChunkName: "inputInfo" */ "./views/Course")
     },
     {
       path: "*",
