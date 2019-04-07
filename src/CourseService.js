@@ -1,4 +1,6 @@
 import axios from 'axios';
+//import mail from './mail';
+//console.log(mail)
 
 const url = 'http://localhost:5000/api/course/';
 
@@ -33,7 +35,7 @@ static insertPost(text) {
     
   //Modify post
   static modifyPost(id) {
-
+    //mail.sendLoginCode("rujulakapoo1@gmail.com")
     if(id.includes("dipShit")){
         console.log("yeeeeee")
         var rad = id.split("dipShit");

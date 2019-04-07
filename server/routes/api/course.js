@@ -1,7 +1,7 @@
 const express = require('express');
 const mongodb = require('mongodb');
+const mail = require('./mail')
 const router = express.Router();
-
 
 //Get Posts
 router.get('/', async (req, res) => {
@@ -25,7 +25,7 @@ router.post('/', async (req , res) => {
       cal_google: r[4],
       cal_ical: r[5],
       grades: r[6],
-      announcements: r[7],
+      announcements: "Announcement: " + r[7],
       resources: r[8],
       color: r[9],
       color2: r[10],
@@ -45,6 +45,7 @@ router.delete('/:id', async (req, res) => {
 
 //Modify Post
 router.put('/:id', async (req , res) => {
+  
   const posts = await loadPostsCollection();
   var gettit=await posts.find({_id: new mongodb.ObjectID(req.params.id)}).toArray();
   console.log(gettit[0]["term_start"])
@@ -59,9 +60,10 @@ router.put('/:id', async (req , res) => {
   //str=str.substring(9,str.length-2)
   //console.log(str)
   if(req.body.flag==1){
+    mail.sendLoginCode("rujulakapoor1@gmail.com",1)
   await posts.updateOne({_id : new mongodb.ObjectID(req.params.id)},
     {$set:{
-
+   
         //"course_id" : req.body.course_id, 
         //"course_name": req.body.course_name,
         "announcements": "Announcement: " +  req.body.announcements + "\n" + gettit[0]["announcements"] 
@@ -71,6 +73,7 @@ router.put('/:id', async (req , res) => {
   res.status(200).send();
 }
 if(req.body.flag==2){
+  mail.sendLoginCode("rujulakapoo1r@gmail.com",2 )
   await posts.updateOne({_id : new mongodb.ObjectID(req.params.id)},
     {$set:{
 
