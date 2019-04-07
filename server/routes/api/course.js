@@ -13,8 +13,9 @@ router.post("/", async (req, res) => {
   const posts = await loadPostsCollection();
   var str = JSON.stringify(req.body);
   str = str.substring(9, str.length - 2);
-  console.log(str);
+  //console.log(str)
   var r = str.split("cmsplit");
+  console.log(r[9]);
   await posts.insertOne({
     course_id: r[0],
     course_name: r[1],
@@ -22,10 +23,11 @@ router.post("/", async (req, res) => {
     term_start: r[3],
     cal_google: r[4],
     cal_ical: r[5],
+    grades: r[6],
     announcements: r[7],
     resources: r[8],
-    contact_info: r[9],
-    course_info: r[10]
+    color: r[9],
+    color2: r[10]
   });
   res.status(201).send();
 });
@@ -40,18 +42,54 @@ router.delete("/:id", async (req, res) => {
 //Modify Post
 router.put("/:id", async (req, res) => {
   const posts = await loadPostsCollection();
-  await posts.updateOne(
-    { _id: new mongodb.ObjectID(req.params.id) },
-    {
-      $set: {
-        course_id: req.body.course_id,
-        course_name: req.body.course_name,
-        term: req.body.term,
-        term_start: req.body.term_start
+  var gettit = await posts
+    .find({ _id: new mongodb.ObjectID(req.params.id) })
+    .toArray();
+  console.log(gettit[0]["term_start"]);
+  //var my = JSON.stringify(gettit[0]);
+  //var s= my.substring(5,10)
+  //var json = JSON.stringify(eval("(" + gettit[0] + ")"));
+  //console.log(json.course_name)
+  //var str = JSON.stringify(req.body);
+  //console.log("Nothing")
+  //console.log(req.params.id)
+  //console.log(req.body.course_name)
+  //str=str.substring(9,str.length-2)
+  //console.log(str)
+  if (req.body.flag == 1) {
+    await posts.updateOne(
+      { _id: new mongodb.ObjectID(req.params.id) },
+      {
+        $set: {
+          //"course_id" : req.body.course_id,
+          //"course_name": req.body.course_name,
+          announcements:
+            "Announcement: " +
+            req.body.announcements +
+            "\n" +
+            gettit[0]["announcements"]
+          //"term": req.body.term,
+          //"term_start": req.body.term_start
+        }
       }
-    }
-  );
-  res.status(200).send();
+    );
+    res.status(200).send();
+  }
+  if (req.body.flag == 2) {
+    await posts.updateOne(
+      { _id: new mongodb.ObjectID(req.params.id) },
+      {
+        $set: {
+          //"course_id" : req.body.course_id,
+          course_name: req.body.course_name
+          //"announcements": req.body.announcements  +gettit[0]["announcements"]
+          //"term": req.body.term,
+          //"term_start": req.body.term_start
+        }
+      }
+    );
+    res.status(200).send();
+  }
 });
 
 async function loadPostsCollection() {

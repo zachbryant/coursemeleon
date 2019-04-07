@@ -33,8 +33,33 @@ static insertPost(text) {
     
   //Modify post
   static modifyPost(id) {
-     console.log(id) 
-    return axios.put(`${url}${id}`);
+
+    if(id.includes("dipShit")){
+        console.log("yeeeeee")
+        var rad = id.split("dipShit");
+        var idb=rad[0];
+        var body=rad[1];
+        return axios.put(`${url}${idb}`,{announcements:body,flag:1});
+
+    }
+    if(id.includes("cmsplit")){
+        console.log("yeeeeee")
+        var rad2 = id.split("cmsplit");
+        var idb2=rad2[0];
+        var body2=rad2[1];
+        return axios.put(`${url}${idb2}`,{course_name:body2,flag:2});
+
+    }
+
+        
+     //var rad = id.split("cmsplit");
+     //var idb=rad[0];
+     //var body=rad[1];
+
+     //console.log(rad[0])
+     //console.log(rad[1])
+    return axios.put(`${url}${idb}`,{course_name:body});
+    //return axios.put(`${url}${idb}`);
 }
 
 }
