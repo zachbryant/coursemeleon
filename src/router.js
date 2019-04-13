@@ -22,11 +22,6 @@ let router = new Router({
       }
     },
     {
-      path: "/explore",
-      name: "explore",
-      component: () => import("./views/Explore.vue")
-    },
-    {
       path: "/login",
       name: "login",
       component: () => import("./views/Login.vue"),

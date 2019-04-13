@@ -26,7 +26,7 @@ export default {
   methods: {},
   computed: {
     currentCourseComponent: function() {
-      return !this.courseData.invalid ? Course : "overview";
+      return this.courseData ? Course : "overview";
     }
   }
 };
