@@ -237,6 +237,10 @@ export default {
 };
 </script>
 
+<<<<<<< HEAD
 <style scoped>
 
 </style> 
+=======
+<style scoped></style>
+>>>>>>> origin/master
