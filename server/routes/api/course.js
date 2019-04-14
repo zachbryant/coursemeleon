@@ -49,6 +49,7 @@ router.put("/:id", async (req, res) => {
   var gettit = await posts
     .find({ _id: new mongodb.ObjectID(req.params.id) })
     .toArray();
+
   console.log(gettit[0]["term_start"]);
   //var my = JSON.stringify(gettit[0]);
   //var s= my.substring(5,10)
