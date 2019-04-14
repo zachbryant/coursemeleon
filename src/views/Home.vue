@@ -6,7 +6,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
+// * @ is an alias to /src
 import { Overview, Course } from "@/components/componentImports";
 
 export default {
@@ -19,14 +19,19 @@ export default {
   data() {
     return {
       courseData: {
-        name: ""
+        name: "Dummy"
       }
     };
   },
-  methods: {},
+  methods: {
+    // TODO needs to be fully validated
+    isValidData() {
+      return !!this.courseData.name;
+    }
+  },
   computed: {
     currentCourseComponent: function() {
-      return this.courseData ? Course : "overview";
+      return this.isValidData() ? Course : "overview";
     }
   }
 };
