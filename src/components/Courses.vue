@@ -118,15 +118,11 @@
           h3 Primary Color 
         v-flex(xs3)
           h3 Secondary Color 
-        v-flex(xs3)
-          h3 Font
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(xs3)
           v-text-field(v-model="color" single-line outline id="color")
         v-flex(xs3)
           v-text-field(v-model="color2" single-line outline id="color2")
-        v-flex(xs3)
-          v-text-field(v-model="font" single-line outline id="font")   
           
 
       // PUBLISH 

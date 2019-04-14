@@ -15,13 +15,15 @@ export default new Vuex.Store({
     user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
     status: "",
-    userCourses: {}
+    userCourses: {},
+    color: "#aed581"
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
-    getUserCourses: state => state.userCourses
+    getUserCourses: state => state.userCourses,
+    getColor: state => state.color
   },
   mutations: {
     unSaveCourse(state, cid) {
@@ -46,6 +48,9 @@ export default new Vuex.Store({
       state.token = "";
       state.user = "";
       state.userCourses = {};
+    },
+    setPrimaryColor(state, newcolor) {
+      state.color = newcolor;
     }
   },
   actions: {
