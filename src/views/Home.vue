@@ -2,7 +2,7 @@
   v-container#home(fluid fill-height px-5)
     v-layout(row)
       keep-alive
-        component(:is="currentCourseComponent" :data="courseData")
+        component(:is="currentCourseComponent" :course="courseData" :search="query")
 </template>
 
 <script>
@@ -15,23 +15,33 @@ export default {
     Overview,
     Course
   },
-  props: {},
+  props: {
+    query: {
+      type: Object,
+      required: false,
+      default: function() {
+        return {};
+      }
+    }
+  },
   data() {
     return {
-      courseData: {
-        name: "Dummy"
-      }
+      courseData: {}
     };
   },
   methods: {
-    // TODO needs to be fully validated
-    isValidData() {
-      return !!this.courseData.name;
+    validQuery() {
+      return (
+        !!this.query.name ||
+        !!this.query.cid ||
+        !!this.query.term ||
+        !!this.query.abbr
+      );
     }
   },
   computed: {
     currentCourseComponent: function() {
-      return this.isValidData() ? Course : "overview";
+      return this.validQuery() ? Course : "overview";
     }
   }
 };
