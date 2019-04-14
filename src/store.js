@@ -6,7 +6,7 @@ Vue.use(Vuex);
 const BASE_URL = "http://localhost:5000";
 let apiLogin = BASE_URL + "/api/auth/login/";
 let apiPermission = BASE_URL + "/api/access/";
-//let apiCourse = BASE_URL + "/api/course/";
+let apiQueryCourse = BASE_URL + "/api/course/?";
 let apiUserCourses = apiPermission + "";
 let isDev = process.env.NODE_ENV !== "production";
 
@@ -15,8 +15,14 @@ export default new Vuex.Store({
     user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
     edit: false,
+    editData: null,
+    componentEditMenuOptions: [
+      { title: "Rich text", instanceName: "rich-content" },
+      { title: "Embed document", instanceName: "doc-embed" }
+    ],
     status: "",
     userCourses: {},
+    apiResult: {},
     drawer: {
       // sets the open status of the drawer
       open: !!localStorage.getItem("drawer.open") || false,
@@ -33,15 +39,25 @@ export default new Vuex.Store({
   },
   getters: {
     isEditMode: state => state.edit,
+    getEditData: state => state.editData,
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
     getUserCourses: state => state.userCourses,
-    navDrawerState: state => state.drawer
+    navDrawerState: state => state.drawer,
+    getApiResult: state => state.apiResult,
+    componentEditMenuOptions: state => state.componentEditMenuOptions
   },
   mutations: {
-    toggleEditMode(state, mode) {
-      state.edit = !!mode;
+    setEditData(state, editData) {
+      state.editData = editData;
+    },
+    toggleEditMode(state, editData) {
+      state.edit = !state.edit;
+      if (state.edit) this.commit("setEditData", editData);
+    },
+    setApiResult(state, result) {
+      state.apiResult = result;
     },
     // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
     toggleNavDrawer(state) {
@@ -114,6 +130,26 @@ export default new Vuex.Store({
             });
         });
       }
+    },
+    queryCourse({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        var queryString = Object.keys(params)
+          .map(key => key + "=" + params[key])
+          .join("&");
+        Axios({
+          url: apiQueryCourse + queryString,
+          method: "GET"
+        })
+          .then(resp => {
+            console.log("Course query response: " + JSON.stringify(resp.data));
+            commit("setApiResult", resp.data);
+            resolve(resp);
+          })
+          .catch(err => {
+            commit("setApiResult", {});
+            reject(err);
+          });
+      });
     },
     login({ commit }, credentials) {
       return new Promise((resolve, reject) => {
