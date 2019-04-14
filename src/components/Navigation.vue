@@ -15,7 +15,7 @@
           <div id="searchBox">
             <v-autocomplete
               v-model="model"
-              :items="items"
+              :items="names"
               :loading="isLoading"
               search-input.sync="search"
               color="white"
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import CourseService from "../CourseService";
 export default {
   name: "Navigation",
   props: {
@@ -69,8 +70,22 @@ export default {
     return {
       model: null,
       isLoading: false,
-      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"]
+      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
+      names: []
     };
+  },
+  async created() {
+    //runs automatically when component created
+    console.log("YYYYYYYYYYY");
+    try {
+      //this.courses = await CourseService.getPosts(); //populate courses array
+      this.names =await CourseService.getNames();
+      console.log("TTTTTTTTT" + this.names);
+      this.$vuetify.theme.primary = "#000000";
+      this.$vuetify.theme.secondary = "#C28E0E";
+    } catch (err) {
+      this.error = err.message;
+    }
   },
   methods: {
     queryCourses(queryString) {
