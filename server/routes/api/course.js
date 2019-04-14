@@ -29,6 +29,8 @@ router.post("/", async (req, res) => {
       resources: r[8],
       color: r[9],
       color2: r[10],
+      font: r[11],
+      pri: r[12]
       
   });
   res.status(201).send();
@@ -67,7 +69,7 @@ router.put('/:id', async (req , res) => {
    
         //"course_id" : req.body.course_id, 
         //"course_name": req.body.course_name,
-        "announcements": "Announcement: " +  req.body.announcements + "\n" + gettit[0]["announcements"] 
+        "announcements": "Announcement: " +  req.body.announcements + "<bf />" + gettit[0]["announcements"] 
         //"term": req.body.term,
         //"term_start": req.body.term_start
     }});

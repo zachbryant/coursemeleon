@@ -79,7 +79,17 @@
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(xs3)
           v-text-field(v-model="grades" single-line outline id="grades")
-
+      // Design
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Do you want this page to be private 
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 (yes/no)
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="pri" single-line outline id="pri")
       // CALENDAR
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(lg6)
@@ -108,15 +118,16 @@
           h3 Primary Color 
         v-flex(xs3)
           h3 Secondary Color 
-        
+        v-flex(xs3)
+          h3 Font
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(xs3)
           v-text-field(v-model="color" single-line outline id="color")
         v-flex(xs3)
           v-text-field(v-model="color2" single-line outline id="color2")
-        
-    
-
+        v-flex(xs3)
+          v-text-field(v-model="font" single-line outline id="font")   
+          
 
       // PUBLISH 
       v-layout(align-center justify-start row wrap fill-height)
@@ -185,6 +196,8 @@ export default {
       iCal: "",
       color: "",
       color2: "",
+      font: "",
+      pri: "",
       grades: "",
       announcements: "",
       resourceLink: "",
@@ -233,6 +246,10 @@ export default {
         this.color +
         "cmsplit" +
         this.color2 +
+        "cmsplit" +
+        this.font +
+        "cmsplit" +
+        this.pri +
         "cmsplit" +
         this.contactInfo +
         "cmsplit" +
