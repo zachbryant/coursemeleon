@@ -19,7 +19,15 @@ let router = new Router({
       component: Home,
       meta: {
         requiresAuthQueries: false
-      }
+      },
+      props: route => ({
+        query: {
+          name: route.query.name,
+          term: route.query.term,
+          cid: route.query.cid,
+          abbr: route.query.abbr
+        }
+      })
     },
     {
       path: "/login",
