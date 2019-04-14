@@ -29,16 +29,7 @@
               @change="queryCourses"
             ></v-autocomplete>
             <v-divider></v-divider>
-            <v-expand-transition>
-              <v-list v-if="model" class="red lighten-3">
-                <v-list-tile v-for="(field, i) in fields" :key="i">
-                  <v-list-tile-content>
-                    <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                    <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-expand-transition>
+            
           </div>
           <v-btn to="/explore" flat>
             <h4>Create Course</h4>
@@ -90,10 +81,12 @@ export default {
   methods: {
     queryCourses(queryString) {
       if (queryString != undefined && queryString.length > 1) {
+        console.log("query");
         this.isLoading = true;
         console.log(queryString);
         //@TODO insert api call
         this.isLoading = false;
+        window.location.href = '/coursepage';
       }
     }
   }
