@@ -1,12 +1,13 @@
 <template lang="pug">
-  v-layout(column)
-	  v-layout#sidebar(xs3)
-      //-Mitch's work
-	  v-layout#content(xs9)
-      h1 {{ item.title }}
-      h3 {{ item.tabs[activeTab] }}
-      list-item(:data="item.elements")
-
+  v-container(grid-list-xs fluid align-content-center fill-height pa-0 ma-0)
+    v-layout(row align-center justify-center justify-text fill-width)
+      v-flex#sidebar(column align-start justify-start xs3 lg2 fill-height)
+        //-Mitch's work
+        h3 Sidebar
+      v-flex#content(column align-start justify-start xs9 grow fill-height)
+        h1 {{ getTitle() }}
+        h3 {{ getActiveTab() }}
+        list-item(:data="item.elements")
 </template>
 
 <script>
@@ -14,12 +15,23 @@ export default {
   name: "coursePage",
   data() {
     return {
-      item: {},
+      item: {
+        title: "Dummy Title",
+        tabs: ["Dummy Tab 1", "Dummy Tab 2", "Dummy Tab 3"],
+        elements: [{}]
+      },
       activeTab: 0
     };
+  },
+  methods: {
+    getTitle() {
+      return this.item.title ? this.item.title : "";
+    },
+    getActiveTab() {
+      return this.item.tabs ? this.item.tabs[this.activeTab] : "";
+    }
   }
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
