@@ -46,10 +46,7 @@ export default {
     //runs automatically when component created
     try {
       this.courses = await CourseService.getPosts(); //populate courses array
-      this.names =await CourseService.getNames();
-      //console.log("TTTTTTTTT" + this.names);
-      this.$vuetify.theme.primary = "#000000";
-      this.$vuetify.theme.secondary = "#C28E0E";
+      this.$store.commit("setPrimaryColor", "#A3D6D7");
     } catch (err) {
       this.error = err.message;
     }

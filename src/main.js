@@ -32,7 +32,7 @@ Vue.use(VToolTip);
 // Vue material css framework
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.lightGreen.lighten2,
+    primary: store.getters.getColor,
     secondary: colors.lightGreen.lighten2,
     accent: colors.lightGreen.accent1,
     error: colors.red.lighten1,

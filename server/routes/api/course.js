@@ -1,6 +1,6 @@
-const express = require('express');
-const mongodb = require('mongodb');
-const mail = require('./mail')
+const express = require("express");
+const mongodb = require("mongodb");
+const mail = require("./mail");
 const router = express.Router();
 
 //Get Posts
@@ -16,22 +16,21 @@ router.post("/", async (req, res) => {
   str = str.substring(9, str.length - 2);
   //console.log(str)
   var r = str.split("cmsplit");
-  console.log(r[9])
-  await posts.insertOne({     
-      course_id: r[0],
-      course_name: r[1],
-      term: r[2],
-      term_start: r[3],
-      cal_google: r[4],
-      cal_ical: r[5],
-      grades: r[6],
-      announcements: "Announcement: " + r[7],
-      resources: r[8],
-      color: r[9],
-      color2: r[10],
-      font: r[11],
-      pri: r[12]
-      
+  console.log(r[9]);
+  await posts.insertOne({
+    course_id: r[0],
+    course_name: r[1],
+    term: r[2],
+    term_start: r[3],
+    cal_google: r[4],
+    cal_ical: r[5],
+    grades: r[6],
+    announcements: "Announcement: " + r[7],
+    resources: r[8],
+    color: r[9],
+    color2: r[10],
+    font: r[11],
+    pri: r[12]
   });
   res.status(201).send();
 });
@@ -45,8 +44,7 @@ router.delete("/:id", async (req, res) => {
 
 //Modify Post
 
-router.put('/:id', async (req , res) => {
-  
+router.put("/:id", async (req, res) => {
   const posts = await loadPostsCollection();
   var gettit = await posts
     .find({ _id: new mongodb.ObjectID(req.params.id) })
@@ -63,33 +61,42 @@ router.put('/:id', async (req , res) => {
   //console.log(req.body.course_name)
   //str=str.substring(9,str.length-2)
   //console.log(str)
-  if(req.body.flag==1){
-    mail.sendLoginCode("rujulakapoor1@gmail.com",1)
-  await posts.updateOne({_id : new mongodb.ObjectID(req.params.id)},
-    {$set:{
-   
-        //"course_id" : req.body.course_id, 
-        //"course_name": req.body.course_name,
-        "announcements": "Announcement: " +  req.body.announcements + "<bf />" + gettit[0]["announcements"] 
-        //"term": req.body.term,
-        //"term_start": req.body.term_start
-    }});
-  res.status(200).send();
-}
-if(req.body.flag==2){
-  mail.sendLoginCode("rujulakapoo1r@gmail.com",2 )
-  await posts.updateOne({_id : new mongodb.ObjectID(req.params.id)},
-    {$set:{
-
-        //"course_id" : req.body.course_id, 
-        "course_name": req.body.course_name,
-        //"announcements": req.body.announcements  +gettit[0]["announcements"] 
-        //"term": req.body.term,
-        //"term_start": req.body.term_start
-    }});
-  res.status(200).send();
-}
-
+  if (req.body.flag == 1) {
+    mail.sendLoginCode("rujulakapoor1@gmail.com", 1);
+    await posts.updateOne(
+      { _id: new mongodb.ObjectID(req.params.id) },
+      {
+        $set: {
+          //"course_id" : req.body.course_id,
+          //"course_name": req.body.course_name,
+          announcements:
+            "Announcement: " +
+            req.body.announcements +
+            "<bf />" +
+            gettit[0]["announcements"]
+          //"term": req.body.term,
+          //"term_start": req.body.term_start
+        }
+      }
+    );
+    res.status(200).send();
+  }
+  if (req.body.flag == 2) {
+    mail.sendLoginCode("rujulakapoo1r@gmail.com", 2);
+    await posts.updateOne(
+      { _id: new mongodb.ObjectID(req.params.id) },
+      {
+        $set: {
+          //"course_id" : req.body.course_id,
+          course_name: req.body.course_name
+          //"announcements": req.body.announcements  +gettit[0]["announcements"]
+          //"term": req.body.term,
+          //"term_start": req.body.term_start
+        }
+      }
+    );
+    res.status(200).send();
+  }
 });
 
 async function loadPostsCollection() {
