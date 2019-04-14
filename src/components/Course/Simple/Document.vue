@@ -3,7 +3,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "doc-embed"
+};
 </script>
 
 <style lang="less"></style>
