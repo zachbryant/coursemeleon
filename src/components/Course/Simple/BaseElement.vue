@@ -9,10 +9,15 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      ddata: this.data
+    };
+  },
   methods: {
     getAllData() {
       var allData = {
-        type: this.type,
+        ...this.ddata,
         data: () => {
           var dataList = [];
           this.elements.forEach(element => {
@@ -22,20 +27,28 @@ export default {
         }
       };
       return allData;
+    },
+    removeElement(index) {
+      if (index >= 0 && index < this.ddata.elements.length) {
+        this.$delete(this.ddata.elements, index);
+      }
     }
   },
   computed: {
     elements() {
-      return this.data.elements || [];
+      return this.ddata.elements;
     },
     type() {
-      return this.data.type;
+      return this.ddata.instanceName;
     },
     ownData() {
-      return this.data;
+      return this.ddata;
     },
     isEditMode() {
       return this.$store.getters.isEditMode;
+    },
+    isPreviewMode() {
+      return this.ddata.preview;
     }
   }
 };
