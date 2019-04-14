@@ -11,7 +11,7 @@ class PostService {
                 const data = res.data;
                 resolve(
                     data.map(post => ({
-                        ...post,
+                        ...post
                     })),
                 );
             } catch(err) {
@@ -19,7 +19,6 @@ class PostService {
             }
         });
     }
-
     //Create post
     static insertPost(text) {
         //console.log({text});

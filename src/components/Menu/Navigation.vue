@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import CourseService from '@/CourseService.js';
+
 export default {
   name: "navigation",
   props: {
@@ -43,7 +45,8 @@ export default {
     return {
       model: null,
       isLoading: false,
-      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"]
+      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
+      names: []
     };
   },
   methods: {
