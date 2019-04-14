@@ -28,7 +28,7 @@
                 v-list-tile-title(v-text="field.value")
                 v-list-tile-sub-title(v-text="field.key")
       v-flex(xs2)
-        v-btn(flat @click.stop="toggleHamburger")
+        v-btn(flat @click.stop="$emit('toggleHamburgerEvent')")
           v-icon fa-bars
 </template>
 
@@ -51,12 +51,10 @@ export default {
       if (queryString != undefined && queryString.length > 1) {
         this.isLoading = true;
         console.log(queryString);
+        this.$store.dispatch("getCourse");
         //@TODO insert api call
         this.isLoading = false;
       }
-    },
-    toggleHamburger() {
-      this.$emit("toggleHamburgerEvent");
     }
   }
 };
@@ -69,7 +67,7 @@ export default {
   background-color: @primary;
 }
 #title {
-  color: white;
+  color: white !important;
   display: inline;
   padding-left: 10px;
 }
@@ -78,7 +76,7 @@ export default {
   width: 100%;
 }
 .header h4 {
-  color: white;
+  color: white !important;
   text-transform: lowercase;
 }
 
