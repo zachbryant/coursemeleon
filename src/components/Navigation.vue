@@ -52,6 +52,9 @@
           <v-btn to="/coursepage" flat>
             <h4>My page</h4>
           </v-btn>
+          <v-btn to="/courselist" flat>
+            <h4>Courses</h4>
+          </v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </div>

@@ -65,6 +65,12 @@ let router = new Router({
       component: () => import(/* webpackChunkName: "inputInfo" */ "./views/CreateCourse")
     },
     {
+      path: "/courselist",
+      name: "courselist",
+      // route level code-splitting (lazy load)
+      component: () => import(/* webpackChunkName: "inputInfo" */ "./views/CourseList")
+    },
+    {
       path: "*",
       name: "error",
       // route level code-splitting (lazy load)
