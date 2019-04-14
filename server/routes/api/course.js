@@ -93,7 +93,7 @@ if(req.body.flag==2){
 
 async function loadPostsCollection() {
   const client = await mongodb.MongoClient.connect(
-    "mongodb+srv://user:7987@coursemeleon-slknn.mongodb.net/test?retryWrites=true",
+    "mongodb+srv://courseUser:chameleon@coursemeleon-ft8ly.mongodb.net/test?retryWrites=true",
     {
       useNewUrlParser: true
     }
