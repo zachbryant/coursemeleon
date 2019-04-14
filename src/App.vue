@@ -59,14 +59,18 @@ html {
   position: fixed;
 }
 
-#routerView {
+/*#routerView {
   .responsiveSizeH(max-height, 94, 94vh, 95);
+}*/
+
+#app,
+.tui-editor-contents {
+  font-family: "Nunito", "Roboto", Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
-  font-family: "Nunito", "Roboto", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
 
@@ -89,63 +93,85 @@ html {
 
 h1,
 h2 {
-  color: @primary;
-  font-weight: bold;
+  color: @primary !important;
+  font-weight: bold !important;
 }
 
 p,
 h3,
 h4,
-h5 {
-  color: @textColor;
+h5,
+.te-apply-button,
+.tui-editor-contents p,
+.tui-editor-contents h3,
+.tui-editor-contents h4,
+.tui-editor-contents h5 {
+  color: @textColor !important;
 }
 
 h1,
-h2 {
-  font-weight: bold;
+h2,
+.tui-editor-contents h1,
+.tui-editor-contents h2 {
+  font-weight: bold !important;
 }
 
-h1 {
-  .responsiveSizeW(font-size, 30, 30pt, 48);
+h1,
+.tui-editor-contents h1 {
+  .responsiveSizeW(font-size, 30, 30pt, 48) !important;
 }
 
-h2 {
-  .responsiveSizeW(font-size, 24, 24pt, 36);
-}
-
-h3 {
-  .responsiveSizeW(font-size, 18, 18pt, 30);
+h2,
+.tui-editor-contents h2 {
+  .responsiveSizeW(font-size, 24, 24pt, 36) !important;
 }
 
 h3,
-.v-btn__content {
-  font-weight: @semibold;
+.tui-editor-contents h3 {
+  .responsiveSizeW(font-size, 18, 18pt, 30) !important;
+}
+
+h3,
+.v-btn__content,
+.tui-editor-contents h3 {
+  font-weight: @semibold !important;
 }
 
 h4,
-h5 {
-  font-weight: @regular;
+h5,
+.tui-editor-contents h4,
+.tui-editor-contents h5 {
+  font-weight: @regular !important;
 }
 
-h4 {
-  .responsiveSizeW(font-size, 12, 12pt, 24);
+h4,
+.tui-editor-contents h4 {
+  .responsiveSizeW(font-size, 12, 12pt, 24) !important;
 }
 
-h5 {
-  .responsiveSizeW(font-size, 12, 12pt, 18);
+h5,
+.tui-editor-contents h5 {
+  .responsiveSizeW(font-size, 12, 12pt, 18) !important;
 }
 
-p {
-  .responsiveSizeW(font-size, 12, 12pt, 14);
+p,
+.tui-editor-contents p {
+  .responsiveSizeW(font-size, 12, 12pt, 14) !important;
 }
 
 span,
-p {
-  .light();
+p,
+.tui-editor-contents p,
+.tui-editor-contents span {
+  .light() !important;
+}
+
+.tui-editor-contents h1 {
+  border: none;
 }
 
 .light {
-  font-weight: 200;
+  font-weight: 200 !important;
 }
 
 // Style the vertical drawer divider
@@ -155,5 +181,23 @@ p {
 //Remove 72px padding in expandable lists
 div.v-list__group__items.v-list__group__items--no-action > div > div {
   padding-left: 20px !important;
+}
+
+.tui-colorpicker-palette-hex {
+  width: 85px !important;
+}
+
+.tui-editor-contents pre code {
+  min-width: 100px;
+  width: 96%;
+  padding: 2%;
+}
+
+.tui-editor-contents *:not(table)*:not(li) {
+  line-height: 1 !important;
+}
+
+.tui-editor-contents .task-list-item {
+  margin-left: 0;
 }
 </style>
