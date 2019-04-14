@@ -43,9 +43,8 @@ let router = new Router({
       meta: {
         requiresAuth: true
       },
-      // route level code-splitting (lazy load)
-      component: () =>
-        import(/* webpackChunkName: "inputInfo" */ "./views/Course")
+      props: {},
+      component: Home
     },
     {
       path: "*",
