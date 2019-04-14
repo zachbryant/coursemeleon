@@ -5,7 +5,6 @@ export {
 } from "@/components/Course/Simple/RichContent";
 export { default as ListItem } from "@/components/Course/Simple/List";
 export { default as DocumentItem } from "@/components/Course/Simple/Document";
-export { default as Section } from "@/components/Course/Simple/Section";
 
 // Course Compound
 export {
@@ -29,6 +28,9 @@ export {
   default as OfficeHours
 } from "@/components/Course/Compound/OfficeHours";
 export { default as Title } from "@/components/Course/Compound/Title";
+export {
+  default as EditSeparator
+} from "@/components/Course/Compound/EditSeparator";
 
 // Menu
 export { default as CourseListItem } from "@/components/Menu/CourseListItem";
