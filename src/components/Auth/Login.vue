@@ -69,7 +69,7 @@ export default {
     },
     generateCode() {
       let email = this.email;
-      this.codeLoading = true;
+      this.codeLoading = "loading2";
       let self = this;
       this.login({ email }, function() {
         console.log("Code requested");
