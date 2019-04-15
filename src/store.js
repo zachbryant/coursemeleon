@@ -15,8 +15,11 @@ export default new Vuex.Store({
     user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
     edit: false,
-    editData: null,
     componentEditMenuOptions: [
+      { title: "Announcements", instanceName: "Announcements" },
+      { title: "Calendar", instanceName: "Calendar" },
+      { title: "Grade stats", instanceName: "Grade" },
+      { title: "Office Hours", instanceName: "officehours" },
       { title: "Rich text", instanceName: "rich-content" },
       { title: "Embed document", instanceName: "doc-embed" }
     ],
@@ -39,7 +42,6 @@ export default new Vuex.Store({
   },
   getters: {
     isEditMode: state => state.edit,
-    getEditData: state => state.editData,
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
@@ -49,12 +51,9 @@ export default new Vuex.Store({
     componentEditMenuOptions: state => state.componentEditMenuOptions
   },
   mutations: {
-    setEditData(state, editData) {
-      state.editData = editData;
-    },
     toggleEditMode(state, editData) {
       state.edit = !state.edit;
-      if (state.edit) this.commit("setEditData", editData);
+      if (state.edit) console.log("API call to edit course");
     },
     setApiResult(state, result) {
       state.apiResult = result;
