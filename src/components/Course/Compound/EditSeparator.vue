@@ -22,12 +22,16 @@ export default {
       required: false,
       default: -1
     },
-    show: Boolean
+    show: {
+      type: Boolean,
+      required: false,
+      default: function() {
+        return true;
+      }
+    }
   },
   data() {
-    return {
-      type: "rich-content"
-    };
+    return {};
   },
   computed: {
     componentOptions() {
