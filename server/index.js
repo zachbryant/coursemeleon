@@ -13,8 +13,8 @@ require("./config/mongo");
 require("./config/jwtConfig");
 
 // Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "50mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(upload.array());
 app.use(cors());
 app.use(passport.initialize()); // Start using passport
