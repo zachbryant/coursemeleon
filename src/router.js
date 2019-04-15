@@ -48,11 +48,11 @@ let router = new Router({
     {
       path: "/create",
       name: "create",
+      component: Home,
       meta: {
         requiresAuth: true
       },
-      props: {},
-      component: Home
+      props: { isCreate: true }
     },
     {
       path: "*",
