@@ -22,7 +22,7 @@ let router = new Router({
       },
       props: route => ({
         query: {
-          name: route.query.name,
+          title: route.query.title,
           term: route.query.term,
           cid: route.query.cid,
           abbr: route.query.abbr
