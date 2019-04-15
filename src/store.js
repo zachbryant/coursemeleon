@@ -3,11 +3,9 @@ import Vuex from "vuex";
 import Axios from "axios";
 
 Vue.use(Vuex);
-const BASE_URL = "http://localhost:5000";
-let apiLogin = BASE_URL + "/api/auth/login/";
-let apiPermission = BASE_URL + "/api/access/";
-let apiQueryCourse = BASE_URL + "/api/course/?";
-let apiUserCourses = apiPermission + "";
+
+const uuidv4 = require("uuid/v4");
+const API = require("./apiDefinitions");
 let isDev = process.env.NODE_ENV !== "production";
 
 export default new Vuex.Store({
@@ -15,6 +13,26 @@ export default new Vuex.Store({
     user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
     edit: false,
+    tabIndex: 0,
+    course: {
+      /*
+      title: "",
+      cid: uuidv4(),
+      tabs: [
+        {
+          title: "",
+          id: uuidv4(),
+          elements: []
+        }
+      ],
+      abbr: "",
+      term: "",
+      term_start: "",
+      color: "",
+      font: "",
+      published: false,
+      whitelist: false*/
+    },
     componentEditMenuOptions: [
       { title: "Announcements", instanceName: "Announcements" },
       { title: "Calendar", instanceName: "Calendar" },
@@ -41,6 +59,17 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    course: state => state.course,
+    courseTab: state => {
+      if (
+        state.course &&
+        state.course.tabs &&
+        state.course.tabs.length >= state.tabIndex
+      )
+        return state.course.tabs[state.tabIndex];
+      return {};
+    },
+    getTabIndex: state => state.tabIndex,
     isEditMode: state => state.edit,
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
@@ -51,12 +80,59 @@ export default new Vuex.Store({
     componentEditMenuOptions: state => state.componentEditMenuOptions
   },
   mutations: {
-    toggleEditMode(state, editData) {
-      state.edit = !state.edit;
-      if (state.edit) console.log("API call to edit course");
+    removeCourseElement(state, index) {
+      if (
+        index >= 0 &&
+        index < state.course.tabs[state.tabIndex].elements.length
+      ) {
+        state.course.tabs[state.tabIndex].elements.splice(index, 1);
+      }
     },
-    setApiResult(state, result) {
-      state.apiResult = result;
+    insertCourseElement(state, { index, type, data }) {
+      //console.log(state.course.tabs[state.tabIndex]);
+      if (
+        index >= -1 &&
+        index < state.course.tabs[state.tabIndex].elements.length
+      ) {
+        state.course.tabs[state.tabIndex].elements.splice(index + 1, 0, {
+          instanceName: type,
+          id: uuidv4(),
+          data: data
+        });
+        //onsole.log(state.course.tabs[state.tabIndex].elements);
+      }
+    },
+    updateCourseTabs(state, tabs) {
+      state.course.tabs = tabs;
+      if (state.tabIndex >= tabs.length) state.tabIndex = 0;
+    },
+    updateCourseTabElements(state, elements) {
+      state.course.tabs[state.tabIndex].elements = elements;
+    },
+    updateCourseTabElement(state, { index, data }) {
+      state.course.tabs[state.tabIndex].elements[index].data = data;
+    },
+    setTabIndex(state, index) {
+      state.tabIndex = index;
+    },
+    setActiveCourse(state, course) {
+      state.course = course;
+    },
+    setTitle(state) {
+      state.course.title = state.course.tabs[0].elements[0].data.text;
+    },
+    insertCourseTab(state, index) {
+      state.course.tabs.splice(index, 0, {
+        title: "",
+        elements: [],
+        id: uuidv4()
+      });
+    },
+    removeCourseTab(state, index) {
+      state.course.tabs.splice(index, 1);
+    },
+    toggleEditMode(state) {
+      state.edit = !state.edit;
     },
     // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
     toggleNavDrawer(state) {
@@ -72,7 +148,6 @@ export default new Vuex.Store({
     // toggles the drawer variant (mini/full)
     toggleMiniNavDrawer(state) {
       state.drawer.mini = !state.drawer.mini;
-      console.log(state.drawer.mini);
       if (state.drawer.mini)
         localStorage.setItem("drawer.mini", state.drawer.mini);
       else localStorage.removeItem("drawer.mini");
@@ -112,11 +187,16 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    toggleEditMode({ state, dispatch, commit }) {
+      commit("toggleEditMode");
+      commit("setTitle");
+      dispatch("updateCourse", state.course);
+    },
     getUserCourses({ state }) {
       if (state.getters.isLoggedIn) {
         return new Promise((resolve, reject) => {
           Axios({
-            url: String.format(apiUserCourses, state.user.id),
+            url: String.format(API.USER_ACCESS, state.user.id),
             method: "GET"
           })
             .then(resp => {
@@ -133,19 +213,41 @@ export default new Vuex.Store({
     queryCourse({ commit }, params) {
       return new Promise((resolve, reject) => {
         var queryString = Object.keys(params)
-          .map(key => key + "=" + params[key])
+          .map(key => {
+            if (params[key]) return key + "=" + params[key];
+            return "";
+          })
+          .filter(Boolean)
           .join("&");
         Axios({
-          url: apiQueryCourse + queryString,
+          url: API.QUERY_COURSE + queryString,
           method: "GET"
         })
           .then(resp => {
             console.log("Course query response: " + JSON.stringify(resp.data));
-            commit("setApiResult", resp.data);
+            commit("setActiveCourse", resp.data);
             resolve(resp);
           })
           .catch(err => {
-            commit("setApiResult", {});
+            console.log(err);
+            commit("setActiveCourse", {});
+            reject(err);
+          });
+      });
+    },
+    updateCourse({ commit }, courseObj) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.PUT_COURSE,
+          data: { course: courseObj },
+          method: "PUT"
+        })
+          .then(resp => {
+            console.log("Successfully updated course");
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log(err);
             reject(err);
           });
       });
@@ -154,12 +256,12 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit("auth_request");
         Axios({
-          url: apiLogin,
+          url: API.LOGIN,
           data: credentials,
           method: "POST"
         })
           .then(resp => {
-            console.log("Auth request " + JSON.stringify(resp.data));
+            //console.log("Auth request " + JSON.stringify(resp.data));
             const token = resp.data.token;
             localStorage.setItem("token", token);
             Axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
@@ -183,10 +285,21 @@ export default new Vuex.Store({
     logout({ commit }) {
       // eslint-disable-next-line no-unused-vars
       return new Promise((resolve, reject) => {
-        commit("logout");
-        localStorage.removeItem("token");
-        delete Axios.defaults.headers.common["Authorization"];
-        resolve();
+        Axios({
+          url: API.LOGOUT,
+          method: "GET"
+        })
+          .then(resp => {
+            commit("logout");
+            localStorage.removeItem("token");
+            delete Axios.defaults.headers.common["Authorization"];
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log("Problem logging out");
+            console.log(err);
+            reject(err);
+          });
       });
     }
   },
