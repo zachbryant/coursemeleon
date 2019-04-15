@@ -22,9 +22,9 @@ app.use(passport.session()); // Session management
 
 // Routes
 const auth = require("./routes/api/auth");
-const posts = require("./routes/api/posts");
+//const posts = require("./routes/api/posts");
 const course = require("./routes/api/course");
-app.use("/api/posts", posts);
+//app.use("/api/posts", posts);
 app.use("/api/course", course);
 app.use("/api/auth", auth);
 
