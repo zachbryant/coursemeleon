@@ -1,14 +1,21 @@
 <template lang="pug"></template>
 
 <script>
-const uuidv4 = require("uuid/v4");
-
 export default {
   name: "base-item",
   props: {
     data: {
       type: Object,
-      required: true
+      required: false,
+      default: function() {
+        return {
+          elements: []
+        };
+      }
+    },
+    index: {
+      type: Number,
+      required: false
     }
   },
   data() {
@@ -17,51 +24,43 @@ export default {
     };
   },
   methods: {
-    getAllData() {
-      var allData = {
-        ...this.ddata,
-        data: () => {
-          var dataList = [];
-          this.elements.forEach(element => {
-            dataList.push(element.getAllData());
-          });
-          return dataList;
-        }
-      };
-      return allData;
-    },
     removeElement(index) {
-      console.log("Remove " + index);
-      if (index >= 0 && index < this.ddata.elements.length) {
-        this.ddata.elements.splice(index, 1);
-      }
+      this.$store.commit("removeCourseElement", index);
     },
     insertElement(index, type) {
-      console.log("Insert on " + index);
-      if (index >= -1 && index < this.ddata.elements.length) {
-        this.ddata.elements.splice(index + 1, 0, {
-          instanceName: type,
-          id: uuidv4()
-        });
-        console.log(this.elements);
-      }
+      console.log(type);
+      this.$store.commit("insertCourseElement", { index, type });
     }
   },
   computed: {
-    elements() {
+    /*elements() {
       return this.ddata.elements;
-    },
+    },*/
     type() {
       return this.ddata.instanceName;
     },
     ownData() {
-      return this.ddata;
+      return this.$store.getters.courseTab.elements[this.indexInTab];
     },
     isEditMode() {
       return this.$store.getters.isEditMode;
     },
-    isPreviewMode() {
-      return this.ddata.preview;
+    tabIndex() {
+      return this.$store.getters.getTabIndex;
+    },
+    indexInTab() {
+      return this.index;
+    },
+    content: {
+      get() {
+        return this.$store.getters.courseTab.elements[this.indexInTab].data;
+      },
+      set(value) {
+        this.$store.commit("updateCourseTabElement", {
+          index: this.indexInTab,
+          data: value
+        });
+      }
     }
   }
 };
