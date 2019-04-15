@@ -3,9 +3,6 @@
     v-layout(column 
             justify-space-around 
             align-end)
-      v-flex#preview(xs4)
-        v-btn(v-show="index >= 0" flat icon color="error")
-          v-icon(@click="$emit('edit-sep-preview', index)") fa-eye
       v-flex#move(xs4)
         v-btn(flat icon color="primary")
           v-icon fa-grip-vertical

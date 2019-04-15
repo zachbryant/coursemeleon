@@ -7,8 +7,8 @@
             v-btn(flat icon color="primary" v-on="on")
               v-icon(v-show="show" @click="") fa-plus
           v-list
-            v-list-tile(v-for="(item, index) in componentOptions"
-                      :key="index"
+            v-list-tile(v-for="(item, optIndex) in componentOptions"
+                      :key="optIndex"
                       @click="$emit('edit-sep-new', index, item.instanceName)")
               v-list-tile-title {{ item.title }}
 </template>
