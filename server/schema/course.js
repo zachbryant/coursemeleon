@@ -3,11 +3,15 @@ var Schema = mongoose.Schema;
 const uuidv4 = require("uuid/v4");
 
 var courseSchema = new Schema({
-  cname: String,
+  title: String,
   abbr: String,
   cid: {
     type: String,
     default: uuidv4()
+  },
+  tabs: {
+    type: Schema.Types.Mixed,
+    default: []
   },
   term: String,
   term_start: Date,
@@ -15,10 +19,14 @@ var courseSchema = new Schema({
     type: String,
     required: false,
     default: ""
-  }
+  },
+  color: String,
+  font: String,
+  published: Boolean,
+  whitelist: [String]
 });
 // Index on course name ASCENDING and within each group term_start DESCENDING
-courseSchema.index({ cname: 1, term_start: -1 });
+courseSchema.index({ title: 1, term_start: -1 });
 
 // For doing general work on "Courses"
 courseSchema.statics = {
@@ -26,7 +34,7 @@ courseSchema.statics = {
     return this.findOne({ cid: cid }, callback);
   },
   byName: function(name, callback) {
-    return this.find({ cname: new RegExp(name, "i") }, callback);
+    return this.find({ title: new RegExp(name, "i") }, callback);
   },
   byAbbr: function(abbr, callback) {
     return this.find({ abbr: new RegExp(abbr, "i") }, callback);
@@ -36,6 +44,18 @@ courseSchema.statics = {
   },
   byTermStart: function(termStart, callback) {
     return this.find({ term_start: termStart }, callback);
+  },
+  putOne: function(data, callback) {
+    let query = {};
+    if ("cid" in data) {
+      query.cid = data.cid;
+    } else if ("_id" in data) {
+      query._id = data._id;
+    } else {
+      console.log("Received putCourse with bad query: ");
+      console.log(data);
+    }
+    this.findOneAndUpdate(query, data, { upsert: true, new: true }, callback);
   }
 };
 
