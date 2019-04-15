@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const mongoRemote =
-  "mongodb+srv://user:7987@coursemeleon-slknn.mongodb.net/coursemeleon?retryWrites=true";
+  "mongodb+srv://courseUser:chameleon@coursemeleon-ft8ly.mongodb.net/coursemeleon?retryWrites=true";
 // Default connection to the db
 mongoose.connect(mongoRemote, { useNewUrlParser: true });
 var db = mongoose.connection;
