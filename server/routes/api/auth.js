@@ -19,15 +19,7 @@ function newUserCode(user) {
   mailer.sendLoginCode(user.email, code);
 }
 
-// Session filter
-/*const authMiddleware = (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    res.status(401).send("You are not authenticated.");
-  } else return next();
-};
-
 // This all happens on /api/auth
-*/
 
 router.post("/login", (req, res, next) => {
   const code = req.body.code;
@@ -56,13 +48,8 @@ router.post("/login", (req, res, next) => {
       });
     })(req, res, next);
   } else {
-    schemas.User.byEmail(req.body.email, function(err, user) {
+    schemas.User.byEmail(email, function(err, user) {
       if (user) {
-        console.log(
-          "Sending new code to %s === %s",
-          email,
-          JSON.stringify(user)
-        );
         newUserCode(user);
       }
       if (err) console.log(err);
