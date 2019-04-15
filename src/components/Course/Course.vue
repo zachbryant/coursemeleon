@@ -1,17 +1,17 @@
 <template lang="pug">
   v-container(grid-list-xs fluid align-content-center fill-height pa-0 ma-0)
-    v-layout(row align-center justify-center justify-text fill-width )
-      v-flex#sidebar(column align-start justify-start xs3 lg2 fill-height)
-        //-Mitch's work
-        h3 Sidebar
-      v-flex#content(column align-center justify-center xs9 grow fill-height)
+    v-layout(row align-center justify-space-between justify-text fill-width fill-height)
+      v-flex#courseNav(xs3 lg2 fill-height mr-4)
+        course-sidebar()
+      v-flex#content(column align-center justify-center xs9 lg10 shrink fill-height)
         v-progress-circular(v-if="loadingCourse"
                             indeterminate
                             color="primary")
-        list-item(v-else :data="item")
+        // TODO add editable title here
+        list-item(v-else ref="courseDataList")
     v-layout#fabContainer(column justify-end)
       v-speed-dial(v-model="showFab"
-              bottom right
+              bottom left
               direction="top"
               transition="scale-transition")
         template(v-slot:activator)
@@ -36,14 +36,11 @@ export default {
   name: "coursePage",
   components: {
     "list-item": () => import("./Simple/List.vue"),
-    "rich-content": () => import("./Simple/RichContent.vue")
+    "rich-content": () => import("./Simple/RichContent.vue"),
+    "course-sidebar": () => import("./Compound/CourseSidebar.vue")
   },
   props: {
     search: {
-      type: Object,
-      required: false
-    },
-    course: {
       type: Object,
       required: false
     }
@@ -52,22 +49,19 @@ export default {
     return {
       activeTab: 0,
       showFab: false,
-      loadingCourse: false,
-      dItem: this.course
+      loadingCourse: false
     };
   },
   methods: {
     saveEdit() {
-      this.$store.commit("toggleEditMode", this.isEditMode ? this.item : null);
+      this.$store.dispatch("toggleEditMode");
     },
     cancelEdit() {
-      this.$store.commit("toggleEditMode", null);
+      this.$store.commit("toggleEditMode");
+      this.$router.go();
     },
     getTitle() {
-      return this.item.title ? this.item.title : "";
-    },
-    getActiveTab() {
-      return this.item.tabs ? this.item.tabs[this.activeTab] : "";
+      return this.course.title ? this.course.title : "";
     },
     loadCourse() {
       // TODO add some animation
@@ -77,47 +71,30 @@ export default {
       if (this.search)
         this.$store
           .dispatch("queryCourse", this.search)
-          .then(function() {
-            self.dItem = self.$store.getters.getApiResult;
-          })
           .catch(function(error) {
             console.log(error);
           })
           .then(function() {
             self.loadingCourse = false;
           });
-    },
-    fakeCourse() {
-      return {
-        elements: [{
-          instanceName: "rich-content",
-          content: "# Hello course"
-        }]
-      }
     }
   },
   computed: {
-    item: function() {
-      // * prop was passed in, don't load
-      if (this.dItem && Object.keys(this.dItem).length) return this.dItem;
-      else {
-        this.loadCourse();
-        //return this.fakeCourse();
-        return {elements: []};
-      }
-    },
     isEditMode: function() {
       return this.$store.getters.isEditMode;
     }
   },
-  watch: {}
+  created() {
+    if (this.search && Object.keys(this.$store.getters.course).length == 0)
+      this.loadCourse();
+  }
 };
 </script>
 
 <style lang="less">
 #fabContainer {
-  position: absolute;
+  position: fixed;
   bottom: 30px;
-  right: 30px;
+  left: 30px;
 }
 </style>
