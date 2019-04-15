@@ -10,7 +10,7 @@
       draggable(:list="data.elements" class="fill-width")
         transition-group(class="fill-width")
           v-layout(row v-for="(comp, index) in elements" 
-                  :key="index" 
+                  :key="comp.id" 
                   fill-width 
                   justify-start
                   @mouseover="hoverIndex(index)"
@@ -23,15 +23,14 @@
             v-flex(xs11 grow)
               v-layout(column fill-width)
                 component(:data="comp" 
-                          :is="comp.instanceName" 
-                          :key="comp.id")
+                          :is="comp.instanceName")
                 edit-sep(:index="index"
                         v-on:edit-sep-new="editSepNew"
                         :show="canShowInsert(index)")
     template(v-else v-for="(comp, index) in elements")
       component(:data="comp" 
                 :is="comp.instanceName" 
-                :key="index")
+                :key="comp.id")
 </template>
 
 <script>
@@ -57,9 +56,7 @@ export default {
   },
   methods: {
     editSepNew: function(index, type) {
-      this.data.elements.splice(++index, 0, {
-        instanceName: type
-      });
+      this.insertElement(index, type);
     },
     editSepDel: function(index) {
       this.removeElement(index);

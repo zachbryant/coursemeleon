@@ -1,6 +1,8 @@
 <template lang="pug"></template>
 
 <script>
+const uuidv4 = require("uuid/v4");
+
 export default {
   name: "base-item",
   props: {
@@ -29,8 +31,19 @@ export default {
       return allData;
     },
     removeElement(index) {
+      console.log("Remove " + index);
       if (index >= 0 && index < this.ddata.elements.length) {
-        this.$delete(this.ddata.elements, index);
+        this.ddata.elements.splice(index, 1);
+      }
+    },
+    insertElement(index, type) {
+      console.log("Insert on " + index);
+      if (index >= -1 && index < this.ddata.elements.length) {
+        this.ddata.elements.splice(index + 1, 0, {
+          instanceName: type,
+          id: uuidv4()
+        });
+        console.log(this.elements);
       }
     }
   },

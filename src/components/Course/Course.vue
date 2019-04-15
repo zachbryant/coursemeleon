@@ -9,23 +9,26 @@
                             indeterminate
                             color="primary")
         list-item(v-else :data="item")
-    v-speed-dial(v-model="showFab"
-            bottom right
-            direction="top"
-            transition="scale-transition")
-      template(v-slot:activator)
-        v-btn(v-model="showFab"
-              color="primary"
-              dark fab)
-          v-icon fa-cog
-          v-icon fa-times
-      v-btn(small fab)
-        v-icon(color="blue") fa-user
-      v-btn(small fab @click="saveEdit")
-        v-icon(v-if="isEditMode" color="green") fa-check
-        v-icon(v-else color="green") fa-pencil-alt
-      v-btn(v-if="isEditMode" small fab @click="cancelEdit")
-        v-icon(color="red") fa-times
+    v-layout#fabContainer(column justify-end)
+      v-speed-dial(v-model="showFab"
+              bottom right
+              direction="top"
+              transition="scale-transition")
+        template(v-slot:activator)
+          v-btn(v-model="showFab"
+                color="primary"
+                dark fab)
+            v-icon fa-cog
+            v-icon fa-times
+        v-btn(small fab)
+          v-icon(color="blue") fa-user
+        v-btn(v-if="isEditMode" small fab)
+          v-icon(color="purple") fa-paperclip
+        v-btn(small fab @click="saveEdit")
+          v-icon(v-if="isEditMode" color="green") fa-check
+          v-icon(v-else color="green") fa-pencil-alt
+        v-btn(v-if="isEditMode" small fab @click="cancelEdit")
+          v-icon(color="red") fa-times
 </template>
 
 <script>
@@ -42,10 +45,7 @@ export default {
     },
     course: {
       type: Object,
-      required: false,
-      default: function() {
-        return this.fakeCourse();
-      }
+      required: false
     }
   },
   data() {
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     saveEdit() {
-      this.$store.commit("toggleEditMode", this.item);
+      this.$store.commit("toggleEditMode", this.isEditMode ? this.item : null);
     },
     cancelEdit() {
       this.$store.commit("toggleEditMode", null);
@@ -86,6 +86,14 @@ export default {
           .then(function() {
             self.loadingCourse = false;
           });
+    },
+    fakeCourse() {
+      return {
+        elements: [{
+          instanceName: "rich-content",
+          content: "# Hello course"
+        }]
+      }
     }
   },
   computed: {
@@ -94,7 +102,8 @@ export default {
       if (this.dItem && Object.keys(this.dItem).length) return this.dItem;
       else {
         this.loadCourse();
-        return this.dItem;
+        //return this.fakeCourse();
+        return {elements: []};
       }
     },
     isEditMode: function() {
@@ -105,4 +114,10 @@ export default {
 };
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+#fabContainer {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
+</style>
