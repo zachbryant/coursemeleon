@@ -2,7 +2,9 @@
   v-container#home(fluid fill-height px-5)
     v-layout(row)
       keep-alive
-        component(:is="currentCourseComponent" :course="courseData" :search="query")
+        component(v-if="isCreate" :is="currentCourseComponent" :course="courseData")
+        component(v-if="validQuery" :is="currentCourseComponent" :search="query")
+        
 </template>
 
 <script>
@@ -22,11 +24,24 @@ export default {
       default: function() {
         return {};
       }
+    },
+    isCreate: {
+      type: Boolean,
+      required: false
     }
   },
   data() {
     return {
-      courseData: {}
+      courseData: {
+        title: "",
+        elements: [],
+        term: "",
+        term_start: "",
+        color: "",
+        font: "",
+        published: false,
+        whitelist: false
+      }
     };
   },
   methods: {
@@ -41,7 +56,7 @@ export default {
   },
   computed: {
     currentCourseComponent: function() {
-      return this.validQuery() ? Course : "overview";
+      return this.isCreate || this.validQuery() ? Course : "overview";
     }
   }
 };
