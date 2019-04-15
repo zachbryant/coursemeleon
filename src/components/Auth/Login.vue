@@ -12,7 +12,8 @@
                     clearable 
                     :loading="codeLoading"
                     label="Enter your email" 
-                    required 
+                    required
+                    autofocus
                     :hint="errors.first('email')" 
                     :error="errors.has('email')"
                     @change="resetCodeState()"
