@@ -111,7 +111,7 @@ export default {
 
         var newURL = '/course:' + queryString.replace(/\s/g, '');
         console.log(newURL);
-        window.location.href = newURL;
+        //window.location.href = newURL;
       }
     }
   }
