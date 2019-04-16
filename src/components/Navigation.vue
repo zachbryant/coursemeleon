@@ -108,7 +108,10 @@ export default {
       }
         //@TODO insert api call
         this.isLoading = false;
-        //window.location.href = '/coursepage';
+
+        var newURL = '/course:' + queryString.replace(/\s/g, '');
+        console.log(newURL);
+        window.location.href = newURL;
       }
     }
   }
