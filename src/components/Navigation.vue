@@ -74,7 +74,7 @@ export default {
       
       this.courses = await CourseService.getPosts(); //populate courses array
       console.log("CCCCCC" + this.courses[0]._id);
-      
+      //commit message
       
       this.names =await CourseService.getNames();
       console.log("TTTTTTTTT" + this.names);
