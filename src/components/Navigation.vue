@@ -62,16 +62,23 @@ export default {
       model: null,
       isLoading: false,
       items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
-      names: []
+      names: [],
+      courses: [],
+      obj: ""
     };
   },
   async created() {
     //runs automatically when component created
-    console.log("YYYYYYYYYYY");
+    console.log("YYYYYYYYYYY")
     try {
-      //this.courses = await CourseService.getPosts(); //populate courses array
+      
+      this.courses = await CourseService.getPosts(); //populate courses array
+      console.log("CCCCCC" + this.courses[0]._id);
+      
+      
       this.names =await CourseService.getNames();
       console.log("TTTTTTTTT" + this.names);
+      
       this.$vuetify.theme.primary = "#000000";
       this.$vuetify.theme.secondary = "#C28E0E";
     } catch (err) {
@@ -79,14 +86,29 @@ export default {
     }
   },
   methods: {
-    queryCourses(queryString) {
+    async queryCourses(queryString) {
       if (queryString != undefined && queryString.length > 1) {
         console.log("query");
         this.isLoading = true;
         console.log(queryString);
+        this.obj= await CourseService.getOneCourse(queryString)//.then(function(response){console.log(response)});
+        console.log("ZZZZZZZ" + this.obj);
+        
+        
+      for(var i=0;i<this.courses.length;i++){
+        
+        if((this.courses[i]._id.localeCompare(this.obj))==0){
+          this.$store.commit("setCourseIndex", {i});
+          console.log("YES WE FINALLY MADE IT");      
+          console.log(i);
+        }
+        
+       console.log("your mom");
+       console.log(this.courses[i]._id + "jjjjjj" + this.obj)
+      }
         //@TODO insert api call
         this.isLoading = false;
-        window.location.href = '/coursepage';
+        //window.location.href = '/coursepage';
       }
     }
   }

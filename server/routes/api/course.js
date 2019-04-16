@@ -9,6 +9,15 @@ router.get("/", async (req, res) => {
   res.send(await posts.find().toArray());
   //console.log("hello")
 });
+
+router.get("/:id", async (req, res) => {
+  const posts = await loadPostsCollection();
+  var gettit = await posts.find({ course_name: req.params.id }).toArray()
+  console.log(gettit[0]);
+  //res.status(200).send(gettit);
+  res.status(200).send(gettit[0]._id);
+});
+
 //Add post revised, does not need string parsng anymore
 router.post("/", async (req, res) => {
   const posts = await loadPostsCollection();

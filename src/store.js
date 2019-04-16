@@ -6,7 +6,7 @@ Vue.use(Vuex);
 const BASE_URL = "http://localhost:8080";
 let apiLogin = BASE_URL + "/api/login/";
 let apiPermission = BASE_URL + "/api/permission/";
-let apiCourse = BASE_URL + "/api/course/";
+//let apiCourse = BASE_URL + "/api/course/";
 let apiUserCourses = apiPermission + "";
 let isDev = process.env.NODE_ENV !== "production";
 
@@ -16,14 +16,16 @@ export default new Vuex.Store({
     token: localStorage.getItem("token") || "",
     status: "",
     userCourses: {},
-    color: "#aed581"
+    color: "#aed581",
+    courseIndex: ""
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
     getUserCourses: state => state.userCourses,
-    getColor: state => state.color
+    getColor: state => state.color,
+    getCourseIndex: state => state.courseIndex
   },
   mutations: {
     unSaveCourse(state, cid) {
@@ -51,6 +53,9 @@ export default new Vuex.Store({
     },
     setPrimaryColor(state, newcolor) {
       state.color = newcolor;
+    },
+    setCourseIndex(state, index) {
+      state.courseIndex = index;
     }
   },
   actions: {

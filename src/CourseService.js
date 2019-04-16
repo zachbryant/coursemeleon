@@ -78,6 +78,7 @@ static insertPost(text) {
 
     }
 
+    
         
      //var rad = id.split("cmsplit");
      //var idb=rad[0];
@@ -88,6 +89,33 @@ static insertPost(text) {
     return axios.put(`${url}${idb}`,{course_name:body});
     //return axios.put(`${url}${idb}`);
 }
+
+static getOneCourse(text){
+    
+    console.log("WE IN" + text) ;
+    //console.log(axios.get(url, {text}));
+    //return axios.get(url, {text});
+    var newURL=url + "/" + text
+    return new Promise(async (resolve, reject) => {
+        //var result;
+        try{
+            const res = await axios.get(newURL)//.then(resp => {console.log("PPPPPPP"+ resp.data)
+            const result=res.data;
+            console.log(result);
+            
+            //const data = resp.data;  
+            //console.log(data)  
+            resolve(
+                result  
+            );
+        } catch(err) {
+            reject(err);
+        }
+    });
+    
+
+}
+
 
 }
 
