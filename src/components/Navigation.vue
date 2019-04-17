@@ -51,6 +51,8 @@
 
 <script>
 import CourseService from "../CourseService";
+import store from "../store";
+
 export default {
   name: "Navigation",
   props: {
@@ -98,9 +100,15 @@ export default {
       for(var i=0;i<this.courses.length;i++){
         
         if((this.courses[i]._id.localeCompare(this.obj))==0){
-          this.$store.commit("setCourseIndex", {i});
-          console.log("YES WE FINALLY MADE IT");      
-          console.log(i);
+          //this.store.commit("setCourseIndex", {i});
+          store.commit("setCourseIndex", i);
+          //store.state.courseIndex = i;
+          //trying out prototype
+          //ue.prototype.$globalVar = 'Hello';
+          //console.log("YES WE FINALLY MADE IT");      
+          //console.log("course index is:" + i);
+          //https://stackoverflow.com/questions/54188674/vue-js-vuex-state-not-updating-the-component-after-change
+          console.log("course index state is: " + store.state.courseIndex);
         }
         
        console.log("your mom");

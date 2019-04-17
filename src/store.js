@@ -17,7 +17,7 @@ export default new Vuex.Store({
     status: "",
     userCourses: {},
     color: "#aed581",
-    courseIndex: ""
+    courseIndex: 0,
   },
   getters: {
     isLoggedIn: state => !!state.token,
