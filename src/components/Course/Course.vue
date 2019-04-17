@@ -19,6 +19,8 @@
               dark fab)
           v-icon fa-cog
           v-icon fa-times
+          //-edit below
+          v-icon fa-upload
       v-btn(small fab)
         v-icon(color="blue") fa-user
       v-btn(small fab @click="saveEdit")
