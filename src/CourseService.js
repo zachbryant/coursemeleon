@@ -34,11 +34,11 @@ class PostService {
                     while(data[i]!=null){
                     console.log("HelloHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
                     console.log(data[i].course_name);
-                      //if(data[i].pri==="yes"){
+                      if((data[i].pri.localeCompare("yes"))==0){
                         sss[j]=data[i].course_name;
                         j++;
-                        i++;
-                    //}
+                       }
+                       i++;
                     }
                 console.log(sss)
                 resolve(
