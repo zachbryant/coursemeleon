@@ -1,5 +1,14 @@
 <template>
 <div id="grade">
+    <div v-if="!image">
+    <h2>Select an image</h2>
+    <input type="file" @change="onFileChange">
+  </div>
+  <div v-else>
+    <img :src="image" />
+    <button @click="removeImage">Remove image</button>
+  </div>
+
   <h1>Grade Statistics</h1>
   <h6>Mean: The mean is the average of a data set</h6>
   <h6>Median: The "median" is the "middle" value in a data set</h6>
@@ -18,10 +27,13 @@
 </div>
 </template>
 <script>
+
 import CourseService from '../CourseService';
+
 
 export default {
     name: "Grade",
+    image: '',
     data() {
     (function()
     {
@@ -228,11 +240,32 @@ export default {
             }
     },
     methods: {
-        async setString() {
-          console.log("im screwed")
-        //var str = "These are the score on the last midterm 60 30 40 50 30 32 100 97 80 44 32 44 55 78 88 Thats it"         
-      
-        }
+        
+        onFileChange(e) {
+        console.log("HHHHHHHHHHHHYYYYYYYYYYYYYYYYYYYY");
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+         return;
+        this.createImage(files[0]);
+        },
+       createImage(file) {
+        console.log(file) 
+        var myfile = JSON.stringify(file);
+        console.log(file.name)
+
+
+        var image = new Image();
+        var reader = new FileReader();
+        var vm = this;
+      reader.onload = (e) => {
+        vm.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      },
+      removeImage: function (e) {
+      this.image = '';
+      }
+  
     }
 };
 
@@ -422,6 +455,7 @@ font-size: 70px;
 margin-top: 60px;
 height: 100%;
 }
+
 #mean{
 font-family: "Nunito", Helvetica, Arial, sans-serif;
 font-size: 30px;
