@@ -309,7 +309,3 @@ font-weight: normal;
  color: #b7cc92
 }
 </style>
-<<<<<<< HEAD
-
-=======
->>>>>>> 5aff811bc9ffd0cee3240859eeedd3817f280d5c
