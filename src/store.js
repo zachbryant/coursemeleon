@@ -17,7 +17,7 @@ export default new Vuex.Store({
     status: "",
     userCourses: {},
     color: "#aed581",
-    courseIndex: ""
+    courseIndex: 0,
   },
   getters: {
     isLoggedIn: state => !!state.token,
@@ -55,6 +55,7 @@ export default new Vuex.Store({
       state.color = newcolor;
     },
     setCourseIndex(state, index) {
+      console.log("MUTATING " + index);
       state.courseIndex = index;
     }
   },
