@@ -14,7 +14,6 @@ var userSchema = new Schema({
     type: String,
     index: true,
     unique: true,
-    dropDups: true,
     required: true
   },
   savedCourses: {

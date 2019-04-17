@@ -1,6 +1,8 @@
 const schemas = require("../schema/schema");
+const util = require("../util/util");
 const passport = require("passport"),
   LocalStrategy = require("passport-local").Strategy,
+  AnonymousStrategy = require("passport-anonymous").Strategy,
   JWTStrategy = require("passport-jwt").Strategy,
   ExtractJwt = require("passport-jwt").ExtractJwt,
   jwtSecret = require("./jwtConfig");
@@ -27,16 +29,17 @@ passport.use(
   )
 );
 
-const opts = {
+passport.use("anonymous", new AnonymousStrategy());
+
+const jwt_opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("JWT"),
   secretOrKey: jwtSecret.secret
 };
 
 passport.use(
   "JWT",
-  new JWTStrategy(opts, (jwt_payload, done) => {
-    console.log(JSON.stringify(jwt_payload));
-    if (!jwt_payload.expires || jwt_payload.expires > Date.now()) {
+  new JWTStrategy(jwt_opts, (jwt_payload, done) => {
+    if (util.isValidJWT(jwt_payload)) {
       schemas.User.byUid(jwt_payload.uid, (err, user) => {
         if (user) {
           done(null, user);

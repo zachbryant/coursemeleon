@@ -200,4 +200,8 @@ div.v-list__group__items.v-list__group__items--no-action > div > div {
 .tui-editor-contents .task-list-item {
   margin-left: 0;
 }
+
+.flip-list-move {
+  transition: transform 0.3s;
+}
 </style>

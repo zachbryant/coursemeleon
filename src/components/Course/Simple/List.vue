@@ -1,16 +1,17 @@
 <template lang="pug">
   v-layout(column align-start justify-center fill-width)
     template(v-if="isEditMode")
-      v-layout(row fill-width justify-start)
+      //-v-layout(row fill-width justify-start)
         v-flex(xs1)
         v-flex(xs11)
           edit-sep(:index="-1"
                 v-on:edit-sep-new="editSepNew"
                 :show="canShowInsert(-1)")
-      draggable(:list="data.elements" class="fill-width")
+      draggable(:list="elements" class="fill-width" type="transition" name="flip-list" draggable=".item")
         transition-group(class="fill-width")
           v-layout(row v-for="(comp, index) in elements" 
                   :key="index" 
+                  :class="index > 0 ? 'item' : ''"
                   fill-width 
                   justify-start
                   @mouseover="hoverIndex(index)"
@@ -22,16 +23,18 @@
                             v-show="canShowMenu(index)")
             v-flex(xs11 grow)
               v-layout(column fill-width)
-                component(:data="comp" 
-                          :is="comp.instanceName" 
+                component(:data="comp"
+                          :index="index"
+                          :is="comp.instanceName"
                           :key="comp.id")
                 edit-sep(:index="index"
                         v-on:edit-sep-new="editSepNew"
                         :show="canShowInsert(index)")
     template(v-else v-for="(comp, index) in elements")
       component(:data="comp" 
+                :index="index"
                 :is="comp.instanceName" 
-                :key="index")
+                :key="comp.id")
 </template>
 
 <script>
@@ -46,6 +49,7 @@ export default {
     "document-item": () => import("./Document.vue"),
     "edit-sep": () => import("../Compound/EditSeparator.vue"),
     "edit-item-menu": () => import("../Compound/EditItemMenu.vue"),
+    "text-item": () => import("./Text.vue"),
     draggable
   },
   extends: BaseElement,
@@ -57,9 +61,8 @@ export default {
   },
   methods: {
     editSepNew: function(index, type) {
-      this.data.elements.splice(++index, 0, {
-        instanceName: type
-      });
+      console.log(type);
+      this.insertElement(index, type);
     },
     editSepDel: function(index) {
       this.removeElement(index);
@@ -69,10 +72,20 @@ export default {
       this.showInsert = index;
     },
     canShowMenu: function(index) {
-      return this.showMenu == index;
+      return this.showMenu == index && index > 0;
     },
     canShowInsert: function(index) {
       return Math.abs(this.showInsert - index) <= 1;
+    }
+  },
+  computed: {
+    elements: {
+      get: function() {
+        return this.$store.getters.courseTab.elements;
+      },
+      set: function(value) {
+        this.$store.commit("updateCourseTabElements", value);
+      }
     }
   }
 };

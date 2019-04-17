@@ -1,6 +1,6 @@
 <template lang="pug">
     div#edit(inline)
-      editor(v-if="isEditMode && !isPreviewMode"
+      editor(v-if="isEditMode"
             v-model="content"
             :options="defaultOptions"
             height="550px"
@@ -37,7 +37,6 @@ export default {
   },
   data() {
     return {
-      content: this.data.content || "",
       style: this.data.style || "",
       defaultOptions: {
         language: "en_US",
@@ -87,7 +86,8 @@ export default {
     onEditorStateChange() {
       // implement your code
     }
-  }
+  },
+  computed: {}
 };
 </script>
 
