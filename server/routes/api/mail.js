@@ -65,6 +65,27 @@ function sendLoginCode(email,flag) {
       
     });
     }
+
+    if(flag==3){
+ 
+      let options = {
+        ...loginAnMailOptions,
+        to: email,
+        text: "The course is grade data set has been updated" ,
+        html: "The course is grade data set has been updated"
+      };
+      transporter.sendMail(options, (err, info) => {
+        if (err) {
+          console.log(err);
+          return process.exit(1);
+        }
+        if (info) {
+          console.log("Message sent: %s", info.messageId);
+          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        }
+        
+      });
+      }
 }
 
 module.exports = {

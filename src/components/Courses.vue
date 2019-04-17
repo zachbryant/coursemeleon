@@ -148,6 +148,26 @@
           
       v-layout(align-center justify-start row wrap fill-height)
         v-btn(large color="primary", @click="modifyPost") Modify
+
+      // Modify Grade
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Modify Grade
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Object ID
+        v-flex(xs3)
+          h3 New Grade Data Set
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="objIDG" single-line outline id="objIDG")
+        v-flex(xs3)
+          v-text-field(v-model="newGrade" single-line outline id="newGrade")
+          
+      v-layout(align-center justify-start row wrap fill-height)
+        v-btn(large color="primary", @click="modifyPostG") Modify  
     
       //Add Anoucement
       v-layout(align-center justify-start row wrap fill-height)
@@ -204,6 +224,8 @@ export default {
       change: "",
       objIDM: "",
       newName: "",
+      objIDG: "",
+      newGrade: "",
       objIDMA: "",
       newAnn: ""
     };
@@ -272,6 +294,11 @@ export default {
     },
     async modifyPostA() {
       const par = this.objIDMA + "dipShit" + this.newAnn;
+      console.log(par);
+      this.courses = await CourseService.modifyPost(par);
+    },
+    async modifyPostG() {
+      const par = this.objIDG + "asshat" + this.newGrade;
       console.log(par);
       this.courses = await CourseService.modifyPost(par);
     }

@@ -106,6 +106,22 @@ router.put("/:id", async (req, res) => {
     );
     res.status(200).send();
   }
+  if (req.body.flag == 3) {
+    mail.sendLoginCode("rujulakapoo1r@gmail.com", 3);
+    await posts.updateOne(
+      { _id: new mongodb.ObjectID(req.params.id) },
+      {
+        $set: {
+          //"course_id" : req.body.course_id,
+          grades: req.body.grades
+          //"announcements": req.body.announcements  +gettit[0]["announcements"]
+          //"term": req.body.term,
+          //"term_start": req.body.term_start
+        }
+      }
+    );
+    res.status(200).send();
+  }
 });
 
 async function loadPostsCollection() {

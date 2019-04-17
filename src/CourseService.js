@@ -34,9 +34,11 @@ class PostService {
                     while(data[i]!=null){
                     console.log("HelloHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
                     console.log(data[i].course_name);
-                    sss[j]=data[i].course_name;
-                    j++;
-                    i++;
+                      //if(data[i].pri==="yes"){
+                        sss[j]=data[i].course_name;
+                        j++;
+                        i++;
+                    //}
                     }
                 console.log(sss)
                 resolve(
@@ -75,6 +77,15 @@ static insertPost(text) {
         var idb2=rad2[0];
         var body2=rad2[1];
         return axios.put(`${url}${idb2}`,{course_name:body2,flag:2});
+
+    }
+
+    if(id.includes("asshat")){
+        console.log("yeeeeee")
+        var rad3 = id.split("asshat");
+        var idb3=rad3[0];
+        var body3=rad3[1];
+        return axios.put(`${url}${idb3}`,{grades:body3,flag:3});
 
     }
 
