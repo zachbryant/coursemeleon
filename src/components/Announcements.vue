@@ -5,6 +5,7 @@
         <h1>Announcements</h1>
         <v-container grid-list-xl style="border-style: dashed; border-color: #b7b7b7; border-width: 2px;">
              <!--<h3>{{ courses[this.myCourseIndex].announcements }}</h3>-->
+             <h3>{{ courses[courses.length-1].announcements }}</h3>
             <p>{{courseIndex}}</p>
             <button @click="push">press</button>
         </v-container>
