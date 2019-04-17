@@ -108,7 +108,7 @@ export default {
           //console.log("YES WE FINALLY MADE IT");      
           //console.log("course index is:" + i);
           //https://stackoverflow.com/questions/54188674/vue-js-vuex-state-not-updating-the-component-after-change
-          console.log("course index state is: " + store.state.courseIndex);
+          console.log("nav course index state is: " + store.state.courseIndex);
         }
         
        console.log("your mom");

@@ -32,11 +32,14 @@ class PostService {
                 var j=0;
                 var sss = [];
                     while(data[i]!=null){
-                    console.log("HelloHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-                    console.log(data[i].course_name);
-                    sss[j]=data[i].course_name;
-                    j++;
-                    i++;
+                        console.log("HelloHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                        console.log(data[i].course_name);
+                        if(data[i].pri.localeCompare("yes") == 0){
+                            //add name only if it's not hidden
+                            sss[j]=data[i].course_name;
+                            j++;
+                        } 
+                        i++;
                     }
                 console.log(sss)
                 resolve(

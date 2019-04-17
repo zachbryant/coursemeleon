@@ -31,6 +31,9 @@ export default {
         courseIndex: function() {
             console.log("course index state: " + store.state.courseIndex);
             return store.state.courseIndex;
+        },
+        getCourseIndex () {
+            return this.$store.getters.getCourseIndex;
         }
     },
     async created() { //runs automatically when component created

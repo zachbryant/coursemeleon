@@ -55,6 +55,7 @@ export default new Vuex.Store({
       state.color = newcolor;
     },
     setCourseIndex(state, index) {
+      console.log("MUTATING " + index);
       state.courseIndex = index;
     }
   },
