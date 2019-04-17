@@ -15,7 +15,7 @@
           <div id="searchBox">
             <v-autocomplete
               v-model="model"
-              :items="items"
+              :items="names"
               :loading="isLoading"
               search-input.sync="search"
               color="white"
@@ -29,16 +29,7 @@
               @change="queryCourses"
             ></v-autocomplete>
             <v-divider></v-divider>
-            <v-expand-transition>
-              <v-list v-if="model" class="red lighten-3">
-                <v-list-tile v-for="(field, i) in fields" :key="i">
-                  <v-list-tile-content>
-                    <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                    <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-expand-transition>
+            
           </div>
           <v-btn to="/explore" flat>
             <h4>Create Course</h4>
@@ -59,6 +50,9 @@
 </template>
 
 <script>
+import CourseService from "../CourseService";
+import store from "../store";
+
 export default {
   name: "Navigation",
   props: {
@@ -69,16 +63,63 @@ export default {
     return {
       model: null,
       isLoading: false,
-      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"]
+      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
+      names: [],
+      courses: [],
+      obj: ""
     };
   },
+  async created() {
+    //runs automatically when component created
+    console.log("YYYYYYYYYYY")
+    try {
+      
+      this.courses = await CourseService.getPosts(); //populate courses array
+      console.log("CCCCCC" + this.courses[0]._id);
+      //commit message
+      
+      this.names =await CourseService.getNames();
+      console.log("TTTTTTTTT" + this.names);
+      
+      this.$vuetify.theme.primary = "#000000";
+      this.$vuetify.theme.secondary = "#C28E0E";
+    } catch (err) {
+      this.error = err.message;
+    }
+  },
   methods: {
-    queryCourses(queryString) {
+    async queryCourses(queryString) {
       if (queryString != undefined && queryString.length > 1) {
+        console.log("query");
         this.isLoading = true;
         console.log(queryString);
+        this.obj= await CourseService.getOneCourse(queryString)//.then(function(response){console.log(response)});
+        console.log("ZZZZZZZ" + this.obj);
+        
+        
+      for(var i=0;i<this.courses.length;i++){
+        
+        if((this.courses[i]._id.localeCompare(this.obj))==0){
+          //this.store.commit("setCourseIndex", {i});
+          store.commit("setCourseIndex", i);
+          //store.state.courseIndex = i;
+          //trying out prototype
+          //ue.prototype.$globalVar = 'Hello';
+          //console.log("YES WE FINALLY MADE IT");      
+          //console.log("course index is:" + i);
+          //https://stackoverflow.com/questions/54188674/vue-js-vuex-state-not-updating-the-component-after-change
+          console.log("nav course index state is: " + store.state.courseIndex);
+        }
+        
+       console.log("your mom");
+       console.log(this.courses[i]._id + "jjjjjj" + this.obj)
+      }
         //@TODO insert api call
         this.isLoading = false;
+
+        var newURL = '/course:' + queryString.replace(/\s/g, '');
+        console.log(newURL);
+        window.location.href = newURL;
       }
     }
   }

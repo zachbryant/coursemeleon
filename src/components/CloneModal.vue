@@ -1,21 +1,72 @@
 <template>
-  <div class="modal-backdrop">
-    <div class="modal">
-      <slot name="header">
-      </slot>
+  <div>
+    <div class="modal-backdrop">
+      <div class="modal">
+        <slot name="header">
+        </slot>
 
-      <slot name="body">
-      </slot>
+        <slot name="body">
+        </slot>
 
-      <slot name="footer">
-      </slot>
+        <slot name="footer">
+        </slot>
+      </div>
+    </div>
+
+    <div class="modal-backdrop">
+      <div class="modal">
+        <header class="modal-header">
+          <slot name="header">
+            Clone course
+          </slot>
+
+          <button type="button" class="btn-close" @click="close"> x </button>
+
+        </header>
+        <section class="modal-body">
+          <slot name="body">
+            New term 
+            <v-text-field
+              v-model="new_term"
+              label="Enter new term"
+              id="new_term"
+            ></v-text-field>
+            New start date 
+            <v-text-field
+              v-model="new_start_date"
+              label="Enter new start date"
+              id="new_start_date"
+            ></v-text-field>
+          </slot>
+          
+        </section>
+        <footer class="modal-footer">
+            <button
+                type="button"
+                class="btn-green"
+                @click="cloneCourse"
+              >
+                <div class="btn-text"> Clone </div>
+            </button>
+        </footer>
+      </div>
     </div>
   </div>
 </template>
 
+
+
 <script>
+  import CourseService from "../CourseService";
   export default {
     name: 'CloneModal',
+    data() {
+      return {
+        courses: [],
+        new_term: "",
+        new_start_date: ""
+      };
+    },
     async created() { //runs automatically when component created
         try {
             this.courses = await CourseService.getPosts(); //populate courses array
@@ -28,70 +79,42 @@
         this.$emit('close');
       },
       async cloneCourse() {
+        try {
+            this.courses = await CourseService.getPosts(); //populate courses array
+        } catch(err) {
+            this.error = err.message;
+        }
+        //var orig = posts.findOne({course_id: 'CS222'});
+        //console.log(orig.courseName);
+
         const t =
-          this.courses[this.courses.length-1].courseID +
+          this.courses[this.courses.length-1].course_id +
           "cmsplit" +
-          this.courses[this.courses.length-1].courseTitle +
+          this.courses[this.courses.length-1].course_name +
           "cmsplit" +
-          this.courses[this.courses.length-1].courseTerm +
+          this.new_term +
           "cmsplit" +
-          this.courses[this.courses.length-1].termStart +
+          this.new_start_date +
           "cmsplit" +
-          this.courses[this.courses.length-1].googleCal +
+          this.courses[this.courses.length-1].cal_google +
           "cmsplit" +
-          this.courses[this.courses.length-1].iCal +
+          this.courses[this.courses.length-1].cal_ical +
           "cmsplit" +
           this.courses[this.courses.length-1].grades +
           "cmsplit" +
           this.courses[this.courses.length-1].announcements +
           "cmsplit" +
-          this.courses[this.courses.length-1].resourceLink +
+          this.courses[this.courses.length-1].resources +
           "cmsplit" +
-          this.courses[this.courses.length-1].contactInfo +
-          "cmsplit" +
-          this.courses[this.courses.length-1].generalText;
-      console.log(t);
-      await CourseService.insertPost(t);
-      alert("Success! Course created!");
-      //this.courses = await CourseService.getPosts();
+          this.courses[this.courses.length-1].contact_info;
+        console.log(t);
+        await CourseService.insertPost(t);
+        alert("Success! Course cloned!");
+        this.$emit('close');
     },
     },
   };
 </script>
-
-<template>
-  <div class="modal-backdrop">
-    <div class="modal">
-      <header class="modal-header">
-        <slot name="header">
-          Update term
-        </slot>
-
-        <button type="button" class="btn-close" @click="close"> x </button>
-
-      </header>
-      <section class="modal-body">
-        <slot name="body">
-          New term 
-          <v-text-field
-            label="Enter new term"
-            id="new_term"
-          ></v-text-field>
-        </slot>
-        
-       </section>
-       <footer class="modal-footer">
-          <button
-              type="button"
-              class="btn-green"
-              @click="cloneCourse"
-            >
-              Clone
-          </button>
-      </footer>
-    </div>
-  </div>
-</template>
 
 <style>
   .modal-backdrop {
@@ -154,9 +177,14 @@
   }
 
   .btn-green {
-    color: white;
+    
     background: #AED581;
     border: 1px solid #AED581;
     border-radius: 2px;
+  }
+
+  .btn-green .btn-text {
+    color: white;
+    padding: 5px;
   }
 </style>

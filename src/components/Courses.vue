@@ -109,7 +109,17 @@
       v-layout(align-center justify-start row wrap)
         v-flex(xs3)
           v-text-field(v-model="grades" single-line outline id="grades")
-
+      // Design
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Do you want this page to be private 
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 (yes/no)
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="pri" single-line outline id="pri")
       // CALENDAR
       v-layout(align-center justify-start row wrap)
         v-flex(lg6)
@@ -127,6 +137,24 @@
         v-flex(xs3)
           v-text-field(v-model="iCal" single-line outline id="iCal" placeholder="optional")
 
+
+      // Design
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Page Color
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Primary Color 
+        v-flex(xs3)
+          h3 Secondary Color 
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="color" single-line outline id="color")
+        v-flex(xs3)
+          v-text-field(v-model="color2" single-line outline id="color2")
+          
+
       // PUBLISH 
       v-layout(align-center justify-start row wrap)
         v-btn(large color="primary", @click="createPost") PUBLISH
@@ -136,6 +164,49 @@
         v-btn(type="button" class="btn" @click="showModal") Clone
         CloneModal(v-show="isModalVisible" @close="closeModal")
       
+
+      // Modify
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Modify Name
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Object ID
+        v-flex(xs3)
+          h3 New Name
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="objIDM" single-line outline id="objIDM")
+        v-flex(xs3)
+          v-text-field(v-model="newName" single-line outline id="newName")
+          
+      v-layout(align-center justify-start row wrap fill-height)
+        v-btn(large color="primary", @click="modifyPost") Modify
+    
+      //Add Anoucement
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(lg6)
+          h2 Add Announcements
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          h3 Object ID
+        v-flex(xs3)
+          h3 New Announcement
+      
+      v-layout(align-center justify-start row wrap fill-height)
+        v-flex(xs3)
+          v-text-field(v-model="objIDMA" single-line outline id="objIDM")
+        v-flex(xs3)
+          v-text-field(v-model="newAnn" single-line outline id="newName")
+          
+      v-layout(align-center justify-start row wrap fill-height)
+        v-btn(large color="primary", @click="modifyPostA") Add Announcement
+    
+    
+
 </template>
 
 
@@ -158,6 +229,10 @@ export default {
       termStart: "",
       googleCal: "",
       iCal: "",
+      color: "",
+      color2: "",
+      font: "",
+      pri: "",
       grades: "",
       announcements: "",
       resourceLink: "",
@@ -167,6 +242,10 @@ export default {
       at: "",
       change: "",
       isModalVisible: false,
+      objIDM: "",
+      newName: "",
+      objIDMA: "",
+      newAnn: ""
     };
   },
   async created() {
@@ -198,9 +277,18 @@ export default {
         "cmsplit" +
         this.resourceLink +
         "cmsplit" +
+        this.color +
+        "cmsplit" +
+        this.color2 +
+        "cmsplit" +
+        this.font +
+        "cmsplit" +
+        this.pri +
+        "cmsplit" +
         this.contactInfo +
         "cmsplit" +
         this.generalText;
+
       console.log(t);
       await CourseService.insertPost(t);
       alert("Success! Course created!");
@@ -219,17 +307,14 @@ export default {
       this.courses = await CourseService.getPosts();
     },
     async modifyPost() {
-      //id=this.objID;
-      const id = this.objID;
-      this.courses = await CourseService.modifyPost(id);
+      const par = this.objIDM + "cmsplit" + this.newName;
+      //console.log(par)
+      this.courses = await CourseService.modifyPost(par);
     },
-
-    showModal() {
-      this.isModalVisible = true;
-    },
-
-    closeModal() {
-      this.isModalVisible = false;
+    async modifyPostA() {
+      const par = this.objIDMA + "dipShit" + this.newAnn;
+      console.log(par);
+      this.courses = await CourseService.modifyPost(par);
     }
   }
 
