@@ -93,6 +93,7 @@ export default {
         console.log("query");
         this.isLoading = true;
         console.log(queryString);
+        console.log("daddddddd");
         this.obj= await CourseService.getOneCourse(queryString)//.then(function(response){console.log(response)});
         console.log("ZZZZZZZ" + this.obj);
         
@@ -101,7 +102,7 @@ export default {
         
         if((this.courses[i]._id.localeCompare(this.obj))==0){
           //this.store.commit("setCourseIndex", {i});
-          store.commit("setCourseIndex", i);
+          //store.commit("setCourseIndex", i);
           //store.state.courseIndex = i;
           //trying out prototype
           //ue.prototype.$globalVar = 'Hello';
@@ -110,7 +111,6 @@ export default {
           //https://stackoverflow.com/questions/54188674/vue-js-vuex-state-not-updating-the-component-after-change
           console.log("nav course index state is: " + store.state.courseIndex);
         }
-        
        console.log("your mom");
        console.log(this.courses[i]._id + "jjjjjj" + this.obj)
       }
