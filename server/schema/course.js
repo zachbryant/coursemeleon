@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 const uuidv4 = require("uuid/v4");
 
 var courseSchema = new Schema({
-  title: String,
-  abbr: String,
+  course_name: String,
+  course_abbr: String,
   cid: {
     type: String,
     default: uuidv4()
@@ -23,7 +23,12 @@ var courseSchema = new Schema({
   color: String,
   font: String,
   published: Boolean,
-  whitelist: [String]
+  whitelist: Boolean,
+  pri: {
+    type: String,
+    default: "no",
+    required: false
+  }
 });
 // Index on course name ASCENDING and within each group term_start DESCENDING
 courseSchema.index({ title: 1, term_start: -1 });
