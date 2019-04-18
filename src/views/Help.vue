@@ -1,6 +1,5 @@
 <template>
   <div class="help">
-    <div> <FilesAsLinks/></div>
     <v-container grid-list-xl></v-container>
 
     <v-container grid-list-xl>
@@ -127,11 +126,11 @@
 </template>
 
 <script>
-import FilesAsLinks from "@/components/Course/FilesAsLinks.vue";
 
 export default {
   name: "help",
-  components: {}
+  components: {
+  }
 };
 </script>
 
