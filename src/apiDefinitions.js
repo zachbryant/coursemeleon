@@ -1,4 +1,4 @@
-const BASE = "http://192.168.1.3:5000";
+const BASE = "http://localhost:5000";
 
 let definitions = {
   BASE: BASE,
