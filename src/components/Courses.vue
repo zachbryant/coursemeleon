@@ -315,6 +315,9 @@ export default {
       const par = this.objIDMA + "dipShit" + this.newAnn;
       console.log(par);
       this.courses = await CourseService.modifyPost(par);
+    },
+    showModal() {
+      this.isModalVisible = true;
     }
   }
 

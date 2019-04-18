@@ -252,10 +252,8 @@ export default {
         console.log(file) 
         var myfile = JSON.stringify(file);
         console.log(file.name)
-        var strName=file.name;
-        console.log("man" + strName)
         
-
+        
         var image = new Image();
         var reader = new FileReader();
         var vm = this;

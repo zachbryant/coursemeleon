@@ -1,9 +1,14 @@
 <template>
  <div class="help">
+<<<<<<< HEAD
     <div>
         <grade/>
     </div>
   
+=======
+
+    <Grade/>
+>>>>>>> 9480afcd9d223ee66c20a1d57f2fc5a612e33fca
     <v-container grid-list-xl>
     </v-container>
 

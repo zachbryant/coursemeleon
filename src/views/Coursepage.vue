@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>{{ this.courseIndex }}</p>
     <Title/>
     <Calendar/>
     <Announcements/>
@@ -39,7 +40,8 @@ export default {
       courses: [],
       names: [],
       error: "",
-      text: ""
+      text: "",
+      courseIndex: 0
     };
   },
   async created() {
@@ -47,6 +49,25 @@ export default {
     try {
       this.courses = await CourseService.getPosts(); //populate courses array
       this.$store.commit("setPrimaryColor", "#A3D6D7");
+
+      console.log("URL = " + window.location.href);
+      var url = window.location.href;
+
+      var courseName = url.substring(29);
+      console.log("url coursename = " + courseName);
+
+      this.obj= await CourseService.getOneCourse(courseName);
+
+      for(var i=0;i<this.courses.length;i++){
+        
+        if((this.courses[i]._id.localeCompare(this.obj))==0){
+          //this.store.commit("setCourseIndex", {i});
+          this.courseIndex = i;
+        }
+        
+       console.log("course id = " + this.courses[i]._id + " course name = " + this.obj)
+      }
+      
     } catch (err) {
       this.error = err.message;
     }
