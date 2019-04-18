@@ -33,6 +33,7 @@ router.get(
   passport.authenticate(["JWT", "anonymous"], { session: false }),
   (req, res) => {
     let query = req.query;
+    console.log("Query course: " + JSON.stringify(query));
     let user = req.user;
     schemas.Course.exact(query, function(err, course) {
       if (err) {
