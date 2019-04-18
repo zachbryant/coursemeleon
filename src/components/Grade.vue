@@ -1,14 +1,8 @@
 <template>
 <div id="grade">
-    <div v-if="!image">
-    <h2>Select an image</h2>
-    <input type="file" @change="onFileChange">
-  </div>
-  <div v-else>
-    <img :src="image" />
-    <button @click="removeImage">Remove image</button>
-  </div>
-
+    
+    
+  
   <h1>Grade Statistics</h1>
   <h6>Mean: The mean is the average of a data set</h6>
   <h6>Median: The "median" is the "middle" value in a data set</h6>
@@ -29,8 +23,16 @@
 <script>
 
 import CourseService from '../CourseService';
-
-
+/*
+<div v-if="!image">
+    <h2>Select an image</h2>
+    <input type="file" @change="onFileChange">
+  </div>
+  <div v-else>
+    <img :src="image" />
+    <button @click="removeImage">Remove image</button>
+  </div>
+*/
 export default {
     name: "Grade",
     image: '',
