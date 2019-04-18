@@ -15,9 +15,17 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const posts = await loadPostsCollection();
   var gettit = await posts.find({ course_name: req.params.id }).toArray()
-  console.log(gettit[0]);
+  //console.log("gettit = " + gettit[0]._id);
   //res.status(200).send(gettit);
-  res.status(200).send(gettit[0]._id);
+  try {
+    res.status(200).send(gettit[0].cid);
+  } catch(err) {
+    console.log("uh oh");
+    this.error = err.message;
+  }
+
+  //res.status(200).send(gettit[0]._id);
+    
 });
 
 //Add post revised, does not need string parsng anymore
@@ -29,7 +37,7 @@ router.post("/", async (req, res) => {
   var r = str.split("cmsplit");
   console.log(r[9]);
   await posts.insertOne({
-    course_id: r[0],
+    course_abbr: r[0],
     course_name: r[1],
     term: r[2],
     term_start: r[3],
@@ -169,7 +177,7 @@ router.put("/:id", async (req, res) => {
       { _id: new mongodb.ObjectID(req.params.id) },
       {
         $set: {
-          //"course_id" : req.body.course_id,
+          //"course_abbr" : req.body.course_abbr,
           //"course_name": req.body.course_name,
           announcements:
             "Announcement: " +
@@ -189,7 +197,7 @@ router.put("/:id", async (req, res) => {
       { _id: new mongodb.ObjectID(req.params.id) },
       {
         $set: {
-          //"course_id" : req.body.course_id,
+          //"course_abbr" : req.body.course_abbr,
           course_name: req.body.course_name
           //"announcements": req.body.announcements  +gettit[0]["announcements"]
           //"term": req.body.term,

@@ -84,11 +84,11 @@
         } catch(err) {
             this.error = err.message;
         }
-        //var orig = posts.findOne({course_id: 'CS222'});
+        //var orig = posts.findOne({course_abbr: 'CS222'});
         //console.log(orig.courseName);
 
         const t =
-          this.courses[this.courses.length-1].course_id +
+          this.courses[this.courses.length-1].course_abbr +
           "cmsplit" +
           this.courses[this.courses.length-1].course_name +
           "cmsplit" +

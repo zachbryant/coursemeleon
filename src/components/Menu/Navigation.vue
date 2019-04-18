@@ -8,7 +8,7 @@
       v-flex(xs6)
         v-autocomplete(
           v-model="model"
-          :items="items"
+          :items="names"
           :loading="isLoading"
           search-input.sync="search"
           color="white"
@@ -21,18 +21,15 @@
           prepend-icon="mdi-database-search"
           @change="queryCourses")
         v-divider
-        v-expand-transition
-          v-list(v-if="model" class="red lighten-3")
-            v-list-tile(v-for="(field, i) in fields" :key="i")
-              v-list-tile-content
-                v-list-tile-title(v-text="field.value")
-                v-list-tile-sub-title(v-text="field.key")
       v-flex(xs2)
         v-btn(flat @click.stop="$emit('toggleHamburgerEvent')")
           v-icon fa-bars
 </template>
 
 <script>
+import CourseService from "@/services/CourseService";
+import store from "@/store";
+
 export default {
   name: "navigation",
   props: {
@@ -43,17 +40,57 @@ export default {
     return {
       model: null,
       isLoading: false,
-      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"]
+      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
+      names: [],
+      courses: [],
+      obj: ""
     };
   },
+  async created() {
+    //runs automatically when component created
+    try {
+      
+      this.courses = await CourseService.getPosts(); //populate courses array
+      //console.log("CCCCCC" + this.courses[0]._id);
+      //commit message
+      
+      this.names =await CourseService.getNames();
+      //console.log("TTTTTTTTT" + this.names);
+      
+      //this.$vuetify.theme.primary = "#000000";
+      //this.$vuetify.theme.secondary = "#C28E0E";
+    } catch (err) {
+      this.error = err.message;
+    }
+  },
   methods: {
-    queryCourses(queryString) {
+    async queryCourses(queryString) {
       if (queryString != undefined && queryString.length > 1) {
+        console.log("query!!");
         this.isLoading = true;
         console.log(queryString);
-        this.$store.dispatch("getCourse");
+        this.obj= await CourseService.getOneCourse(queryString)//.then(function(response){console.log(response)});
+        console.log("ZZZZZZZ" + this.obj);
+        
+        for(var i=0;i<this.courses.length;i++){
+          
+          if((this.courses[i]._id.localeCompare(this.obj))==0){
+            //this.store.commit("setCourseIndex", {i});
+            store.commit("setCourseIndex", i);
+          
+            //console.log("nav course index state is: " + store.state.courseIndex);
+          }
+          
+          //console.log(this.courses[i]._id + "jjjjjj" + this.obj)
+        }
         //@TODO insert api call
         this.isLoading = false;
+        var newURL = '/course:' + queryString.replace(/\s/g, '');
+        var newPath = queryString.replace(/\s/g, '%20');
+        //console.log(newURL);
+        //window.location.href = newURL;
+        //this.$router.push(newURL);
+        this.$router.push({ path: "/", query: { cid: this.obj }});
       }
     }
   }

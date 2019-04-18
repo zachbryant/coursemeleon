@@ -7,18 +7,18 @@ CREATE TABLE IF NOT EXISTS users(
 ) WITH comment='User identification';
 CREATE INDEX IF NOT EXISTS uid_index ON users(user_id);
 CREATE TABLE IF NOT EXISTS courses(
-  course_id UUID,
+  course_abbr UUID,
   path TEXT,
   title TEXT,
   term TEXT,
   term_start TIMESTAMP,
   PRIMARY KEY (title, term_start) 
 ) WITH CLUSTERING ORDER BY (term_start DESC);
-CREATE INDEX IF NOT EXISTS cid_index ON courses(course_id);
+CREATE INDEX IF NOT EXISTS cid_index ON courses(course_abbr);
 CREATE TABLE IF NOT EXISTS permissions(
   user_id UUID,
-  course_id UUID,
+  course_abbr UUID,
   level TINYINT,
   saved BOOLEAN,
-  PRIMARY KEY ((user_id, course_id))
+  PRIMARY KEY ((user_id, course_abbr))
 ) WITH comment='Access table: UID + CID = ACCESS LEVEL';
