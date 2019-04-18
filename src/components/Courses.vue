@@ -18,7 +18,7 @@
         v-flex(xs3)
           v-text-field(v-model="courseTitle" single-line outline id="courseTitle")
         
-      // DATES - Course Term & Start Date
+      // DATES - COURSE TERM & START DATE
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(lg6)
           h2 Course Term
@@ -158,8 +158,6 @@
           
       v-layout(align-center justify-start row wrap fill-height)
         v-btn(large color="primary", @click="modifyPostA") Add Announcement
-    
-    
 
 </template>
 
@@ -236,6 +234,18 @@ export default {
         this.contactInfo +
         "cmsplit" +
         this.generalText;
+
+      Vue.use(Vuetify, {
+        theme: {
+          primary: color,
+          secondary: color2,
+          accent: "#82B1FF",
+          error: "#FF5252",
+          info: "#2196F3",
+          success: "#4CAF50",
+          warning: "#FFC107"
+        }
+      });
 
       console.log(t);
       await CourseService.insertPost(t);
