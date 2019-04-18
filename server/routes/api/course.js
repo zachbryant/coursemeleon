@@ -68,6 +68,7 @@ router.get(
               if (access && access.level >= schemas.ACCESS_LEVELS.VIEW) {
                 res.status(200).send(course);
               } else {
+                console.log("Not on whitelist");
                 res.status(401).send({ message: "User not on whitelist" });
               }
             });
@@ -109,6 +110,9 @@ router.put(
                 cid: ok.cid,
                 level: schemas.ACCESS_LEVELS.OWNER
               });
+            } else {
+              // TODO email update
+              //util.email
             }
           }
         });

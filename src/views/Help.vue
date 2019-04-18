@@ -128,7 +128,8 @@
 <script>
 export default {
   name: "help",
-  components: {}
+  components: {
+  }
 };
 </script>
 

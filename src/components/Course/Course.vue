@@ -19,29 +19,40 @@
                 dark fab)
             v-icon fa-cog
             v-icon fa-times
-        v-btn(small fab)
+        v-btn(small fab @click="showPermissionDialog = !showPermissionDialog")
           v-icon(color="blue") fa-user
-        v-btn(v-if="isEditMode" small fab)
+        v-btn(v-if="isEditMode" small fab @click="showFileDialog = !showFileDialog")
           v-icon(color="purple") fa-paperclip
         v-btn(small fab @click="saveEdit")
           v-icon(v-if="isEditMode" color="green") fa-check
           v-icon(v-else color="green") fa-pencil-alt
         v-btn(v-if="isEditMode" small fab @click="cancelEdit")
           v-icon(color="red") fa-times
-        v-btn(v-if="isEditMode" small fab @click="uploadFile")
-          v-icon(color="green") fa-upload
+    v-dialog(v-model="showPermissionDialog" width="50%")
+      v-card
+        h2 Course User Access
+        v-textarea(name="input-7-1"
+          outline
+          label="Default style"
+          value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+          hint="Hint text")
+    v-dialog(v-model="showFileDialog" width="50%")
+      v-card
+        h2 Upload Files
+        file-upload
 </template>
 
 <script>
+import FileUpload from "@/components/Course/FileUpload.vue";
 const uuidv4 = require("uuid/v4");
-import FileUploader from '@/components/Course/FileUploader'
 
 export default {
   name: "coursePage",
   components: {
     "list-item": () => import("./Simple/List.vue"),
     "rich-content": () => import("./Simple/RichContent.vue"),
-    "course-sidebar": () => import("./Compound/CourseSidebar.vue")
+    "course-sidebar": () => import("./Compound/CourseSidebar.vue"),
+    FileUpload
   },
   props: {
     search: {
@@ -57,7 +68,9 @@ export default {
     return {
       activeTab: 0,
       showFab: false,
-      loadingCourse: false
+      loadingCourse: false,
+      showFileDialog: false,
+      showPermissionDialog: false
     };
   },
   methods: {
@@ -79,10 +92,6 @@ export default {
     cancelEdit() {
       this.$store.commit("toggleEditMode");
       this.$router.go();
-    },
-    uploadFile(){
-      //Connect to speed dial button.
-
     },
     getTitle() {
       return this.course.title ? this.course.title : "";
@@ -118,7 +127,7 @@ export default {
     if (this.isCreate) {
       this.$store.commit("setEditMode", true);
       this.$store.commit("setActiveCourse", {
-        title: "",
+        course_name: "",
         cid: uuidv4(),
         tabs: [
           {
@@ -136,11 +145,12 @@ export default {
             ]
           }
         ],
-        abbr: "",
+        course_abbr: "",
         term: "",
         term_start: "",
         color: "",
         font: "",
+        pri: "no",
         published: false,
         whitelist: false
       });

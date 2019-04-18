@@ -16,7 +16,7 @@ export default new Vuex.Store({
     tabIndex: 0,
     course: {
       /*
-      title: "",
+      course_name: "",
       cid: uuidv4(),
       tabs: [
         {
@@ -119,7 +119,7 @@ export default new Vuex.Store({
       state.course = course;
     },
     setTitle(state) {
-      state.course.title = state.course.tabs[0].elements[0].data.text;
+      state.course.course_name = state.course.tabs[0].elements[0].data.text;
     },
     insertCourseTab(state, index) {
       state.course.tabs.splice(index, 0, {

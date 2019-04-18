@@ -8,28 +8,23 @@
       2a. Maybe have a form user can click on to display uploaded material
     3. If cancel then delete prompt and return to whatever or something fuck I don't know
 -->
+
+
 <template lang="pug">
-  div#FilesAsLinks
-      vue-dropzone#drop1(
-        ref="dropzone"
-        @vdropzone-file-added="fileAdded"
-        @vdropzone-success="success"
-        @vdropzone-error="error"
-        @vdropzone-removed-file="removed"
-        @vdropzone-sending="sending"
-        @vdropzone-success-multiple="successMultiple"
-        @vdropzone-sending-multiple="sendingMultiple"
-        @vdropzone-total-upload-progress="progress"
-        @vdropzone-mounted="mounted"
-        @vdropzone-drop="drop"
-        @vdropzone-drag-start="start"
-        @vdropzone-drag-over="over"
-        @vdropzone-drag-leave="leave"
-        @vdropzone-duplicate-file="duplicate"
-        :options="dropzoneOptions" 
-        @vdropzone-complete="afterComplete")
-      button(@click="removeAllFiles" Remove All Files)
+  div
+    vue-dropzone(
+      ref="dropzone"
+      @vdropzone-file-added="fileAdded"
+      @vdropzone-success="success"
+      @vdropzone-error="error"
+      @vdropzone-removed-file="removed"
+      @vdropzone-success-multiple="successMultiple"
+      @vdropzone-mounted="dropzoneMounted"
+      :options="dropzoneOptions" 
+      @vdropzone-complete="afterComplete")
+    button(@click="removeAllFiles") Remove All Files
 </template>
+
 <!--URL: endpoint from http service, must return a valid response for POST call",
 -->
 
@@ -41,11 +36,13 @@
 import vueDropzone from "vue2-dropzone";
 
 export default {
-  name: "FilesAsLinks",
+  name: "file-upload",
   data: () => ({
     dropzoneOptions: {
-      url: "localhost:8080/api/files",
-      maxFilesize: 5, //MB
+      url: "localhost:5000/api/file",
+      method: "put",
+      parallelUploads: 2,
+      maxFilesize: 15, //MB
       thumbnailWidth: 150,
       addRemoveLinks: true
     },
@@ -60,10 +57,6 @@ export default {
     },
     afterComplete(file){
       console.log("After Complete");
-      console.log(file);
-    },
-    duplicate(file){
-      console.lg("Duplicate File");
       console.log(file);
     },
     fileAdded(file){
@@ -83,17 +76,12 @@ export default {
       console.log("File Removed");
       console.logf(file);
     },
-    sending(file){
-      console.log("File Sending");
-      console.log(file);
-    },
     successMultiple(Files){
       console.log("Files Multiple");
       console.log(Files);
     },
-    sendingMultiple(Files){
-      console.log("Files Sending Multiple");
-      console.log(Files);
+    dropzoneMounted() {
+
     }
   },
   components: {
