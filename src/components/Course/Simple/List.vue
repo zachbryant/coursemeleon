@@ -17,13 +17,17 @@
                             v-show="canShowMenu(index)")
             v-flex(xs11 grow)
               v-layout(column fill-width)
+                edit-sep(:index="index"
+                        v-on:edit-sep-new="editSepNew"
+                        :show="canShowInsert(index)")
                 component(:data="comp"
                           :index="index"
                           :is="comp.instanceName"
                           :key="comp.id")
-                edit-sep(:index="index"
-                        v-on:edit-sep-new="editSepNew"
-                        :show="canShowInsert(index)")
+          edit-sep(slot="footer", 
+                  :index="-1" 
+                  v-on:edit-sep-new="editSepNew"
+                  :show="canShowInsert(-1)")
     template(v-else v-for="(comp, index) in elements")
       component(:data="comp" 
                 :index="index"

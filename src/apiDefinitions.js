@@ -11,4 +11,16 @@ definitions.USER_ACCESS = definitions.ACCESS + "access";
 definitions.LOGIN = definitions.ACCESS + "login";
 definitions.LOGOUT = definitions.ACCESS + "logout";
 
-module.exports = definitions;
+const ACCESS_LEVELS = {
+  NONE: 0,
+  VIEW: 1,
+  EDIT: 2,
+  ADMIN: 3,
+  OWNER: 4,
+  OP: 5
+};
+
+module.exports = {
+  definitions,
+  ACCESS_LEVELS
+};
