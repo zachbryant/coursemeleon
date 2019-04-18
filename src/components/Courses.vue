@@ -79,17 +79,7 @@
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(xs3)
           v-text-field(v-model="grades" single-line outline id="grades")
-      // Design
-      v-layout(align-center justify-start row wrap fill-height)
-        v-flex(lg6)
-          h2 Do you want this page to be private 
       
-      v-layout(align-center justify-start row wrap fill-height)
-        v-flex(xs3)
-          h3 (yes/no)
-      v-layout(align-center justify-start row wrap fill-height)
-        v-flex(xs3)
-          v-text-field(v-model="pri" single-line outline id="pri")
       // CALENDAR
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(lg6)
@@ -108,7 +98,7 @@
           v-text-field(v-model="iCal" single-line outline id="iCal" placeholder="optional")
 
 
-      // Design
+      // DESIGN - CUSTOM COLORS
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(lg6)
           h2 Page Color
@@ -129,7 +119,7 @@
       v-layout(align-center justify-start row wrap fill-height)
         v-btn(large color="primary", @click="createPost") PUBLISH
 
-      // Modify
+      // MODIFY
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(lg6)
           h2 Modify Name
@@ -148,28 +138,8 @@
           
       v-layout(align-center justify-start row wrap fill-height)
         v-btn(large color="primary", @click="modifyPost") Modify
-
-      // Modify Grade
-      v-layout(align-center justify-start row wrap fill-height)
-        v-flex(lg6)
-          h2 Modify Grade
-      
-      v-layout(align-center justify-start row wrap fill-height)
-        v-flex(xs3)
-          h3 Object ID
-        v-flex(xs3)
-          h3 New Grade Data Set
-      
-      v-layout(align-center justify-start row wrap fill-height)
-        v-flex(xs3)
-          v-text-field(v-model="objIDG" single-line outline id="objIDG")
-        v-flex(xs3)
-          v-text-field(v-model="newGrade" single-line outline id="newGrade")
-          
-      v-layout(align-center justify-start row wrap fill-height)
-        v-btn(large color="primary", @click="modifyPostG") Modify  
     
-      //Add Anoucement
+      // ADD ANNOUNCEMENT
       v-layout(align-center justify-start row wrap fill-height)
         v-flex(lg6)
           h2 Add Announcements
@@ -224,8 +194,6 @@ export default {
       change: "",
       objIDM: "",
       newName: "",
-      objIDG: "",
-      newGrade: "",
       objIDMA: "",
       newAnn: ""
     };
@@ -265,8 +233,6 @@ export default {
         "cmsplit" +
         this.font +
         "cmsplit" +
-        this.pri +
-        "cmsplit" +
         this.contactInfo +
         "cmsplit" +
         this.generalText;
@@ -294,11 +260,6 @@ export default {
     },
     async modifyPostA() {
       const par = this.objIDMA + "dipShit" + this.newAnn;
-      console.log(par);
-      this.courses = await CourseService.modifyPost(par);
-    },
-    async modifyPostG() {
-      const par = this.objIDG + "asshat" + this.newGrade;
       console.log(par);
       this.courses = await CourseService.modifyPost(par);
     }
