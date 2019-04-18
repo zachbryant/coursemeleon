@@ -1,12 +1,12 @@
 <template>
   <div>
     <p>{{ this.courseIndex }}</p>
-    <Title/>
-    <Calendar/>
-    <Announcements/>
-    <Contact/>
-    <Info/>
-    <Resources/>
+    <Title v-bind:msg="this.courseIndex"/>
+    <Calendar v-bind:msg="this.courseIndex"/>
+    <Announcements v-bind:msg="this.courseIndex"/>
+    <Contact v-bind:msg="this.courseIndex"/>
+    <Info v-bind:msg="this.courseIndex"/>
+    <Resources v-bind:msg="this.courseIndex"/>
   </div>
 </template>
 

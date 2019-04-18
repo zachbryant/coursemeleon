@@ -4,7 +4,7 @@
       <h1>Calendar</h1>
       <!--<p>{{ courses[courses.length-1].cal_google }}</p>-->
       <iframe 
-          v-bind:src="courses[courses.length-1].cal_google"
+          v-bind:src="courses[msg].cal_google"
           style="border: 0" 
           width="65%" 
           height="600" 
@@ -40,6 +40,9 @@ export default {
             error: '',
             text: '',
         }
+    },
+    props: {
+        msg: String
     },
     async created() { //runs automatically when component created
         try {

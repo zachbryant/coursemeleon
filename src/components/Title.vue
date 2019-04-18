@@ -2,7 +2,7 @@
     <div>
         <v-container grid-list-xl></v-container>
         <!-- below just gets the newest item-->
-        <h1>{{ courses[courses.length-1].course_name }}</h1>
+        <h1>{{ courses[msg].course_name }}</h1>
         <v-container grid-list-xl>
             <v-layout row wrap align-center>
             <v-flex xs6>

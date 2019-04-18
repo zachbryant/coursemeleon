@@ -3,7 +3,7 @@
         <v-container grid-list-xl></v-container>
         <h1>Resources</h1>
         <v-container grid-list-xl style="border-style: dashed; border-color: #b7b7b7; border-width: 2px;">
-            <a v-bind:href="courses[courses.length-1].resources" target="_blank">{{ courses[courses.length-1].resources }}</a>
+            <a v-bind:href="courses[msg].resources" target="_blank">{{ courses[msg].resources }}</a>
 
         </v-container>
         <v-container grid-list-xl></v-container>
@@ -21,6 +21,9 @@ export default {
             error: '',
             text: '',
         }
+    },
+    props: {
+        msg: String
     },
     async created() { //runs automatically when component created
         try {

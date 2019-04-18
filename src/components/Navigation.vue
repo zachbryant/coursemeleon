@@ -120,9 +120,9 @@ export default {
         var newURL = '/course:' + queryString.replace(/\s/g, '');
         var newPath = queryString.replace(/\s/g, '%20');
         console.log(newURL);
-        //window.location.href = newURL;
+        window.location.href = newURL;
         //this.$router.push(newURL);
-        this.$router.push({ path: "/", query: { cid: this.obj }});
+        //this.$router.push({ path: "/", query: { cid: this.obj }});
       }
     }
   }
