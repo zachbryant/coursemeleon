@@ -134,6 +134,9 @@ export default new Vuex.Store({
     toggleEditMode(state) {
       state.edit = !state.edit;
     },
+    setEditMode(state, cond) {
+      state.edit = cond;
+    },
     // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
     toggleNavDrawer(state) {
       if (state.drawer.permanent) {
@@ -184,6 +187,9 @@ export default new Vuex.Store({
       state.token = "";
       state.user = "";
       state.userCourses = {};
+      localStorage.removeItem("token");
+      delete Axios.defaults.headers.common["Authorization"];
+      if (state.edit) state.edit = false;
     }
   },
   actions: {
@@ -270,6 +276,7 @@ export default new Vuex.Store({
           })
           .catch(err => {
             var message;
+            console.log("Login error:");
             console.log(err);
             if (err.response.status == 401) {
               message = "Your code didn't work.";
@@ -291,8 +298,6 @@ export default new Vuex.Store({
         })
           .then(resp => {
             commit("logout");
-            localStorage.removeItem("token");
-            delete Axios.defaults.headers.common["Authorization"];
             resolve(resp);
           })
           .catch(err => {
