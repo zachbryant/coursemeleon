@@ -14,7 +14,7 @@
                     </v-card>
                 </v-flex>
                 <v-flex xs6>
-                    <p>Email: {{ courses[courses.length-1].contact_info }}</p>
+                    <p>Email: {{ courses[msg].contact_info }}</p>
                 </v-flex>
                 </v-layout>
             </v-container>
@@ -34,6 +34,9 @@ export default {
             error: '',
             text: '',
         }
+    },
+    props: {
+        msg: String
     },
     async created() { //runs automatically when component created
         try {
