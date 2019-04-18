@@ -31,11 +31,20 @@
     v-dialog(v-model="showPermissionDialog" width="50%")
       v-card
         h2 Course User Access
-        v-textarea(name="input-7-1"
-          outline
-          label="Default style"
-          value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-          hint="Hint text")
+        draggable(:list="users" class="fill-width" type="transition" name="flip-list")
+          v-layout(v-for="(user, index) in users" row 
+                  fill-width 
+                  align-center 
+                  justify-space-between
+                  @mouseover="hoverUser(index)"
+                  @mouseleave="hoverUser(-1)")
+            v-flex(xs1 v-show="hoverUserIndex == index")
+              v-btn(flat icon color="error" @click="removeUser(index)")
+                v-icon fa-times
+            v-flex(xs9)
+              v-text-field(v-model="users[index].email" box single-line)
+            v-flex(xs2)
+              v-select(items="" label="Access")
     v-dialog(v-model="showFileDialog" width="50%")
       v-card
         h2 Upload Files
@@ -44,6 +53,8 @@
 
 <script>
 import FileUpload from "@/components/Course/FileUpload.vue";
+import draggable from "vuedraggable";
+import ACCESS_LEVELS from "@/apiDefinitions";
 const uuidv4 = require("uuid/v4");
 
 export default {
@@ -52,7 +63,8 @@ export default {
     "list-item": () => import("./Simple/List.vue"),
     "rich-content": () => import("./Simple/RichContent.vue"),
     "course-sidebar": () => import("./Compound/CourseSidebar.vue"),
-    FileUpload
+    FileUpload,
+    draggable
   },
   props: {
     search: {
@@ -70,7 +82,9 @@ export default {
       showFab: false,
       loadingCourse: false,
       showFileDialog: false,
-      showPermissionDialog: false
+      showPermissionDialog: false,
+      users: [],
+      hoverUserIndex
     };
   },
   methods: {
@@ -80,6 +94,7 @@ export default {
     },
     saveEdit() {
       this.$store.dispatch("toggleEditMode");
+      this.$store.dispatch("setCourseUsers", users);
       if (this.isCreate) {
         this.$router.push({
           path: "/",
@@ -113,6 +128,18 @@ export default {
           .then(function() {
             self.loadingCourse = false;
           });
+    },
+    hoverUser(index) {
+      this.hoverUserIndex = index;
+    },
+    removeUser(index) {
+      this.users.splice(index, 1);
+    },
+    insertUser(index) {
+      this.users.splice(index, 0, {
+        email: "",
+        level: 0,
+      })
     }
   },
   computed: {
@@ -157,8 +184,10 @@ export default {
       console.log("Creating course"); 
       console.log(this.$store.getters.course);
     }
-    else if (this.search && (!this.$store.getters.course || Object.keys(this.$store.getters.course).length == 0))
+    else if (this.search && (!this.$store.getters.course || Object.keys(this.$store.getters.course).length == 0)) {
       this.loadCourse();
+      // TODO load course users
+    }
   }
 };
 </script>
@@ -168,5 +197,8 @@ export default {
   position: fixed;
   bottom: 30px;
   left: 30px;
+}
+.fill-width {
+  width: 100%;
 }
 </style>
