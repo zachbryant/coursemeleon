@@ -11,14 +11,10 @@
 
 
 <template lang="pug">
-  <div id="FilesAsLinks">
-      <vue-dropzone 
-      ref="dropzone" 
-      id="drop1" 
-      :options="dropOptions" @vdropzone-complete="afterComplete"
-      ></vue-dropzone>
-      <button @click="removeAllFiles">Remove All Files</button>
-  </div>
+  div(id="FilesAsLinks")
+    vue-dropzone(ref="dropzone" id="drop1" 
+      :options="dropOptions" @vdropzone-complete="afterComplete")
+      button(@click="removeAllFiles")Remove All Files
 </template>
 
 <!--URL: endpoint from http service, must return a valid response for POST call",
