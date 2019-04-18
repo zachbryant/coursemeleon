@@ -73,7 +73,6 @@ export default {
       this.codeLoading = "loading2";
       let self = this;
       this.login({ email }, function() {
-        console.log("Code requested");
         self.codeLoading = false;
         self.codeRequested = true;
       });
@@ -82,7 +81,7 @@ export default {
       let email = this.email;
       let code = this.code;
       let routerTarget = this.redirect;
-      console.log("Router Target: %s", JSON.stringify(routerTarget));
+      //console.log("Router Target: %s", JSON.stringify(routerTarget));
       let self = this;
       this.login({ email, code }, function() {
         self.codeError = false;

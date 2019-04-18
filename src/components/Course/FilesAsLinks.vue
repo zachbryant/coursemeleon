@@ -1,6 +1,6 @@
 <!-- Using Axios and Dropzone, communicate with backend
 
-    Files edited: Course.vue
+    Files edited: Course.vue, Help.vue (Rujula wants to test file upload functionality here)
 
     1. Once speed-dial button in course.vue is clicked, it should
     communicate here. Make a file upload prompt appear

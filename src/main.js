@@ -11,8 +11,7 @@ import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "chart.js";
 import "hchs-vue-charts";
-import vue2Dropzone from 'vue2-dropzone';
-import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
 import App from "./App.vue";
 import store from "./store";

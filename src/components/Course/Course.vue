@@ -1,15 +1,14 @@
 <template lang="pug">
   v-container(grid-list-xs fluid align-content-center fill-height pa-0 ma-0)
-    v-layout(row align-center justify-space-between justify-text fill-width fill-height)
+    v-layout(v-if="loadingCourse" align-center justify-center fill-width fill-height)
+      v-progress-circular(indeterminate color="primary")
+    v-layout(v-else row align-center justify-space-between justify-text fill-width fill-height)
       v-flex#courseNav(xs3 lg2 fill-height mr-4)
         course-sidebar()
       v-flex#content(column align-center justify-center xs9 lg10 shrink fill-height)
-        v-progress-circular(v-if="loadingCourse"
-                            indeterminate
-                            color="primary")
         // TODO add editable title here
-        list-item(v-else ref="courseDataList")
-    v-layout#fabContainer(column justify-end)
+        list-item(ref="courseDataList")
+    v-layout#fabContainer(v-if="canShowFab()" column justify-end)
       v-speed-dial(v-model="showFab"
               bottom left
               direction="top"
@@ -32,6 +31,8 @@
 </template>
 
 <script>
+const uuidv4 = require("uuid/v4");
+
 export default {
   name: "coursePage",
   components: {
@@ -43,6 +44,10 @@ export default {
     search: {
       type: Object,
       required: false
+    },
+    isCreate: {
+      type: Boolean,
+      required: false
     }
   },
   data() {
@@ -53,8 +58,20 @@ export default {
     };
   },
   methods: {
+    // TODO update based on permission
+    canShowFab() {
+      return this.isLoggedIn && !this.loadingCourse;
+    },
     saveEdit() {
       this.$store.dispatch("toggleEditMode");
+      if (this.isCreate) {
+        this.$router.push({
+          path: "/",
+          query: {
+            cid: this.$store.getters.course.cid
+          }
+        });
+      }
     },
     cancelEdit() {
       this.$store.commit("toggleEditMode");
@@ -65,14 +82,17 @@ export default {
     },
     loadCourse() {
       // TODO add some animation
-      console.log("Search object: " + JSON.stringify(this.search));
       this.loadingCourse = true;
       let self = this;
       if (this.search)
         this.$store
           .dispatch("queryCourse", this.search)
+          .then(function(ok) {
+            console.log(ok);
+          })
           .catch(function(error) {
             console.log(error);
+            console.log("error getting course");
           })
           .then(function() {
             self.loadingCourse = false;
@@ -80,12 +100,47 @@ export default {
     }
   },
   computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isLoggedIn;
+    },
     isEditMode: function() {
       return this.$store.getters.isEditMode;
     }
   },
   created() {
-    if (this.search && Object.keys(this.$store.getters.course).length == 0)
+    if (this.isCreate) {
+      this.$store.commit("setEditMode", true);
+      this.$store.commit("setActiveCourse", {
+        title: "",
+        cid: uuidv4(),
+        tabs: [
+          {
+            title: "",
+            id: uuidv4(),
+            elements: [
+              {
+                instanceName: "text-item",
+                id: uuidv4(),
+                data: {
+                  type: "h1",
+                  text: ""
+                }
+              }
+            ]
+          }
+        ],
+        abbr: "",
+        term: "",
+        term_start: "",
+        color: "",
+        font: "",
+        published: false,
+        whitelist: false
+      });
+      console.log("Creating course"); 
+      console.log(this.$store.getters.course);
+    }
+    else if (this.search && (!this.$store.getters.course || Object.keys(this.$store.getters.course).length == 0))
       this.loadCourse();
   }
 };

@@ -1,17 +1,11 @@
 <template lang="pug">
   v-layout(column align-start justify-center fill-width)
     template(v-if="isEditMode")
-      //-v-layout(row fill-width justify-start)
-        v-flex(xs1)
-        v-flex(xs11)
-          edit-sep(:index="-1"
-                v-on:edit-sep-new="editSepNew"
-                :show="canShowInsert(-1)")
-      draggable(:list="elements" class="fill-width" type="transition" name="flip-list" draggable=".item")
+      draggable(:list="elements" class="fill-width" type="transition" name="flip-list" draggable=".draggable-item")
         transition-group(class="fill-width")
           v-layout(row v-for="(comp, index) in elements" 
-                  :key="index" 
-                  :class="index > 0 ? 'item' : ''"
+                  :key="comp.id" 
+                  :class="isDraggable(index) ? 'draggable-item' : ''"
                   fill-width 
                   justify-start
                   @mouseover="hoverIndex(index)"
@@ -60,6 +54,10 @@ export default {
     };
   },
   methods: {
+    // TODO change draggable > 2
+    isDraggable: function(index) {
+      return index > 0 && this.tabIndex == 0;
+    },
     editSepNew: function(index, type) {
       console.log(type);
       this.insertElement(index, type);
