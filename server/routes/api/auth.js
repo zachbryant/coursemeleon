@@ -49,10 +49,10 @@ router.post("/login", (req, res, next) => {
     })(req, res, next);
   } else {
     schemas.User.byEmail(email, function(err, user) {
+      if (err) console.log(err);
       if (user) {
         newUserCode(user);
       }
-      if (err) console.log(err);
       res.status(200).send();
     });
   }
