@@ -82,8 +82,7 @@ export default {
       this.names =await CourseService.getNames();
       console.log("TTTTTTTTT" + this.names);
       
-      this.$vuetify.theme.primary = "#000000";
-      this.$vuetify.theme.secondary = "#C28E0E";
+      
     } catch (err) {
       this.error = err.message;
     }

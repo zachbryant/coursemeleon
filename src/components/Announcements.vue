@@ -6,6 +6,7 @@
         <v-container grid-list-xl style="border-style: dashed; border-color: #b7b7b7; border-width: 2px;">
              <!--<h3>{{ courses[this.myCourseIndex].announcements }}</h3>-->
              <h3>{{ courses[msg].announcements }}</h3>
+             <h4 >{{ courses[msg].color }}</h4>
             <button @click="push">press</button>
         </v-container>
         <v-container grid-list-xl></v-container>
@@ -18,7 +19,9 @@ import CourseService from '../CourseService';
 import store from "../store";
 
 export default {
+    
     name: "Announcements",
+    
     data() {
         return {
             courses: [],
@@ -29,11 +32,13 @@ export default {
     },
     props: {
         msg: String
+        
     },
     computed: {
         courseIndex: function() {
             console.log("course index state: " + store.state.courseIndex);
             return store.state.courseIndex;
+            
         },
         getCourseIndex () {
             return this.$store.getters.getCourseIndex;
@@ -43,23 +48,20 @@ export default {
         try {
             console.log("yeet")
             this.courses = await CourseService.getPosts(); //populate courses array
-            // this fucking line of code written by the pussy
-            //this.myCourseIndex = $store.getters.getCourseIndex;
-            //this.myCourseIndex = $store.state.courseIndex;
-            
-            //console.log("course index state: " + courseIndex);
-            //console.log("zach"+ this.myCourseIndex);
+            //var tt=stringify(msg);
+            console.log("VVVVVV"+ this.courses[this.msg].color);
+            this.$vuetify.theme.primary = this.courses[this.msg].color;
         } catch(err) {
             this.error = err.message;
         }
     },
      push() {
       console.log("hell")   
-      var i;
-      var s;  
-      for(i=0;i<courses.length;i++){
-          
-      }
+      //document.getElementById("myHeader").value= "hello"
+      
     }
+    
 };
+//console.log("KKKKKKKKKKKKKKKKKKKKKKKKKKKKK" + courses[msg].color);
+//this.$vuetify.theme.primary = courses[msg].color;
 </script>
