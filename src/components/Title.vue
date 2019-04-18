@@ -22,6 +22,9 @@ import CourseService from '../CourseService';
 
 export default {
     name: "Title",
+    props: {
+        msg: String
+    },
     data() {
         return {
             courses: [],
