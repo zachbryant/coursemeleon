@@ -8,8 +8,6 @@
       2a. Maybe have a form user can click on to display uploaded material
     3. If cancel then delete prompt and return to whatever or something fuck I don't know
 -->
-
-
 <template lang="pug">
   div#FilesAsLinks
       vue-dropzone#drop1(
@@ -28,11 +26,10 @@
         @vdropzone-drag-over="over"
         @vdropzone-drag-leave="leave"
         @vdropzone-duplicate-file="duplicate"
-        :options="dropOptions" 
+        :options="dropzoneOptions" 
         @vdropzone-complete="afterComplete")
       button(@click="removeAllFiles" Remove All Files)
 </template>
-
 <!--URL: endpoint from http service, must return a valid response for POST call",
 -->
 
@@ -42,12 +39,12 @@
 -->
 <script>
 import vueDropzone from "vue2-dropzone";
-import express from 'express';
 
 export default {
+  name: "FilesAsLinks",
   data: () => ({
     dropzoneOptions: {
-      url: "localhost:8080",
+      url: "localhost:8080/api/files",
       maxFilesize: 5, //MB
       thumbnailWidth: 150,
       addRemoveLinks: true
@@ -58,7 +55,7 @@ export default {
   }),
   methods: {
     removeAllFiles(){
-      this.$refs.dropZone.removeAllFiles();
+      this.$refs.dropzone.removeAllFiles();
       console.log("Removed all files")
     },
     afterComplete(file){
@@ -103,9 +100,6 @@ export default {
     vueDropzone
   }
 };
-app.listen(8080, () => {
-  console.log('app is listening on port 8080 someone pls tell me this is working')
-})
 </script>
 
 <style lang="less">

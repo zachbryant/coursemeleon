@@ -28,10 +28,13 @@
           v-icon(v-else color="green") fa-pencil-alt
         v-btn(v-if="isEditMode" small fab @click="cancelEdit")
           v-icon(color="red") fa-times
+        v-btn(v-if="isEditMode" small fab @click="uploadFile")
+          v-icon(color="green") fa-upload
 </template>
 
 <script>
 const uuidv4 = require("uuid/v4");
+import FileUploader from '@/components/Course/FileUploader'
 
 export default {
   name: "coursePage",
@@ -76,6 +79,10 @@ export default {
     cancelEdit() {
       this.$store.commit("toggleEditMode");
       this.$router.go();
+    },
+    uploadFile(){
+      //Connect to speed dial button.
+
     },
     getTitle() {
       return this.course.title ? this.course.title : "";
