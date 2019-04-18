@@ -40,7 +40,11 @@ courseSchema.statics = {
     return this.find({ abbr: new RegExp(abbr, "i") }, callback);
   },
   exact: function(params, callback) {
-    return this.findOne(params, callback);
+    var paramsIgnoreCase = {};
+    Object.keys(params).forEach(key => {
+      paramsIgnoreCase[key] = new RegExp(params[key], "i");
+    });
+    return this.findOne(paramsIgnoreCase, callback);
   },
   byTermStart: function(termStart, callback) {
     return this.find({ term_start: termStart }, callback);
