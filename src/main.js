@@ -4,13 +4,14 @@ import "es6-promise/auto";
 import Vuetify from "vuetify";
 import VToolTip from "v-tooltip";
 import VSwitch from "v-switch-case";
-import VeeValidate from "vee-validate";
 import "vuetify/dist/vuetify.min.css";
+import VeeValidate from "vee-validate";
 import colors from "vuetify/es5/util/colors";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "chart.js";
 import "hchs-vue-charts";
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
 import App from "./App.vue";
 import store from "./store";
@@ -22,7 +23,7 @@ Vue.prototype.$http = Axios;
 // Set Axios authorization to token
 const token = localStorage.getItem("token");
 if (token) {
-  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+  Vue.prototype.$http.defaults.headers.common["Authorization"] = `JWT ${token}`;
 }
 
 // Vue Plugins

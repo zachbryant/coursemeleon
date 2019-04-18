@@ -19,22 +19,15 @@ let router = new Router({
       component: Home,
       meta: {
         requiresAuthQueries: false
-      }
-    },
-    {
-      path: "/manage/:cid?",
-      name: "manageCourse",
-      component: () => import("./views/Manage.vue"),
-      alias: "/edit/:cid?",
-      meta: {
-        requiresAuth: true
       },
-      props: true
-    },
-    {
-      path: "/explore",
-      name: "explore",
-      component: () => import("./views/Explore.vue")
+      props: route => ({
+        query: {
+          title: route.query.title,
+          term: route.query.term,
+          cid: route.query.cid,
+          abbr: route.query.abbr
+        }
+      })
     },
     {
       path: "/login",
@@ -53,16 +46,13 @@ let router = new Router({
       component: () => import("./views/Help.vue")
     },
     {
-      path: "/coursepage",
-      name: "coursepage",
-      // route level code-splitting (lazy load
-      component: () => import(/* webpackChunkName: "help" */ "./views/Coursepage.vue")
-    },
-    {
-      path: "/createcourse",
-      name: "createcourse",
-      // route level code-splitting (lazy load)
-      component: () => import(/* webpackChunkName: "inputInfo" */ "./views/CreateCourse")
+      path: "/create",
+      name: "create",
+      component: Home,
+      meta: {
+        requiresAuth: true
+      },
+      props: { isCreate: true }
     },
     {
       path: "/course:*",
