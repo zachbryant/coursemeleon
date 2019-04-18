@@ -20,7 +20,6 @@
                 dark fab)
             v-icon fa-cog
             v-icon fa-times
-            v-icon fa-upload
         v-btn(small fab)
           v-icon(color="blue") fa-user
         v-btn(v-if="isEditMode" small fab)
