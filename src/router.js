@@ -85,6 +85,7 @@ router.beforeEach((to, from, next) => {
       path: "/login",
       props: to.props,
       meta: to.meta,
+      query: to.query,
       params: {
         redirect: {
           path: to.fullPath,
