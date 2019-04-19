@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import Axios from "axios";
+import { stat } from "fs";
 
 Vue.use(Vuex);
 
@@ -65,6 +66,7 @@ export default new Vuex.Store({
   },
   getters: {
     course: state => state.course,
+    courseColor: state => state.course.color,
     accessLevel: state => state.level,
     errorMessage: state => state.errorMessage,
     warningMessage: state => state.warningMessage,
@@ -90,6 +92,14 @@ export default new Vuex.Store({
     componentEditMenuOptions: state => state.componentEditMenuOptions
   },
   mutations: {
+    setColor(state, color) {
+      state.course.color = color;
+    },
+    setCourseDates(state, { start_date, end_date, term }) {
+      state.course.start_date = start_date;
+      state.course.end_date = end_date;
+      state.course.term = term;
+    },
     setErrorMessage(state, msg) {
       state.errorMessage = msg;
     },
@@ -249,6 +259,21 @@ export default new Vuex.Store({
         });
       }
     },
+    getCourseAccessList({ state }) {
+      return new Promise((resolve, reject) => {
+        let cid = state.course.cid;
+        Axios({
+          url: API.COURSE_USERS + "cid=" + cid,
+          method: "GET"
+        })
+          .then(resp => {
+            resolve(resp.data);
+          })
+          .catch(err => {
+            reject(err.response);
+          });
+      });
+    },
     queryCourse({ commit }, params) {
       return new Promise((resolve, reject) => {
         var queryString = Object.keys(params)
@@ -310,35 +335,27 @@ export default new Vuex.Store({
           });
       });
     },
-    sendFile({commit}, file){
+    sendFile({ commit }, file) {
       return new Promise((resolve, reject) => {
         Axios({
           url: API.SEND_FILE,
           data: file,
           method: "PUT"
         })
-          .then(resp => {
-
-          })
-          .catch(err => {
-
-          })
-      })
+          .then(resp => {})
+          .catch(err => {});
+      });
     },
-    retrieveFile({commit}, file){
+    retrieveFile({ commit }, file) {
       return new Promise((resolve, reject) => {
         Axios({
           url: API.RETRIEVE_FILE,
           data: file,
           method: "GET"
         })
-          .then(resp => {
-
-          })
-          .catch(err => {
-
-          })
-      })
+          .then(resp => {})
+          .catch(err => {});
+      });
     },
     login({ commit }, credentials) {
       return new Promise((resolve, reject) => {
