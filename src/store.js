@@ -464,7 +464,7 @@ export default new Vuex.Store({
           .catch(err => {});
       });
     },
-    login({ commit }, credentials) {
+    login({ commit, state }, credentials) {
       return new Promise((resolve, reject) => {
         commit("auth_request");
         Axios({
@@ -475,6 +475,8 @@ export default new Vuex.Store({
           .then(resp => {
             //console.log("Auth request " + JSON.stringify(resp.data));
             const token = resp.data.token;
+            console.log(resp.data.user);
+            state.user = resp.data.user;
             localStorage.setItem("token", token);
             Axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
             commit("auth_success", token);

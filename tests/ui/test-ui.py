@@ -45,6 +45,11 @@ def url_equals(target):
         target.strip('/') == cur_url, "URL not equal to target: " + cur_url)
 
 
+def wait_url_equals(target):
+    while(target.strip('/') != sw.web.current_url.strip('/')):
+        pass
+
+
 def type_text(target):
     values = target.split("::", 2)
     elem = sw.web.find_element_by_css_selector(values[0])

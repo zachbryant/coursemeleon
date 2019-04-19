@@ -8,7 +8,7 @@
       v-model="drawer.open" 
       absolute 
       app)
-    //-h2(v-if="!drawer.mini") Menu
+    h2(v-if="!drawer.mini && isLoggedIn") Hello!
     v-subheader Site Navigation
     v-list
       v-list-tile(v-if="!isLoggedIn" to="/login")
@@ -91,6 +91,9 @@ export default {
     }
   },
   computed: {
+    user() {
+      return this.$store.getters.getUser;
+    },
     courseGroups() {
       var groups = [];
       groups.push({

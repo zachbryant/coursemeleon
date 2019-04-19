@@ -42,6 +42,7 @@ router.post("/login", (req, res, next) => {
           //res.cookie("jwt", jwt, { httpOnly: true, secure: true });
           res.status(200).send({
             token: token,
+            user: user,
             message: "Logged in"
           });
         }

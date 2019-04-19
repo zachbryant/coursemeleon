@@ -1,0 +1,32 @@
+{
+  "cases": [
+    [
+      { "get": "http://localhost:8080/create" },
+      { "url_equals": "http://localhost:8080/login" },
+      { "wait_url_equals": "http://localhost:8080/create" },
+      {
+        "type_text": "#content > div > div > span > div:nth-child(1) > div.flex.xs11.grow > div > div:nth-child(1) > div > div > div > div.v-input__slot > div.v-text-field__slot > input[type=\"text\"]::CS 426 Security"
+      },
+      {
+        "type_text": "#courseNav > div > div > div > span > div > div.flex.xs10 > div > div > div.v-input__slot > div > input[type=\"text\"]::Main tab"
+      },
+      {
+        "click_css": "#fabContainer > div > button"
+      }
+    ],
+    [
+      { "get": "http://localhost:8080/create" },
+      { "url_equals": "http://localhost:8080/login" },
+      { "wait_url_equals": "http://localhost:8080/create" },
+      {
+        "type_text": "#content > div > div > span > div:nth-child(1) > div.flex.xs11.grow > div > div:nth-child(1) > div > div > div > div.v-input__slot > div.v-text-field__slot > input[type=\"text\"]::CS 426 Security"
+      },
+      {
+        "type_text": "#courseNav > div > div > div > span > div > div.flex.xs10 > div > div > div.v-input__slot > div > input[type=\"text\"]::Main tab"
+      },
+      {
+        "click_css": "#fabContainer > div > button"
+      }
+    ]
+  ]
+}
