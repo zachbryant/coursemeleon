@@ -106,7 +106,17 @@
           "cmsplit" +
           this.courses[this.courses.length-1].resources +
           "cmsplit" +
-          this.courses[this.courses.length-1].contact_info;
+          this.courses[this.courses.length-1].color +
+          "cmsplit" +
+          this.courses[this.courses.length-1].color2 +
+          "cmsplit" +
+          this.courses[this.courses.length-1].font +
+          "cmsplit" +
+          this.courses[this.courses.length-1].pri +
+          "cmsplit" +
+          this.courses[this.courses.length-1].contact_info +
+          "cmsplit" +
+          this.courses[this.courses.length-1].course_info;
         console.log(t);
         await CourseService.insertPost(t);
         alert("Success! Course cloned!");
