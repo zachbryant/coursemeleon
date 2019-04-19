@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>{{ this.courseIndex }}</p>
     <Title v-bind:msg="this.courseIndex"/>
     <Calendar v-bind:msg="this.courseIndex"/>
     <Announcements v-bind:msg="this.courseIndex"/>
@@ -54,7 +53,11 @@ export default {
       console.log("URL = " + window.location.href);
       var url = window.location.href;
 
-      var courseName = url.substring(29);
+      //parse out course name from url
+      var urlName = url.substring(29);
+
+      //handle spaces
+      var courseName = urlName.replace("%20", " ");
       console.log("url coursename = " + courseName);
 
       this.obj= await CourseService.getOneCourse(courseName);

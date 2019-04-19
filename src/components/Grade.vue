@@ -147,7 +147,7 @@ export default {
                         datasets: [
                         {
                           data: [A_num, B_num, C_num,D_num,F_num],
-                          backgroundColor: ["#cde8a0", "#bed695", "#b7cc92","#a3b585","#98aa79"],
+                          backgroundColor: [this.courses[this.msg].color, this.courses[this.msg].color, this.courses[this.msg].color,this.courses[this.msg].color,this.courses[this.msg].color],
                           hoverBackgroundColor: ["#5B6870", "#5B6870", "#5B6870","#5B6870","#5B6870"]
                         }
                       ],
@@ -166,7 +166,7 @@ export default {
                     datasets: [{
                         label: '# of students',
                         data: [F_num, D_num, C_num,A_num,B_num],
-                        backgroundColor: ["#98aa79", "#a3b585", "#b7cc92","#bed695","#cde8a0"],
+                        backgroundColor: [this.courses[this.msg].color, this.courses[this.msg].color, this.courses[this.msg].color,this.courses[this.msg].color,this.courses[this.msg].color],
                         hoverBackgroundColor: ["#5B6870", "#5B6870", "#5B6870","#5B6870","#5B6870"],
                         borderWidth: 1
                     }]
@@ -191,7 +191,7 @@ export default {
                 
                 data: {
                     datasets: [{
-                        backgroundColor: "#b7cc92",
+                        backgroundColor: this.courses[this.msg].color,
                         label: 'Scatter Dataset',
                         data: [{
                             x: 70,
@@ -357,7 +357,7 @@ var SDprep = 0;
       datasets: [
       {
         data: [A_num, B_num, C_num,D_num,F_num],
-        backgroundColor: ["#cde8a0", "#bed695", "#b7cc92","#a3b585","#98aa79"],
+        backgroundColor: ["#cde8a0", "#bed695", "#636a75","#a3b585","#98aa79"],
         hoverBackgroundColor: ["#5B6870", "#5B6870", "#5B6870","#5B6870","#5B6870"]
       }
     ],
@@ -375,7 +375,7 @@ var SDprep = 0;
        datasets: [{
            label: '# of students',
            data: [F_num, D_num, C_num,A_num,B_num],
-           backgroundColor: ["#98aa79", "#a3b585", "#b7cc92","#bed695","#cde8a0"],
+           backgroundColor: [this.$vuetify.theme.primary.lighten-3, "#a3b585", "#636a75","#bed695","#cde8a0"],
            hoverBackgroundColor: ["#5B6870", "#5B6870", "#5B6870","#5B6870","#5B6870"],
            borderWidth: 1
        }]
@@ -399,7 +399,7 @@ var scatterChart = new Chart(ctx, {
   
    data: {
        datasets: [{
-           backgroundColor: "#b7cc92",
+           backgroundColor: "#636a75",
            label: 'Scatter Dataset',
            data: [{
                x: 70,
@@ -464,38 +464,38 @@ height: 100%;
 #mean{
 font-family: "Nunito", Helvetica, Arial, sans-serif;
 font-size: 30px;
-color:#b7cc92;
+color:#636a75;
 font-weight: bold;
  text-align: center;
 }
 #median{
 font-family: "Nunito", Helvetica, Arial, sans-serif;
 font-size: 30px;
-color:#b7cc92;
+color:#636a75;
 font-weight: bold;
  text-align: center;
 }
 #sd{
 font-family: "Nunito", Helvetica, Arial, sans-serif;
 font-size: 30px;
-color:#b7cc92;
+color:#636a75;
 font-weight: bold;
  text-align: center;
 }
 #grade h1 {
 font-size: 90px;
 text-decoration: underline;
-color:#b7cc92;
+color:#636a75;
 font-weight: bold;
 }
 #grade h2 {
 font-size: 40px;
-color:#b7cc92;
+color:#636a75;
 font-weight: normal;
 }
 #grade h3 {
 font-size: 40px;
-background-color: #b7cc92;
+background-color: #636a75;
 color:white;
  text-align: center;
 font-weight: normal;
@@ -510,7 +510,7 @@ font-weight: normal;
 #grade h6 {
 font-family: "Nunito", Helvetica, Arial, sans-serif;
 font-size: 20px;
-color:#b7cc92;
+color:#636a75;
  text-align: center;
 font-weight: normal;
 }
@@ -523,12 +523,12 @@ font-weight: normal;
   max-width: 70%;
  max-height: 70%;
  margin: auto;
- color: #b7cc92
+ color: #636a75
 }
 #myC {
   max-width: 85%;
  max-height: 85%;
  margin: auto;
- color: #b7cc92
+ color: #636a75
 }
 </style>

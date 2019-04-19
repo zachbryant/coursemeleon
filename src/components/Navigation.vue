@@ -116,7 +116,7 @@ export default {
         //@TODO insert api call
         this.isLoading = false;
 
-        var newURL = '/course:' + queryString.replace(/\s/g, '');
+        var newURL = '/course:' + queryString.replace(/\s/g, '%20');
         var newPath = queryString.replace(/\s/g, '%20');
         console.log(newURL);
         window.location.href = newURL;
