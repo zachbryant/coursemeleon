@@ -310,12 +310,12 @@ else{
 }
 }
 }
-console.log(A_num);
+/*console.log(A_num);
 console.log(B_num);
 console.log(C_num);
 console.log(D_num);
 console.log(F_num);
-console.log(num_array);
+console.log(num_array);*/
 var total = 0, i;
 var mean=0;
   for (i = 0; i < num_array.length; i += 1) {

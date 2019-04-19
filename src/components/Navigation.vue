@@ -40,9 +40,6 @@
           <v-btn to="/help" flat>
             <h4>Help</h4>
           </v-btn>
-          <v-btn to="/coursepage" flat>
-            <h4>My page</h4>
-          </v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </div>
@@ -116,8 +113,12 @@ export default {
         //@TODO insert api call
         this.isLoading = false;
 
-        var newURL = '/course:' + queryString.replace(/\s/g, '%20');
-        var newPath = queryString.replace(/\s/g, '%20');
+        //parse everything after the course id
+        var parseName = queryString.substring(queryString.indexOf(":"));
+        parseName = parseName.substring(2);
+
+        var newURL = '/course:' + parseName.replace(/\s/g, '%20');
+        var newPath = parseName.replace(/\s/g, '%20');
         console.log(newURL);
         window.location.href = newURL;
         //this.$router.push(newURL);
