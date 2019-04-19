@@ -1,6 +1,6 @@
 <template lang="pug">
   v-container(grid-list-xs fluid align-content-center fill-height pa-0 ma-0)
-    v-layout(v-if="loadingCourse" align-center justify-center fill-width fill-height)
+    v-layout(v-if="!shouldRender" align-center justify-center fill-width fill-height)
       v-progress-circular(indeterminate color="primary")
     //-v-layout(v-if="!!alertMessage" align-end justify-center fill-width fill-height)
     v-layout(v-else row align-center justify-space-between justify-text fill-width fill-height)
@@ -220,7 +220,6 @@ export default {
       }
     },
     loadCourse() {
-      // TODO add some animation
       this.loadingCourse = true;
       let self = this;
       if (this.search)
@@ -268,6 +267,9 @@ export default {
     }
   },
   computed: {
+    shouldRender() {
+      return !this.loadingCourse;
+    },
     colorPrimary: {
       get() {
         return this.$store.getters.courseColor || this.$vuetify.theme.primary;
@@ -349,6 +351,13 @@ export default {
         Object.keys(this.$store.getters.course).length == 0)
     ) {
       this.loadCourse();
+    }
+  },
+  watch: {
+    course: function(value) {
+      if (value.cid != this.course.cid) {
+        this.loadCourse();
+      }
     }
   }
 };
