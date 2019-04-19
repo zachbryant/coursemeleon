@@ -52,7 +52,9 @@ router.post("/", async (req, res) => {
     color: r[9],
     color2: r[10],
     font: r[11],
-    pri: r[12]
+    pri: r[12],
+    contact_info: r[13],
+    course_info: r[14]
   });
   res.status(201).send();
 });

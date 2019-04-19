@@ -47,7 +47,8 @@ export default {
             console.log("yeet")
             this.courses = await CourseService.getPosts(); //populate courses array
             //var tt=stringify(msg);
-            console.log("VVVVVV"+ this.courses[this.msg].color);
+            console.log("color = "+ this.courses[this.msg].color);
+            this.$vuetify.theme.primary = this.courses[this.msg].color;
         } catch(err) {
             this.error = err.message;
         }

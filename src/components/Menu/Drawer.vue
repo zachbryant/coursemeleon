@@ -126,7 +126,8 @@ export default {
         opts.unshift({
           title: "Create Course",
           skip: this.isLoggedIn,
-          path: "/create",
+          //path: "/create",
+          path: "/createcourse",
           icon: "add_circle"
         });
       return opts;
