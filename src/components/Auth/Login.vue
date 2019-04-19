@@ -17,7 +17,6 @@
                     :hint="errors.first('email')" 
                     :error="errors.has('email')"
                     @keyup.enter.native="generateCode()"
-                    @change="resetCodeState()"
                     @click:clear="resetCodeState()")
         v-btn(v-if="!codeRequested" 
               color="primary" 
@@ -51,6 +50,7 @@ export default {
   data() {
     return {
       email: null,
+      oldEmail: null,
       codeRequested: false,
       codeLoading: false,
       codeError: false,
@@ -117,6 +117,14 @@ export default {
   computed: {
     authErrorMessage() {
       return this.$store.getters.authStatus;
+    }
+  },
+  watch: {
+    email: function(value) {
+      if (value != this.oldEmail) {
+        this.resetCodeState();
+        this.oldEmail = value;
+      }
     }
   }
 };
