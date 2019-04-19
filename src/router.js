@@ -48,7 +48,10 @@ let router = new Router({
     {
       path: "/create",
       name: "create",
-      component: () => import("./views/Home.vue"),
+      component: function() {
+        Home = import("./views/Home.vue");
+        return Home;
+      },
       meta: {
         requiresAuth: true
       },
