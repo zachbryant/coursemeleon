@@ -85,21 +85,61 @@ router.get(
   }
 );
 
-router.get("/getAll", (req, res) => {
-  let query = req.query;
-  schemas.Course.exactAll(query, function(err, courses) {
-    if (err) {
-      console.log(err);
-      res.status(500).send({ message: "Yikes! That's a server error." });
-    } else if (courses) {
-      res.status(200).send({ courses: courses });
-    } else {
-      res
-        .status(404)
-        .send({ message: "We couldn't find any matches for " + query });
-    }
-  });
-});
+router.get(
+  "/getAll",
+  passport.authenticate(["JWT", "anonymous"], { session: false }),
+  (req, res) => {
+    let query = req.query;
+    let user = req.user;
+    schemas.Course.exactAll(query, function(err, courses) {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ message: "Yikes! That's a server error." });
+      } else if (courses) {
+        console.log("Initial matches: " + courses.length);
+        let finalResult = [];
+        courses.forEach(course => {
+          if (course.published && !course.whitelist) finalResult.push(course);
+        });
+        console.log("Public courses: " + finalResult.length);
+        let cids = [];
+        courses.forEach(course => cids.push(course.cid));
+        console.log(cids);
+        schemas.Access.byUserAndCidArray(user, cids, function(err1, access) {
+          if (err1) console.log(err1);
+          if (access) {
+            console.log("Access: " + access);
+            cids = [];
+            access.forEach(acc => cids.push(acc.cid));
+            schemas.Course.byCidArray(cids, function(err2, result) {
+              if (err2) console.log(err2);
+              if (result) {
+                result.forEach(course => {
+                  if (!(course.published && !course.whitelist))
+                    finalResult.push(course);
+                });
+                res.status(200).send({ courses: finalResult });
+              } else {
+                res.status(404).send({
+                  message: "We couldn't find any matches for " + query
+                });
+              }
+            });
+          } else {
+            res.status(401).send({
+              message:
+                "You don't have access to any courses under query: " + query
+            });
+          }
+        });
+      } else {
+        res
+          .status(404)
+          .send({ message: "We couldn't find any matches for " + query });
+      }
+    });
+  }
+);
 
 router.get(
   "/get",
