@@ -7,19 +7,19 @@
           h3#title(class="hidden-sm-and-down") Coursemeleon
       v-flex(xs6)
         v-autocomplete(
-          v-model="model"
+          v-model="selection"
           :items="names"
           :loading="isLoading"
-          search-input.sync="search"
+          :search-input.sync="search"
           color="white"
           hide-no-data
           hide-selected
+          return-object
           clearable
-          item-text="Description"
-          item-value="API"
+          item-text="text"
+          item-value="course"
           placeholder="Search"
-          prepend-icon="mdi-database-search"
-          @change="queryCourses")
+          prepend-icon="mdi-database-search")
         v-divider
       v-flex(xs2)
         v-btn(flat @click.stop="$emit('toggleHamburgerEvent')")
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import CourseService from "../../services/CourseService";
-import store from "../../store";
+//import CourseService from "../../services/CourseService";
+//import store from "../../store";
 
 export default {
   name: "navigation",
@@ -38,66 +38,48 @@ export default {
   components: {},
   data() {
     return {
-      model: null,
+      selection: null,
       isLoading: false,
-      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"],
-      names: [],
       courses: [],
-      obj: ""
+      search: null
     };
   },
-  async created() {
-    //runs automatically when component created
-    try {
-      
-      this.courses = await CourseService.getPosts(); //populate courses array
-      //console.log("CCCCCC" + this.courses[0]._id);
-      //commit message
-      
-      this.names =await CourseService.getNames();
-    } catch (err) {
-      this.error = err.message;
+  computed: {
+    names() {
+      return this.courses.map(course => {
+        var text = course.course_name + " (" + course.term + ")"
+        return Object.assign({}, course, { text })
+      });
     }
   },
   methods: {
-    async queryCourses(queryString) {
-      if (queryString != undefined && queryString.length > 1) {
-        console.log("query");
+    queryCourses(queryString) {
+      
+    }
+  },
+  watch: {
+    selection(value, old) {
+      if (value) {
+        this.$router.push({name: "home", query: {cid: value.cid}});
+        this.$store.commit("setActiveCourse", value);
+        let color = value.color || "#AED581";
+        this.$vuetify.theme.primary = color;
+        this.$vuetify.theme.secondary = color;
+        this.$vuetify.theme.accent = color;
+        //this.$router.go();
+      }
+    },
+    search(queryString) {
+      let self = this;
+      if (queryString && queryString.length > 2) {
         this.isLoading = true;
-        console.log(queryString);
-        this.obj= await CourseService.getOneCourse(queryString)//.then(function(response){console.log(response)});
-        console.log("ZZZZZZZ" + this.obj);
-        
-         
-        /*for(var i=0;i<this.courses.length;i++){
-          
-          if((this.courses[i]._id.localeCompare(this.obj))==0){
-            //this.store.commit("setCourseIndex", {i});
-            store.commit("setCourseIndex", i);
-            //store.state.courseIndex = i;
-          
-            //console.log("YES WE FINALLY MADE IT");      
-            //console.log("course index is:" + i);
-            //https://stackoverflow.com/questions/54188674/vue-js-vuex-state-not-updating-the-component-after-change
-            console.log("nav course index state is: " + store.state.courseIndex);
-          }*/
-          
-          //console.log("your mom");
-          //console.log(this.courses[i]._id + "jjjjjj" + this.obj)
-        }
+        this.$store.dispatch("queryCoursesByRegex", {course_name: queryString}).then(resp => {
+          self.courses = resp.courses;
+        }).catch(err => {
+          console.log(err);
+        });
         //@TODO insert api call
         this.isLoading = false;
-
-        //parse everything after the course id
-        var parseName = queryString.substring(queryString.indexOf(":"));
-        parseName = parseName.substring(2);
-
-        var newURL = '/course:' + parseName.replace(/\s/g, '%20');
-        var newPath = parseName.replace(/\s/g, '%20');
-        console.log(newURL);
-        //window.location.href = newURL;
-        this.$router.push(newURL);
-        this.$router.push({ path: "/", query: { cid: this.obj }});
       }
     }
   }
