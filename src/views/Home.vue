@@ -1,64 +1,59 @@
 <template lang="pug">
-  v-container#home(fluid fill-height px-2)
-      v-layout
-        v-layout(row)
-          v-flex#flexSidebar(xs4 scroll-y)
-            Sidebar
-          v-flex#coursePage(xs10 justify-center scroll-y)
-            keep-alive
-              component(:is="currentCourseComponent" :data="courseData")
+  v-container#home(fluid fill-height px-5)
+    v-layout(row)
+      keep-alive
+        component(v-if="isCreate" :is="currentCourseComponent" :isCreate="isCreate")
+        component(v-if="validQuery" :is="currentCourseComponent" :search="query")
+        
 </template>
 
 <script>
-// @ is an alias to /src
-import { Sidebar, Overview, Course } from "@/components/componentImports";
+// * @ is an alias to /src
+import { Overview } from "@/components/componentImports";
 
 export default {
   name: "home",
   components: {
-    Sidebar,
     Overview,
-    Course
+    course: () => import("@/components/Course/Course")
   },
-  props: {},
-  data() {
-    return {
-      courseData: {
-        name: ""
+  props: {
+    query: {
+      type: Object,
+      required: false,
+      default: function() {
+        return {};
       }
-    };
+    },
+    isCreate: {
+      type: Boolean,
+      required: false
+    }
+  },
+  data() {
+    return {};
   },
   methods: {
-    validateCourseName() {
-      this.courseData.name = this.$route.query.course;
-      return this.courseData.name != null && this.courseData.name.length > 2;
+    validQuery() {
+      return (
+        !!this.query.title ||
+        !!this.query.cid ||
+        !!this.query.term ||
+        !!this.query.abbr
+      );
     }
   },
   computed: {
     currentCourseComponent: function() {
-      if (this.validateCourseName()) {
-        return Course;
-      } else {
-        return "overview";
-      }
+      return this.isCreate || this.validQuery() ? "course" : "overview";
     }
+  },
+  created() {
+    
   }
 };
 </script>
 
 <style lang="less">
 @import (reference) "../App.less";
-
-#flexSidebar {
-  min-width: 33vw;
-  //border-right: 1px solid @primary;
-}
-#coursePage {
-  padding: 0 5% 0 5%;
-}
-
-#coursePage,
-#flexSidebar {
-  min-height: 100%;
-}
 </style>

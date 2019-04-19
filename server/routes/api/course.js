@@ -2,6 +2,8 @@ const express = require("express");
 const mongodb = require("mongodb");
 const mail = require("./mail");
 const router = express.Router();
+const schemas = require("../../schema/schema");
+const passport = require("passport");
 
 //Get Posts
 router.get("/", async (req, res) => {
@@ -53,6 +55,101 @@ router.post("/", async (req, res) => {
   });
   res.status(201).send();
 });
+
+router.get(
+  "/get",
+  passport.authenticate(["JWT", "anonymous"], { session: false }),
+  (req, res) => {
+    let query = req.query;
+    console.log("Query course: " + JSON.stringify(query));
+    let user = req.user;
+    schemas.Course.exact(query, function(err, course) {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ message: "Server error. See console" });
+      } else if (course) {
+        if (!course.published) {
+          schemas.Access.hasAccessToCourse(user, course, function(
+            err2,
+            access
+          ) {
+            if (err2) console.log(err2);
+            if (access && access.level >= schemas.ACCESS_LEVELS.EDIT) {
+              res.status(200).send(course);
+            } else {
+              res
+                .status(404)
+                .send({ message: "Not found: " + JSON.stringify(query) });
+            }
+          });
+        } else if (course.whitelist) {
+          if (!user) {
+            res.status(401).send({
+              message: "User must sign in to access whitelisted course"
+            });
+          } else {
+            schemas.Access.hasAccessToCourse(user, course, function(
+              err1,
+              access
+            ) {
+              if (err1) console.log(err1);
+              if (access && access.level >= schemas.ACCESS_LEVELS.VIEW) {
+                res.status(200).send(course);
+              } else {
+                console.log("Not on whitelist");
+                res.status(401).send({ message: "User not on whitelist" });
+              }
+            });
+          }
+        } else {
+          res.status(200).send(course);
+        }
+      } else {
+        res.status(404).send();
+      }
+    });
+  }
+);
+
+router.put(
+  "/put",
+  passport.authenticate("JWT", { session: false }),
+  (req, res) => {
+    let user = req.user;
+    let course = req.body.course;
+    schemas.Access.hasAccessToCourse(user, course, function(err, access) {
+      if (err) {
+        console.log(err);
+        res.status(500).send(err);
+      } else if (
+        !access ||
+        (access && access.level >= schemas.ACCESS_LEVELS.EDIT)
+      ) {
+        // ! Not very safe w/o check for newness of course
+        schemas.Course.putOne(course, function(err, ok) {
+          if (err) {
+            console.log(err);
+            res.status(409).send();
+          }
+          if (ok) {
+            if (!access && !err) {
+              schemas.Access.create({
+                uid: user.uid,
+                cid: ok.cid,
+                level: schemas.ACCESS_LEVELS.OWNER
+              });
+            } else {
+              // TODO email update
+              //util.email
+            }
+          }
+        });
+      } else {
+        res.status(401).send();
+      }
+    });
+  }
+);
 
 //Delete Post
 router.delete("/:id", async (req, res) => {

@@ -7,20 +7,6 @@
 </template>
 
 <style lang="less" scoped>
-#Error {
-  font-family: "Nunito", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  font-size: 70px;
-  margin-top: 60px;
-  height: 100%;
-}
-
-h2 {
-  font-size: 40px;
-  font-weight: normal;
-}
 button {
   font-family: "Nunito", Helvetica, Arial, sans-serif;
   font-size: 40px;

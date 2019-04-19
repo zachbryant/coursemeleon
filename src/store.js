@@ -8,26 +8,173 @@ let apiLogin = BASE_URL + "/api/login/";
 let apiPermission = BASE_URL + "/api/permission/";
 //let apiCourse = BASE_URL + "/api/course/";
 let apiUserCourses = apiPermission + "";
+
+const uuidv4 = require("uuid/v4");
+const API = require("./apiDefinitions");
 let isDev = process.env.NODE_ENV !== "production";
 
 export default new Vuex.Store({
   state: {
     user: localStorage.getItem("user") || null,
     token: localStorage.getItem("token") || "",
+    edit: false,
+    tabIndex: 0,
+    course: {
+      /*
+      course_name: "",
+      cid: uuidv4(),
+      tabs: [
+        {
+          title: "",
+          id: uuidv4(),
+          elements: []
+        }
+      ],
+      abbr: "",
+      term: "",
+      term_start: "",
+      color: "",
+      font: "",
+      published: false,
+      whitelist: false*/
+    },
+    componentEditMenuOptions: [
+      { title: "Announcements", instanceName: "Announcements" },
+      { title: "Calendar", instanceName: "Calendar" },
+      { title: "Grade stats", instanceName: "Grade" },
+      { title: "Office Hours", instanceName: "officehours" },
+      { title: "Rich text", instanceName: "rich-content" },
+      { title: "Embed document", instanceName: "doc-embed" }
+    ],
     status: "",
     userCourses: {},
     color: "#aed581",
     courseIndex: 0,
+    apiResult: {},
+    drawer: {
+      // sets the open status of the drawer
+      open: !!localStorage.getItem("drawer.open") || false,
+      // sets if the drawer is shown above (false) or below (true) the toolbar
+      clipped: !!localStorage.getItem("drawer.clipped") || true,
+      // sets if the drawer is CSS positioned as 'fixed'
+      fixed: !!localStorage.getItem("drawer.fixed") || true,
+      // sets if the drawer remains visible all the time (true) or not (false)
+      permanent: !!localStorage.getItem("drawer.permanent") || false,
+      // sets the drawer to the mini variant, showing only icons, of itself (true)
+      // or showing the full drawer (false)
+      mini: !!localStorage.getItem("drawer.mini") || false
+    }
   },
   getters: {
+    course: state => state.course,
+    courseTab: state => {
+      if (
+        state.course &&
+        state.course.tabs &&
+        state.course.tabs.length >= state.tabIndex
+      )
+        return state.course.tabs[state.tabIndex];
+      return {};
+    },
+    getTabIndex: state => state.tabIndex,
+    isEditMode: state => state.edit,
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
     getUserCourses: state => state.userCourses,
     getColor: state => state.color,
-    getCourseIndex: state => state.courseIndex
+    getCourseIndex: state => state.courseIndex,
+    navDrawerState: state => state.drawer,
+    getApiResult: state => state.apiResult,
+    componentEditMenuOptions: state => state.componentEditMenuOptions
   },
   mutations: {
+    removeCourseElement(state, index) {
+      if (
+        index >= 0 &&
+        index < state.course.tabs[state.tabIndex].elements.length
+      ) {
+        state.course.tabs[state.tabIndex].elements.splice(index, 1);
+      }
+    },
+    insertCourseElement(state, { index, type, data }) {
+      //console.log(state.course.tabs[state.tabIndex]);
+      if (
+        index >= -1 &&
+        index < state.course.tabs[state.tabIndex].elements.length
+      ) {
+        state.course.tabs[state.tabIndex].elements.splice(index + 1, 0, {
+          instanceName: type,
+          id: uuidv4(),
+          data: data
+        });
+        //onsole.log(state.course.tabs[state.tabIndex].elements);
+      }
+    },
+    updateCourseTabs(state, tabs) {
+      state.course.tabs = tabs;
+      if (state.tabIndex >= tabs.length) state.tabIndex = 0;
+    },
+    updateCourseTabElements(state, elements) {
+      state.course.tabs[state.tabIndex].elements = elements;
+    },
+    updateCourseTabElement(state, { index, data }) {
+      state.course.tabs[state.tabIndex].elements[index].data = data;
+    },
+    setTabIndex(state, index) {
+      state.tabIndex = index;
+    },
+    setActiveCourse(state, course) {
+      state.course = course;
+    },
+    setTitle(state) {
+      state.course.course_name = state.course.tabs[0].elements[0].data.text;
+    },
+    insertCourseTab(state, index) {
+      state.course.tabs.splice(index, 0, {
+        title: "",
+        elements: [],
+        id: uuidv4()
+      });
+    },
+    removeCourseTab(state, index) {
+      state.course.tabs.splice(index, 1);
+    },
+    toggleEditMode(state) {
+      state.edit = !state.edit;
+    },
+    setEditMode(state, cond) {
+      state.edit = cond;
+    },
+    // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
+    toggleNavDrawer(state) {
+      if (state.drawer.permanent) {
+        state.drawer.permanent = false;
+        localStorage.removeItem("drawer.permanent");
+        // set the clipped state of the drawer and toolbar
+        state.drawer.clipped = true;
+        localStorage.setItem("drawer.clipped", state.drawer.clipped);
+      }
+      state.drawer.open = !state.drawer.open;
+    },
+    // toggles the drawer variant (mini/full)
+    toggleMiniNavDrawer(state) {
+      state.drawer.mini = !state.drawer.mini;
+      if (state.drawer.mini)
+        localStorage.setItem("drawer.mini", state.drawer.mini);
+      else localStorage.removeItem("drawer.mini");
+    },
+    // changes the drawer to permanent
+    makeNavDrawerPermanent(state) {
+      state.drawer.permanent = true;
+      localStorage.setItem("drawer.permanent", state.drawer.permanent);
+      // set the clipped state of the drawer and toolbar
+      state.drawer.clipped = false;
+      localStorage.removeItem("drawer.clipped");
+    },
+    userCourses(state, courses) {
+      state.userCourses = courses;
+    },
     unSaveCourse(state, cid) {
       state.userCourses[cid].saved = false;
     },
@@ -37,10 +184,9 @@ export default new Vuex.Store({
     auth_request(state) {
       state.status = "loading";
     },
-    auth_success(state, token, user) {
+    auth_success(state, token) {
       state.status = "success";
       state.token = token;
-      state.user = user;
     },
     auth_error(state, message) {
       state.status = message || "Unknown error";
@@ -50,6 +196,9 @@ export default new Vuex.Store({
       state.token = "";
       state.user = "";
       state.userCourses = {};
+      localStorage.removeItem("token");
+      delete Axios.defaults.headers.common["Authorization"];
+      if (state.edit) state.edit = false;
     },
     setPrimaryColor(state, newcolor) {
       state.color = newcolor;
@@ -60,16 +209,21 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    toggleEditMode({ state, dispatch, commit }) {
+      commit("toggleEditMode");
+      commit("setTitle");
+      dispatch("updateCourse", state.course);
+    },
     getUserCourses({ state }) {
       if (state.getters.isLoggedIn) {
         return new Promise((resolve, reject) => {
           Axios({
-            url: String.format(apiUserCourses, state.user.id),
+            url: String.format(API.USER_ACCESS, state.user.id),
             method: "GET"
           })
             .then(resp => {
               console.log("User courses: " + JSON.stringify(resp.data));
-              state.userCourses = resp.data.courses;
+              state.commit("userCourses", resp.data.courses);
               resolve(resp);
             })
             .catch(err => {
@@ -78,28 +232,70 @@ export default new Vuex.Store({
         });
       }
     },
+    queryCourse({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        var queryString = Object.keys(params)
+          .map(key => {
+            if (params[key]) return key + "=" + params[key];
+            return "";
+          })
+          .filter(Boolean)
+          .join("&");
+        Axios({
+          url: API.QUERY_COURSE + queryString,
+          method: "GET"
+        })
+          .then(resp => {
+            console.log("Course query response: " + JSON.stringify(resp.data));
+            commit("setActiveCourse", resp.data);
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log(err);
+            commit("setActiveCourse", {});
+            reject(err);
+          });
+      });
+    },
+    updateCourse({ commit }, courseObj) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.PUT_COURSE,
+          data: { course: courseObj },
+          method: "PUT"
+        })
+          .then(resp => {
+            console.log("Successfully updated course");
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log(err);
+            reject(err);
+          });
+      });
+    },
     login({ commit }, credentials) {
       return new Promise((resolve, reject) => {
         commit("auth_request");
         Axios({
-          url: apiLogin,
+          url: API.LOGIN,
           data: credentials,
           method: "POST"
         })
           .then(resp => {
-            console.log("Auth request " + JSON.stringify(resp.data));
+            //console.log("Auth request " + JSON.stringify(resp.data));
             const token = resp.data.token;
-            const user = resp.data.user;
             localStorage.setItem("token", token);
-            localStorage.setItem("user", user);
-            Axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, user);
+            Axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+            commit("auth_success", token);
             resolve(resp);
           })
           .catch(err => {
             var message;
-            if (err.status == 401) {
-              message = "Your code was invalid or expired.";
+            console.log("Login error:");
+            console.log(err);
+            if (err.response.status == 401) {
+              message = "Your code didn't work.";
             } else {
               message = "That's an error! Try again in a few minutes.";
             }
@@ -112,11 +308,19 @@ export default new Vuex.Store({
     logout({ commit }) {
       // eslint-disable-next-line no-unused-vars
       return new Promise((resolve, reject) => {
-        commit("logout");
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        delete Axios.defaults.headers.common["Authorization"];
-        resolve();
+        Axios({
+          url: API.LOGOUT,
+          method: "GET"
+        })
+          .then(resp => {
+            commit("logout");
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log("Problem logging out");
+            console.log(err);
+            reject(err);
+          });
       });
     }
   },
