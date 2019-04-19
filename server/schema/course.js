@@ -22,9 +22,9 @@ var courseSchema = new Schema({
     required: true
   },
   announcements: {
-    type: String,
+    type: Schema.Types.Mixed,
     required: false,
-    default: ""
+    default: []
   },
   color: String,
   font: String,
