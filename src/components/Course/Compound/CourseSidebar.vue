@@ -14,7 +14,7 @@
             v-flex(xs2 mr-2)
               v-btn(flat icon color="primary")
                 //-v-icon(v-if="isEditMode") fa-grip-vertical
-                v-icon(v-if="index == tabIndex && !isEditMode" size="22px") fa-asterisk
+                v-icon(v-if="index == tabIndex" size="22px") fa-asterisk
             v-flex(xs10)
               h5(v-if="!isEditMode" @click="select(index)" :style="getColor(index)") {{ tab.title }}
               v-text-field(v-else v-model="tab.title" single-line validate-on-blur)
