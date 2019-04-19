@@ -1,5 +1,5 @@
 <template lang="pug">
-  div()
+  div#textContainer()
     div(v-if="!isEditMode")
       h5(v-if="textType === 'h5'") {{ content }}
       h4(v-else-if="textType === 'h4'") {{ content }}
@@ -45,9 +45,4 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
-div {
-  display: inline;
-  //width: 100%;
-}
-</style>
+<style lang="less"></style>
