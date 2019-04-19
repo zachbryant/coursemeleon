@@ -47,6 +47,7 @@ export default {
   components: {
     "rich-content": () => import("./RichContent.vue"),
     "list-item": () => import("./List.vue"),
+    "term-picker": () => import("./TermPicker.vue"),
     "document-item": () => import("./Document.vue"),
     "edit-sep": () => import("../Compound/EditSeparator.vue"),
     "edit-item-menu": () => import("../Compound/EditItemMenu.vue"),
@@ -63,7 +64,7 @@ export default {
   methods: {
     // TODO change draggable > 2
     isDraggable: function(index) {
-      return index > 0 && this.tabIndex == 0;
+      return index > 1 && this.tabIndex == 0;
     },
     editSepNew: function(index, type) {
       console.log(type);
@@ -77,13 +78,11 @@ export default {
       this.showInsert = index;
     },
     canShowMenu: function(index) {
-      return this.showMenu == index && index > 0;
+      return this.showMenu == index && index > 1;
     },
     canShowInsert: function(index) {
       return (
-        (Math.abs(this.showInsert - index) <= 1 && index >= 0) ||
-        (this.tabIndex != 0 && index == -1)
-      );
+        (Math.abs(this.showInsert - index) <= 1 && ((this.tabIndex != 0 && index == -1) || (this.tabIndex == 0 && index >= 1))));
     }
   },
   computed: {
