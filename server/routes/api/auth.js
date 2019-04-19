@@ -73,6 +73,46 @@ router.get(
 );
 
 router.get(
+  "/user/courses",
+  passport.authenticate("JWT", { session: false }),
+  (req, res) => {
+    let user = req.user;
+    console.log(user);
+    schemas.Access.byUid(user, function(err, access) {
+      if (err) console.log(err);
+      if (access) {
+        access = access.filter(a => a.level > schemas.ACCESS_LEVELS.NONE);
+        schemas.Course.byCidArray(access, function(err1, courses) {
+          if (err1) console.log(err1);
+          if (courses) {
+            let fullCourses = [];
+            schemas.User.byUid(user, function(err2, data) {
+              if (err2) console.log(err2);
+              if (data) {
+                let savedCourses = data.savedCourses;
+                courses.forEach(course => {
+                  fullCourses.push({
+                    cid: course.cid,
+                    saved:
+                      course.cid in savedCourses && savedCourses[course.cid],
+                    title: course.course_name,
+                    abbr: course.course_abbr
+                  });
+                });
+                console.log(fullCourses);
+                res.status(200).send({ saved: fullCourses });
+                return;
+              }
+            });
+          }
+        });
+      }
+      res.status(404).send({ message: "Saved courses not found" });
+    });
+  }
+);
+
+router.get(
   "/",
   passport.authenticate("JWT", { session: false }),
   (req, res) => {
