@@ -52,9 +52,7 @@ export default {
       });
     }
   },
-  methods: {
-    queryCourses(queryString) {}
-  },
+  methods: {},
   watch: {
     selection(value, old) {
       if (value) {
@@ -69,6 +67,7 @@ export default {
           .dispatch("getCourseAccess")
           .then(resp => {
             self.$store.commit("setActivePermission", resp.data.level);
+            self.selection = null;
           })
           .catch(err => {
             console.log(err);
@@ -88,7 +87,6 @@ export default {
           .catch(err => {
             console.log(err);
           });
-        //@TODO insert api call
         this.isLoading = false;
       }
     }
