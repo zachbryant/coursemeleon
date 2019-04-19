@@ -74,6 +74,7 @@ router.beforeEach((to, from, next) => {
   store.commit("setWarningMessage", "");
   store.commit("setInfoMessage", "");
   store.commit("setSuccessMessage", "");
+  store.dispatch("setEditMode", false);
   if (to.matched.some(record => !!record.meta.requiresAuth)) {
     console.log(to);
     if (store.getters.isLoggedIn) {

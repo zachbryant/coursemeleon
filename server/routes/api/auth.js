@@ -116,27 +116,20 @@ router.get(
   "/",
   passport.authenticate("JWT", { session: false }),
   (req, res) => {
+    //let requester = req.user;
     let user = req.user;
-    let course = req.course;
-    if (user)
-      schemas.Access.byUser(user, function(err, access) {
-        if (access) {
-          console.log(access);
-          if (access.length > 0) res.send({ access: access });
-          else res.send({ access: "None granted" });
-        }
-        if (err) console.log(err);
-      });
-    else if (course) {
-      schemas.Access.byCourse(course, function(err, access) {
-        if (access) {
-          console.log(access);
-          if (access.length > 0) res.send({ access: access });
-          else res.send({ access: "None granted" });
-        }
-        if (err) console.log(err);
-      });
-    } else res.status(400).send();
+    let query = req.query;
+    let cid = query.cid;
+    schemas.Access.hasAccessToCourse(user, { cid: cid }, function(err, access) {
+      if (err) console.log(err);
+      if (access) {
+        res.status(200).send({ level: access.level });
+      } else {
+        res
+          .status(404)
+          .send({ message: "No records for user access in the database" });
+      }
+    });
   }
 );
 

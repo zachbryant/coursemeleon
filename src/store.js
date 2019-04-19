@@ -195,8 +195,8 @@ export default new Vuex.Store({
     toggleEditMode(state) {
       state.edit = !state.edit;
     },
-    setEditMode(state, cond) {
-      state.edit = cond;
+    setEditMode(state, value) {
+      state.edit = value;
     },
     // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
     toggleNavDrawer(state) {
@@ -263,6 +263,9 @@ export default new Vuex.Store({
       commit("setTitle");
       dispatch("updateCourse", state.course);
       dispatch("setCourseUsers", users);
+    },
+    setEditMode({state, commit}, value) {
+      commit("setEditMode", value);
     },
     saveCourse({ commit, state }, course) {
       let cid = course.cid;
@@ -402,6 +405,20 @@ export default new Vuex.Store({
           })
           .catch(err => {
             console.log(err);
+            reject(err.response);
+          });
+      });
+    },
+    getCourseAccess({ state }) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.COURSE_ACCESS + "?cid=" + state.course.cid,
+          method: "GET"
+        })
+          .then(resp => {
+            resolve(resp);
+          })
+          .catch(err => {
             reject(err.response);
           });
       });

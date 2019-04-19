@@ -45,7 +45,6 @@ router.get(
     let query = req.query;
     let cid = query.cid;
     let user = req.user;
-    console.log(user);
     schemas.Access.hasAccessToCourse(user, { cid: cid }, function(err, access) {
       if (err) console.log(err);
       if (access && access.level >= schemas.ACCESS_LEVELS.ADMIN) {
@@ -55,7 +54,6 @@ router.get(
             var queryUsers = [];
             var userLevels = {};
             users.forEach(userObj => {
-              console.log(userObj.uid);
               queryUsers.push(userObj.uid);
               userLevels[userObj.uid] = userObj.level;
             });
@@ -89,7 +87,6 @@ router.get(
 
 router.get("/getAll", (req, res) => {
   let query = req.query;
-  console.log(query);
   schemas.Course.exactAll(query, function(err, courses) {
     if (err) {
       console.log(err);

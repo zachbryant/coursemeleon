@@ -33,7 +33,7 @@ accessSchema.statics = {
   },
   hasAccessToCourse: function(user, course, callback) {
     let self = this;
-    if ("cid" in course) {
+    if (course instanceof Object && "cid" in course) {
       return this.findOne(
         {
           uid: user instanceof Object ? user.uid : user,
@@ -41,14 +41,18 @@ accessSchema.statics = {
         },
         callback
       );
-    } else if ("term" in course && "title" in course) {
+    } else if (
+      course instanceof Object &&
+      "term" in course &&
+      "title" in course
+    ) {
       return schemas.Course.exact(
         { term: course.term, title: course.title },
         function(err, ok) {
           if (err) console.log(err);
           self.findOne(
             {
-              uid: "uid" in user ? user.uid : user,
+              uid: user instanceof Object ? user.uid : user,
               cid: ok.cid
             },
             callback

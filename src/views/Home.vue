@@ -1,7 +1,7 @@
 <template lang="pug">
   v-container#home(fluid fill-height px-5)
     component(v-if="isCreate" :is="currentCourseComponent" :isCreate="isCreate")
-    component(v-if="validQuery" :is="currentCourseComponent" :search="query" :key="renderKey")
+    component(v-if="!isCreate && validQuery" :is="currentCourseComponent" :search="query" :key="renderKey")
 </template>
 
 <script>

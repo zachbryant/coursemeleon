@@ -11,11 +11,11 @@
               @mouseover="hoverOver(index)"
               @mouseleave="hoverOver(-1)"
               @click="isEditMode && select(index)")
-            v-flex(xs2 md1 style="margin-right: 10px;")
+            v-flex(xs2 style="margin-right: 10px;")
               v-btn(flat icon color="primary")
                 //-v-icon(v-if="isEditMode") fa-grip-vertical
                 v-icon(v-if="index == tabIndex" size="22px") fa-asterisk
-            v-flex(xs10 md11)
+            v-flex(xs10)
               h5(v-if="!isEditMode" @click="select(index)" :style="getColor(index)" class="ml-2") {{ tab.title }}
               v-text-field(v-else v-model="tab.title" single-line validate-on-blur)
             v-flex(v-if="isEditMode")

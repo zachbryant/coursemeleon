@@ -60,12 +60,18 @@ export default {
   watch: {
     selection(value, old) {
       if (value) {
+        let self = this;
         this.$router.push({name: "home", query: {cid: value.cid}});
         this.$store.commit("setActiveCourse", value);
         let color = value.color || "#AED581";
         this.$vuetify.theme.primary = color;
         this.$vuetify.theme.secondary = color;
         this.$vuetify.theme.accent = color;
+        this.$store.dispatch("getCourseAccess").then(resp => {
+          self.$store.commit("setActivePermission", resp.data.level);
+        }).catch(err => {
+          console.log(err);
+        });
         //this.$router.go();
       }
     },
