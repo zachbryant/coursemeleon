@@ -92,7 +92,7 @@ export default {
   computed: {
     userName() {
       let user = this.$store.getters.getUser;
-      if (user) return ", " + user.uname + "!";
+      if (user && user.uname) return ", " + user.uname + "!";
       return "!";
     },
     courseGroups() {
