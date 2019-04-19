@@ -44,7 +44,7 @@ export default new Vuex.Store({
     ],
     status: "",
     userCourses: {},
-    viewedCourses: [],//localStorage.getItem("history") || [],
+    viewedCourses: [], //localStorage.getItem("history") || [],
     apiResult: {},
     drawer: {
       // sets the open status of the drawer
@@ -113,9 +113,10 @@ export default new Vuex.Store({
     setColor(state, color) {
       state.course.color = color;
     },
-    setCourseDates(state, { start_date, end_date, term }) {
-      state.course.start_date = start_date;
-      state.course.end_date = end_date;
+    setCourseDates(state, { value, term }) {
+      console.log(value);
+      console.log(term);
+      state.course.term_start = value;
       state.course.term = term;
     },
     setErrorMessage(state, msg) {
@@ -251,9 +252,6 @@ export default new Vuex.Store({
       delete Axios.defaults.headers.common["Authorization"];
       if (state.edit) state.edit = false;
     },
-    setPrimaryColor(state, newcolor) {
-      state.color = newcolor;
-    },
     setCourseIndex(state, index) {
       console.log("MUTATING " + index);
       state.courseIndex = index;
@@ -357,11 +355,33 @@ export default new Vuex.Store({
           method: "GET"
         })
           .then(resp => {
-            console.log("Course query response: " + JSON.stringify(resp.data));
+            //console.log("Course query response: " + JSON.stringify(resp.data));
             commit("setActiveCourse", resp.data.course);
             commit("setActivePermission", resp.data.level);
             commit("viewCourse", state.course);
             resolve(resp);
+          })
+          .catch(err => {
+            commit("setActiveCourse", {});
+            reject(err);
+          });
+      });
+    },
+    queryCoursesByRegex({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        var queryString = Object.keys(params)
+          .map(key => {
+            if (params[key]) return key + "=" + params[key];
+            return "";
+          })
+          .filter(Boolean)
+          .join("&");
+        Axios({
+          url: API.QUERY_COURSE_ALL + queryString,
+          method: "GET"
+        })
+          .then(resp => {
+            resolve(resp.data);
           })
           .catch(err => {
             commit("setActiveCourse", {});
