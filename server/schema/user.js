@@ -17,8 +17,8 @@ var userSchema = new Schema({
     required: true
   },
   savedCourses: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   },
   code: {
     type: String,
