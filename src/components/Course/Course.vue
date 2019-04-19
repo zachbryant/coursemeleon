@@ -44,7 +44,7 @@
             v-switch(v-model="whitelistSwitch"
                     :label="whitelistSwitch ? 'Whitelisted' : 'Unwhitelisted'")
           v-flex(xs2)
-            v-btn(flat icon block color="primary" @click="saveAccess()")
+            v-btn(flat block color="primary" @click="saveAccess()")
               v-icon(@click="showPermissionDialog = !showPermissionDialog") fa-check
         draggable(:list="users" class="fill-width" type="transition" name="flip-list" v-if="whitelistSwitch")
           v-layout(v-for="(user, index) in users" row 
@@ -60,7 +60,7 @@
                       label="Access"
                       :value="getDefaultAccess(user.level)"
                       @change="setUserLevel($event, index)")
-        v-btn(v-if="whitelistSwitch" flat icon block color="primary")
+        v-btn(v-if="whitelistSwitch" flat block color="primary")
           v-icon(@click="insertUser(users.length)") fa-plus
     v-dialog(v-model="showFileDialog" width="50%")
       v-card
@@ -245,6 +245,7 @@ export default {
                 if (message) self.$store.commit("setErrorMessage", message);
                 break;
               default: {
+                console.log(response.status);
                 self.$store.commit("setWarningMessage", message);
               }
             }
@@ -347,6 +348,7 @@ export default {
         color: "",
         font: "",
         pri: "no",
+        announcements: [],
         published: false,
         whitelist: false
       });
