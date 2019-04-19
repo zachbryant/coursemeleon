@@ -98,7 +98,7 @@ class PostService {
         console.log("looking for name" + newURL);
         const res = await axios.get(newURL); //.then(resp => {console.log("PPPPPPP"+ resp.data)
         const result = res.data;
-        console.log(result);
+        console.log("Result: " + JSON.stringify(result));
 
         //const data = resp.data;
         //console.log(data)
