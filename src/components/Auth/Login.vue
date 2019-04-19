@@ -16,6 +16,7 @@
                     autofocus
                     :hint="errors.first('email')" 
                     :error="errors.has('email')"
+                    @keyup.enter.native="generateCode()"
                     @change="resetCodeState()"
                     @click:clear="resetCodeState()")
         v-btn(v-if="!codeRequested" 
@@ -33,7 +34,8 @@
                     type="text" 
                     v-model="code" 
                     clearable 
-                    label="Enter your login code" 
+                    label="Enter your login code"
+                    @keyup.enter.native="validateCode()"
                     required 
                     :hint="errors.first('code')" 
                     :error="errors.has('code')")
