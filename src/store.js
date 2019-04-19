@@ -3,14 +3,9 @@ import Vuex from "vuex";
 import Axios from "axios";
 
 Vue.use(Vuex);
-const BASE_URL = "http://localhost:8080";
-let apiLogin = BASE_URL + "/api/login/";
-let apiPermission = BASE_URL + "/api/permission/";
-//let apiCourse = BASE_URL + "/api/course/";
-let apiUserCourses = apiPermission + "";
 
 const uuidv4 = require("uuid/v4");
-const API = require("./apiDefinitions");
+const { API, ACCESS_LEVELS } = require("./apiDefinitions");
 let isDev = process.env.NODE_ENV !== "production";
 
 export default new Vuex.Store({
@@ -19,6 +14,7 @@ export default new Vuex.Store({
     token: localStorage.getItem("token") || "",
     edit: false,
     tabIndex: 0,
+    level: ACCESS_LEVELS.NONE,
     course: {
       /*
       course_name: "",
@@ -48,8 +44,7 @@ export default new Vuex.Store({
     ],
     status: "",
     userCourses: {},
-    color: "#aed581",
-    courseIndex: 0,
+    viewedCourses: [],//localStorage.getItem("history") || [],
     apiResult: {},
     drawer: {
       // sets the open status of the drawer
@@ -63,10 +58,20 @@ export default new Vuex.Store({
       // sets the drawer to the mini variant, showing only icons, of itself (true)
       // or showing the full drawer (false)
       mini: !!localStorage.getItem("drawer.mini") || false
-    }
+    },
+    errorMessage: "",
+    warningMessage: "",
+    successMessage: "",
+    infoMessage: ""
   },
   getters: {
     course: state => state.course,
+    courseColor: state => state.course.color,
+    accessLevel: state => state.level,
+    errorMessage: state => state.errorMessage,
+    warningMessage: state => state.warningMessage,
+    successMessage: state => state.successMessage,
+    infoMessage: state => state.infoMessage,
     courseTab: state => {
       if (
         state.course &&
@@ -82,13 +87,56 @@ export default new Vuex.Store({
     authStatus: state => state.status,
     getUser: state => state.user,
     getUserCourses: state => state.userCourses,
-    getColor: state => state.color,
-    getCourseIndex: state => state.courseIndex,
+    getViewedCourses: state => state.viewedCourses,
     navDrawerState: state => state.drawer,
     getApiResult: state => state.apiResult,
-    componentEditMenuOptions: state => state.componentEditMenuOptions
+    componentEditMenuOptions: state => state.componentEditMenuOptions,
+    getColor: state => state.color,
+    getCourseIndex: state => state.courseIndex
   },
   mutations: {
+    viewCourse(state, courseObj) {
+      var checkIsSaved = cid => {
+        Object.keys(state.userCourses).forEach(key => {
+          if (key == cid && state.userCourses[key].saved) return true;
+        });
+        return false;
+      };
+      state.viewedCourses.unshift({
+        cid: courseObj.cid,
+        saved: checkIsSaved(courseObj.cid),
+        title: courseObj.course_name,
+        abbr: courseObj.course_abbr
+      });
+      localStorage.setItem("history", state.viewedCourses);
+    },
+    setColor(state, color) {
+      state.course.color = color;
+    },
+    setCourseDates(state, { start_date, end_date, term }) {
+      state.course.start_date = start_date;
+      state.course.end_date = end_date;
+      state.course.term = term;
+    },
+    setErrorMessage(state, msg) {
+      state.errorMessage = msg;
+    },
+    setWarningMessage(state, msg) {
+      state.warningMessage = msg;
+    },
+    setInfoMessage(state, msg) {
+      state.infoMessage = msg;
+    },
+    setSuccessMessage(state, msg) {
+      state.successMessage = msg;
+    },
+    setPublished(state, value) {
+      state.course.published = value;
+      state.course.pri = value ? "no" : "yes";
+    },
+    setWhitelisted(state, value) {
+      state.course.whitelist = value;
+    },
     removeCourseElement(state, index) {
       if (
         index >= 0 &&
@@ -126,6 +174,9 @@ export default new Vuex.Store({
     },
     setActiveCourse(state, course) {
       state.course = course;
+    },
+    setActivePermission(state, level) {
+      state.level = level;
     },
     setTitle(state) {
       state.course.course_name = state.course.tabs[0].elements[0].data.text;
@@ -172,7 +223,7 @@ export default new Vuex.Store({
       state.drawer.clipped = false;
       localStorage.removeItem("drawer.clipped");
     },
-    userCourses(state, courses) {
+    setUserCourses(state, courses) {
       state.userCourses = courses;
     },
     unSaveCourse(state, cid) {
@@ -209,16 +260,61 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    toggleEditMode({ state, dispatch, commit }) {
+    toggleEditMode({ state, dispatch, commit }, { users }) {
       commit("toggleEditMode");
       commit("setTitle");
       dispatch("updateCourse", state.course);
+      dispatch("setCourseUsers", users);
+    },
+    saveCourse({ commit, state }, course) {
+      let cid = course.cid;
+      if (!(cid in state.userCourses)) {
+        let courses = state.userCourses;
+        courses.push(course);
+        commit("setUserCourses", courses);
+      }
+      commit("saveCourse", cid);
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.USER_COURSES,
+          method: "POST",
+          data: { course: course }
+        })
+          .then(resp => {
+            console.log(resp.response);
+            resolve(resp.response);
+          })
+          .catch(err => {
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
+    },
+    unsaveCourse({ dispatch, commit }, course) {
+      let cid = course.cid;
+      commit("unsaveCourse", cid);
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.USER_COURSES,
+          method: "DELETE",
+          data: { cid: cid }
+        })
+          .then(resp => {
+            console.log(resp.response);
+            dispatch("getUserCourses");
+            resolve(resp.response);
+          })
+          .catch(err => {
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
     },
     getUserCourses({ state }) {
       if (state.getters.isLoggedIn) {
         return new Promise((resolve, reject) => {
           Axios({
-            url: String.format(API.USER_ACCESS, state.user.id),
+            url: API.USER_COURSES,
             method: "GET"
           })
             .then(resp => {
@@ -227,12 +323,27 @@ export default new Vuex.Store({
               resolve(resp);
             })
             .catch(err => {
-              reject(err);
+              reject(err.response);
             });
         });
       }
     },
-    queryCourse({ commit }, params) {
+    getCourseAccessList({ state }) {
+      return new Promise((resolve, reject) => {
+        let cid = state.course.cid;
+        Axios({
+          url: API.COURSE_USERS + "cid=" + cid,
+          method: "GET"
+        })
+          .then(resp => {
+            resolve(resp.data);
+          })
+          .catch(err => {
+            reject(err.response);
+          });
+      });
+    },
+    queryCourse({ commit, state }, params) {
       return new Promise((resolve, reject) => {
         var queryString = Object.keys(params)
           .map(key => {
@@ -247,11 +358,12 @@ export default new Vuex.Store({
         })
           .then(resp => {
             console.log("Course query response: " + JSON.stringify(resp.data));
-            commit("setActiveCourse", resp.data);
+            commit("setActiveCourse", resp.data.course);
+            commit("setActivePermission", resp.data.level);
+            commit("viewCourse", state.course);
             resolve(resp);
           })
           .catch(err => {
-            console.log(err);
             commit("setActiveCourse", {});
             reject(err);
           });
@@ -270,8 +382,49 @@ export default new Vuex.Store({
           })
           .catch(err => {
             console.log(err);
-            reject(err);
+            reject(err.response);
           });
+      });
+    },
+    setCourseUsers({ state }, usersObj) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.COURSE_ACCESS,
+          data: { user: usersObj, course: state.course.cid },
+          method: "PUT"
+        })
+          .then(resp => {
+            console.log("Successfully updated course users");
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log("error in course user update");
+            console.log(err);
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
+    },
+    sendFile({ commit }, file) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.SEND_FILE,
+          data: file,
+          method: "PUT"
+        })
+          .then(resp => {})
+          .catch(err => {});
+      });
+    },
+    retrieveFile({ commit }, file) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.RETRIEVE_FILE,
+          data: file,
+          method: "GET"
+        })
+          .then(resp => {})
+          .catch(err => {});
       });
     },
     login({ commit }, credentials) {
@@ -301,7 +454,7 @@ export default new Vuex.Store({
             }
             commit("auth_error", message);
             localStorage.removeItem("token");
-            reject(err);
+            reject(err.response);
           });
       });
     },
@@ -318,8 +471,8 @@ export default new Vuex.Store({
           })
           .catch(err => {
             console.log("Problem logging out");
-            console.log(err);
-            reject(err);
+            console.log(err.response);
+            reject(err.response);
           });
       });
     }

@@ -39,6 +39,29 @@ function sendLoginCode(email, code) {
   });
 }
 
+function sendAnnouncement(email, course, announcement) {
+  let options = {
+    ...loginMailOptions,
+    to: email,
+    html:
+      "<h1>New announcement from " +
+      course.course_name +
+      ":</h1><p>" +
+      announcement +
+      "</p>"
+  };
+  transporter.sendMail(options, (err, info) => {
+    if (err) {
+      console.log(err);
+      return process.exit(1);
+    }
+    if (info) {
+      console.log("Announcement sent: %s", info.messageId);
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    }
+  });
+}
+
 module.exports = {
   mailOptions,
   sendLoginCode

@@ -6,16 +6,19 @@
                 v-flex(xs3)
                     v-text-field(v-model="message" single-line outline)
                 v-flex(xs3)
-                    v-text-field(v-model="message" single-line outline)  
-                v-flex(xs3)
                     v-text-field(v-model="message" single-line outline)
 
 </template>
 
+
+
 <script>
 export default {
-  name: "officehours"
-};
+    name: 'lectureinformation'
+}
 </script>
 
-<style></style>
+
+
+<style>
+</style>

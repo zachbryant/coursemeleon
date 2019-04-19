@@ -15,6 +15,7 @@ var courseSchema = new Schema({
   },
   term: String,
   term_start: Date,
+  term_end: Date,
   announcements: {
     type: String,
     required: false,
@@ -37,6 +38,9 @@ courseSchema.index({ title: 1, term_start: -1 });
 courseSchema.statics = {
   byCid: function(cid, callback) {
     return this.findOne({ cid: cid }, callback);
+  },
+  byCidArray: function(cids, callback) {
+    return this.find({ cid: { $in: cids } }, callback);
   },
   byName: function(name, callback) {
     return this.find({ title: new RegExp(name, "i") }, callback);

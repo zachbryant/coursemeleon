@@ -6,7 +6,7 @@ const jwtSecret = require("../../config/jwtConfig");
 
 // Helpers
 const schemas = require("../../schema/schema");
-const ACCESS_LEVELS = schemas.Access.ACCESS_LEVELS;
+const ACCESS_LEVELS = schemas.ACCESS_LEVELS;
 const util = require("../../util/util.js");
 const code_gen = require("../../util/code_gen");
 const mailer = require("../../util/mail");
@@ -73,7 +73,47 @@ router.get(
 );
 
 router.get(
-  "/user/access",
+  "/user/courses",
+  passport.authenticate("JWT", { session: false }),
+  (req, res) => {
+    let user = req.user;
+    console.log(user);
+    schemas.Access.byUid(user, function(err, access) {
+      if (err) console.log(err);
+      if (access) {
+        access = access.filter(a => a.level > schemas.ACCESS_LEVELS.NONE);
+        schemas.Course.byCidArray(access, function(err1, courses) {
+          if (err1) console.log(err1);
+          if (courses) {
+            let fullCourses = [];
+            schemas.User.byUid(user, function(err2, data) {
+              if (err2) console.log(err2);
+              if (data) {
+                let savedCourses = data.savedCourses;
+                courses.forEach(course => {
+                  fullCourses.push({
+                    cid: course.cid,
+                    saved:
+                      course.cid in savedCourses && savedCourses[course.cid],
+                    title: course.course_name,
+                    abbr: course.course_abbr
+                  });
+                });
+                console.log(fullCourses);
+                res.status(200).send({ saved: fullCourses });
+                return;
+              }
+            });
+          }
+        });
+      }
+      res.status(404).send({ message: "Saved courses not found" });
+    });
+  }
+);
+
+router.get(
+  "/",
   passport.authenticate("JWT", { session: false }),
   (req, res) => {
     let user = req.user;
@@ -101,7 +141,7 @@ router.get(
 );
 
 router.delete(
-  "/user/access",
+  "/",
   passport.authenticate("JWT", { session: false }),
   (req, res) => {
     let user = req.user;
@@ -116,7 +156,7 @@ router.delete(
           if (err) console.log(err);
           if (def)
             console.log(
-              "Revvoke access from " +
+              "Revoke access from " +
                 JSON.stringify(user) +
                 " on " +
                 JSON.stringify(course)
@@ -128,38 +168,58 @@ router.delete(
 );
 
 router.put(
-  "/user/access",
+  "/",
   passport.authenticate("JWT", { session: false }),
   (req, res) => {
     let requester = req.user;
-    let userReq = req.user;
-    let course = req.course;
+    let userReq = req.body.user;
+    let course = req.body.course;
     let accessLevel = req.level;
-
+    console.log(requester);
     schemas.Access.byUserAndLevel(requester, ACCESS_LEVELS.ADMIN, function(
       err,
       ok
     ) {
       if (ok) {
+        console.log("Has access to modify users for " + JSON.stringify(course));
+        console.log(userReq);
         if (userReq && course) {
-          const createFunc = function(user) {
-            schemas.Access.create(
-              {
-                uid: user.uid,
-                cid: course.cid,
-                level: accessLevel
-              },
-              function(err, def) {
+          const createFunc = function(userObj) {
+            console.log("Adding user to course");
+            console.log("User: " + JSON.stringify(userObj));
+            console.log("Course: " + course);
+            if (userObj.email) {
+              schemas.User.byEmail(userObj.email, function(err, user) {
                 if (err) console.log(err);
-                if (def)
-                  console.log(
-                    "Gave access to " +
-                      JSON.stringify(user) +
-                      "level " +
-                      accessLevel
+                if (user) {
+                  console.log(user);
+                  var accessObj = {
+                    uid: user.uid,
+                    cid: course instanceof Object ? course.cid : course,
+                    level: userObj.level
+                  };
+                  var accessQueryObj = {
+                    uid: user.uid,
+                    cid: course instanceof Object ? course.cid : course
+                  };
+                  schemas.Access.findOneAndUpdate(
+                    accessQueryObj,
+                    accessObj,
+                    { upsert: true, new: true },
+                    function(err, def) {
+                      if (err) console.log(err);
+                      if (def)
+                        console.log(
+                          "Gave access to " +
+                            JSON.stringify(user) +
+                            "level " +
+                            userObj.level
+                        );
+                    }
                   );
-              }
-            );
+                }
+              });
+            }
           };
           if (Array.isArray(userReq)) {
             userReq.forEach(createFunc);

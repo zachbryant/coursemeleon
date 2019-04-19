@@ -1,6 +1,13 @@
 <template lang="pug">
   v-layout(column align-start justify-center fill-width)
     template(v-if="isEditMode")
+      v-layout(row fill-width 
+                  justify-start v-if="canShowInsert(-1)")
+        v-flex(xs1)
+        v-flex(xs11)
+          edit-sep(:index="-1" 
+                  v-on:edit-sep-new="editSepNew"
+                  :show="canShowInsert(-1)")
       draggable(:list="elements" class="fill-width" type="transition" name="flip-list" draggable=".draggable-item")
         transition-group(class="fill-width")
           v-layout(row v-for="(comp, index) in elements" 
@@ -17,17 +24,13 @@
                             v-show="canShowMenu(index)")
             v-flex(xs11 grow)
               v-layout(column fill-width)
-                edit-sep(:index="index"
-                        v-on:edit-sep-new="editSepNew"
-                        :show="canShowInsert(index)")
                 component(:data="comp"
                           :index="index"
                           :is="comp.instanceName"
                           :key="comp.id")
-          edit-sep(slot="footer", 
-                  :index="-1" 
-                  v-on:edit-sep-new="editSepNew"
-                  :show="canShowInsert(-1)")
+                edit-sep(:index="index"
+                        v-on:edit-sep-new="editSepNew"
+                        :show="canShowInsert(index)")
     template(v-else v-for="(comp, index) in elements")
       component(:data="comp" 
                 :index="index"
@@ -44,6 +47,7 @@ export default {
   components: {
     "rich-content": () => import("./RichContent.vue"),
     "list-item": () => import("./List.vue"),
+    "term-picker": () => import("./TermPicker.vue"),
     "document-item": () => import("./Document.vue"),
     "edit-sep": () => import("../Compound/EditSeparator.vue"),
     "edit-item-menu": () => import("../Compound/EditItemMenu.vue"),
@@ -60,7 +64,7 @@ export default {
   methods: {
     // TODO change draggable > 2
     isDraggable: function(index) {
-      return index > 0 && this.tabIndex == 0;
+      return index > 1 && this.tabIndex == 0;
     },
     editSepNew: function(index, type) {
       console.log(type);
@@ -74,10 +78,11 @@ export default {
       this.showInsert = index;
     },
     canShowMenu: function(index) {
-      return this.showMenu == index && index > 0;
+      return this.showMenu == index && index > 1;
     },
     canShowInsert: function(index) {
-      return Math.abs(this.showInsert - index) <= 1;
+      return (
+        (Math.abs(this.showInsert - index) <= 1 && ((this.tabIndex != 0 && index == -1) || (this.tabIndex == 0 && index >= 1))));
     }
   },
   computed: {

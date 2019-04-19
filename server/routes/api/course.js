@@ -20,6 +20,7 @@ router.get("/:id", async (req, res) => {
   //res.status(200).send(gettit[0]._id);
 
   try {
+    //console.log("id = " + gettit[0].cid);
     res.status(200).send(gettit[0]._id);
   }
   catch(err) {
@@ -57,6 +58,55 @@ router.post("/", async (req, res) => {
 });
 
 router.get(
+  "/access",
+  passport.authenticate(["JWT", "anonymous"], { session: false }),
+  (req, res) => {
+    let query = req.query;
+    let cid = query.cid;
+    let user = req.user;
+    console.log(user);
+    schemas.Access.hasAccessToCourse(user, { cid: cid }, function(err, access) {
+      if (err) console.log(err);
+      if (access && access.level >= schemas.ACCESS_LEVELS.ADMIN) {
+        schemas.Access.byCourse(cid, function(err, users) {
+          if (err) console.log(err);
+          if (users) {
+            var queryUsers = [];
+            var userLevels = {};
+            users.forEach(userObj => {
+              console.log(userObj.uid);
+              queryUsers.push(userObj.uid);
+              userLevels[userObj.uid] = userObj.level;
+            });
+            schemas.User.byUidArray(queryUsers, function(err, fullUsers) {
+              if (err) console.log(err);
+              if (fullUsers) {
+                var userArray = [];
+                fullUsers.forEach(fullUser => {
+                  var finalUser = {
+                    email: fullUser.email,
+                    uid: fullUser.uid,
+                    level: userLevels[fullUser.uid]
+                  };
+                  userArray.unshift(finalUser);
+                });
+                res.status(200).send({ users: userArray });
+              } else {
+                res.status(200).send({ users: [] });
+              }
+            });
+          }
+        });
+      } else {
+        res
+          .status(401)
+          .send({ message: "You need to be an admin to do that." });
+      }
+    });
+  }
+);
+
+router.get(
   "/get",
   passport.authenticate(["JWT", "anonymous"], { session: false }),
   (req, res) => {
@@ -66,46 +116,36 @@ router.get(
     schemas.Course.exact(query, function(err, course) {
       if (err) {
         console.log(err);
-        res.status(500).send({ message: "Server error. See console" });
+        res.status(500).send({ message: "Yikes! That's a server error." });
       } else if (course) {
-        if (!course.published) {
-          schemas.Access.hasAccessToCourse(user, course, function(
-            err2,
-            access
-          ) {
-            if (err2) console.log(err2);
-            if (access && access.level >= schemas.ACCESS_LEVELS.EDIT) {
-              res.status(200).send(course);
-            } else {
-              res
-                .status(404)
-                .send({ message: "Not found: " + JSON.stringify(query) });
-            }
+        const sendCourse = function(access) {
+          res.status(200).send({ course: course, level: access.level });
+        };
+        const sendUnauth = function() {
+          res.status(401).send({
+            message: "You aren't allowed to view this course.",
+            level: schemas.ACCESS_LEVELS.NONE
           });
-        } else if (course.whitelist) {
-          if (!user) {
-            res.status(401).send({
-              message: "User must sign in to access whitelisted course"
-            });
+        };
+        const callback = function(err2, access) {
+          if (err2) console.log(err2);
+          if (
+            (access &&
+              ((!course.published &&
+                access.level >= schemas.ACCESS_LEVELS.EDIT) ||
+                (course.whitelist &&
+                  user &&
+                  access.level >= schemas.ACCESS_LEVELS.VIEW))) ||
+            (!course.whitelist && course.published)
+          ) {
+            sendCourse(access ? access : { level: schemas.ACCESS_LEVELS.VIEW });
           } else {
-            schemas.Access.hasAccessToCourse(user, course, function(
-              err1,
-              access
-            ) {
-              if (err1) console.log(err1);
-              if (access && access.level >= schemas.ACCESS_LEVELS.VIEW) {
-                res.status(200).send(course);
-              } else {
-                console.log("Not on whitelist");
-                res.status(401).send({ message: "User not on whitelist" });
-              }
-            });
+            sendUnauth();
           }
-        } else {
-          res.status(200).send(course);
-        }
+        };
+        schemas.Access.hasAccessToCourse(user, course, callback);
       } else {
-        res.status(404).send();
+        res.status(404).send({ message: "We couldn't find that course" });
       }
     });
   }

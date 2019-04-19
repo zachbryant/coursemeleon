@@ -4,7 +4,7 @@
       v-flex#new(xs12 grow text-xs-center)
         v-menu
           template(v-slot:activator="{ on }")
-            v-btn(flat icon color="primary" v-on="on")
+            v-btn(flat block color="primary" v-on="on")
               v-icon(v-show="show" @click="") fa-plus
           v-list
             v-list-tile(v-for="(item, optIndex) in componentOptions"

@@ -22,7 +22,7 @@
 </template>
 <script>
 
-import CourseService from '../CourseService';
+import CourseService from '../services/CourseService';
 /*
 <div v-if="!image">
     <h2>Select an image</h2>

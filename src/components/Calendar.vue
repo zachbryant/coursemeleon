@@ -17,7 +17,7 @@
           <v-btn id="linkItem"
             color="blue-grey"
             class="white--text"
-            v-bind:href="courses[courses.length-1].cal_ical"
+            v-bind:href="courses[msg].cal_ical"
           >
             Ical
             <v-icon right dark>cloud_download</v-icon>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import CourseService from '../CourseService';
+import CourseService from '../services/CourseService';
 
 export default {
     name: "Calendar",

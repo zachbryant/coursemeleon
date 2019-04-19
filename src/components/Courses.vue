@@ -211,7 +211,7 @@
 
 
 <script>
-import CourseService from "../CourseService";
+import CourseService from "../services/CourseService";
 import CloneModal from "@/components/CloneModal.vue";
 export default {
   name: "Courses",
@@ -288,7 +288,6 @@ export default {
         this.contactInfo +
         "cmsplit" +
         this.generalText;
-
       console.log(t);
       await CourseService.insertPost(t);
       alert("Success! Course created!");
@@ -301,7 +300,6 @@ export default {
       //var camels = JSON.stringify(horses).split("}");
       //console.log(camels)
     },
-
     async deletePost(id) {
       await CourseService.deletePost(id);
       this.courses = await CourseService.getPosts();
@@ -320,11 +318,9 @@ export default {
       this.isModalVisible = true;
     }
   }
-
   
 };
 </script>
 
 <style scoped>
-
 </style> 

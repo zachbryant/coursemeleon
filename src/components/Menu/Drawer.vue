@@ -68,48 +68,6 @@ export default {
   },
   data() {
     return {
-      courseGroups: [
-        {
-          active: false,
-          title: "Relevant",
-          courses: [
-            {
-              title: "CS 307: Principles of Software Engineering",
-              abbr: "CS307",
-              id: "1",
-              saved: true
-            },
-            {
-              title: "CS 308: Principles of Software Engineering",
-              abbr: "CS308",
-              id: "2",
-              saved: false
-            },
-            {
-              title: "CS 309: Principles of Software Engineering",
-              abbr: "CS309",
-              term: "fa19",
-              id: "3"
-            }
-          ]
-        },
-        {
-          active: false,
-          title: "Recently Viewed",
-          courses: [
-            {
-              title: "CS 310: Principles of Software Engineering",
-              id: "4",
-              saved: false
-            },
-            {
-              title: "CS 311: Principles of Software Engineering",
-              id: "5",
-              saved: true
-            }
-          ]
-        }
-      ]
     };
   },
   methods: {
@@ -132,6 +90,20 @@ export default {
     }
   },
   computed: {
+    courseGroups() {
+      var groups = [];
+      groups.push({
+          active: false,
+          title: "My Courses",
+          courses: this.$store.getters.getUserCourses
+        });
+      groups.push({
+          active: false,
+          title: "Recently Viewed",
+          courses: this.$store.getters.getViewedCourses
+      });
+      return groups;
+    },
     menuOptions: function() {
       var opts = [
         {

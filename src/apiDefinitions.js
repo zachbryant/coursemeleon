@@ -1,15 +1,21 @@
 const BASE = "http://localhost:5000";
 
-let definitions = {
+let API = {
   BASE: BASE,
   ACCESS: BASE + "/api/auth/",
-  COURSE: BASE + "/api/course/"
+  COURSE: BASE + "/api/course/",
+  FILE: BASE + "/api/file/"
 };
-definitions.QUERY_COURSE = definitions.COURSE + "get/?";
-definitions.PUT_COURSE = definitions.COURSE + "put";
-definitions.USER_ACCESS = definitions.ACCESS + "access";
-definitions.LOGIN = definitions.ACCESS + "login";
-definitions.LOGOUT = definitions.ACCESS + "logout";
+API.QUERY_COURSE = API.COURSE + "get/?";
+API.PUT_COURSE = API.COURSE + "put";
+API.USER_IDENTITY = API.ACCESS + "user/";
+API.USER_COURSES = API.ACCESS + "user/courses/";
+API.COURSE_ACCESS = API.ACCESS;
+API.COURSE_USERS = API.COURSE + "access/?";
+API.LOGIN = API.ACCESS + "login";
+API.LOGOUT = API.ACCESS + "logout";
+API.SEND_FILE = API.FILE;
+API.RETRIEVE_FILE = API.FILE;
 
 const ACCESS_LEVELS = {
   NONE: 0,
@@ -21,6 +27,6 @@ const ACCESS_LEVELS = {
 };
 
 module.exports = {
-  definitions,
+  API,
   ACCESS_LEVELS
 };

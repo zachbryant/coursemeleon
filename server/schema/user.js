@@ -17,8 +17,8 @@ var userSchema = new Schema({
     required: true
   },
   savedCourses: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   },
   code: {
     type: String,
@@ -30,6 +30,9 @@ var userSchema = new Schema({
 userSchema.statics = {
   byUid: function(uid, callback) {
     return this.findOne({ uid: uid }, callback);
+  },
+  byUidArray: function(uids, callback) {
+    return this.find({ uid: { $in: uids } }, callback);
   },
   byName: function(name, callback) {
     return this.find({ uname: new RegExp(name, "i") }, callback);

@@ -11,17 +11,17 @@
               @mouseover="hoverOver(index)"
               @mouseleave="hoverOver(-1)"
               @click="isEditMode && select(index)")
-            v-flex(xs2 mr-2)
+            v-flex(xs2 md1 style="margin-right: 10px;")
               v-btn(flat icon color="primary")
                 //-v-icon(v-if="isEditMode") fa-grip-vertical
-                v-icon(v-if="index == tabIndex && !isEditMode" size="22px") fa-asterisk
-            v-flex(xs10)
-              h5(v-if="!isEditMode" @click="select(index)" :style="getColor(index)") {{ tab.title }}
+                v-icon(v-if="index == tabIndex" size="22px") fa-asterisk
+            v-flex(xs10 md11)
+              h5(v-if="!isEditMode" @click="select(index)" :style="getColor(index)" class="ml-2") {{ tab.title }}
               v-text-field(v-else v-model="tab.title" single-line validate-on-blur)
             v-flex(v-if="isEditMode")
               v-btn(flat icon color="red" @click="removeTab(index)" :disabled="!isEditMode")
                 v-icon(v-show="canShowMenu(index)") fa-times
-      v-btn(v-if="isEditMode" flat icon block color="primary")
+      v-btn(v-if="isEditMode" flat block color="primary")
         v-icon(@click="insertTab(tabs.length)") fa-plus
 </template>
 
@@ -55,8 +55,9 @@ export default {
       this.$store.commit("removeCourseTab", index);
     },
     getColor(index) {
+      let color = this.$store.getters.courseColor || this.$vuetify.theme.primary;
       if (this.tabIndex == index)
-        return "color: #AED581 !important; font-weight: bold !important;";
+        return "color:" + color + "!important; font-weight: bold !important;";
       return "";
     },
     select(index) {
