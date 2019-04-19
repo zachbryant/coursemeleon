@@ -8,7 +8,7 @@
                 <v-layout row wrap align-center>
                 <v-flex xs6>
                     <v-card id="imageBox">
-                        <span style="color: rgb(183, 204, 146);">
+                        <span style="color: #636a75;">
                             <i class="fas fa-envelope-open-text fa-6x"></i>
                         </span>
                     </v-card>
