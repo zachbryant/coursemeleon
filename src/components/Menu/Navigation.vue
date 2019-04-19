@@ -69,9 +69,9 @@ export default {
         console.log("ZZZZZZZ" + this.obj);
         
          
-        for(var i=0;i<this.courses.length;i++){
+        /*for(var i=0;i<this.courses.length;i++){
           
-          /*if((this.courses[i]._id.localeCompare(this.obj))==0){
+          if((this.courses[i]._id.localeCompare(this.obj))==0){
             //this.store.commit("setCourseIndex", {i});
             store.commit("setCourseIndex", i);
             //store.state.courseIndex = i;
@@ -95,9 +95,9 @@ export default {
         var newURL = '/course:' + parseName.replace(/\s/g, '%20');
         var newPath = parseName.replace(/\s/g, '%20');
         console.log(newURL);
-        window.location.href = newURL;
-        //this.$router.push(newURL);
-        //this.$router.push({ path: "/", query: { cid: this.obj }});
+        //window.location.href = newURL;
+        this.$router.push(newURL);
+        this.$router.push({ path: "/", query: { cid: this.obj }});
       }
     }
   }
