@@ -184,12 +184,12 @@ p,
   .light() !important;
 }
 
-.tui-editor-contents h1 {
-  border: none;
+.italic {
+  .italic();
 }
 
-.light {
-  font-weight: 200 !important;
+.tui-editor-contents h1 {
+  border: none;
 }
 
 // Style the vertical drawer divider
