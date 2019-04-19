@@ -31,6 +31,9 @@ userSchema.statics = {
   byUid: function(uid, callback) {
     return this.findOne({ uid: uid }, callback);
   },
+  byUidArray: function(uids, callback) {
+    return this.find({ uid: { $in: uids } }, callback);
+  },
   byName: function(name, callback) {
     return this.find({ uname: new RegExp(name, "i") }, callback);
   },
