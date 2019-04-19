@@ -1,13 +1,13 @@
 <template lang="pug">
   v-layout(v-if="isEditMode" fill-width justify-center align-center)
-    h4 Start Date
+    h5 Start Date
     v-date-picker(v-model="date" no-title scrollable)
-  h4(v-else) {{getDateText()}}
+  h5(v-else) {{getDateText()}}
 </template>
 
 <script>
 import { BaseElement } from "@/components/componentImports";
-import { format, subDays } from 'date-fns';
+import { format, subDays } from "date-fns";
 
 export default {
   name: "term-picker",
@@ -23,31 +23,41 @@ export default {
   methods: {
     getDateText() {
       if (this.date) {
-        return "Term: " + this.term;
+        return (
+          "Course begins: " +
+          format(new Date(this.date), "MMMM Do") +
+          ", " +
+          this.term
+        );
       }
       return "No dates set yet";
     }
+  },
+  created() {
+    this.$store.commit("setCourseDates", { value: this.date, term: this.term });
   },
   computed: {
     term() {
       let date = this.date;
       if (date) {
         let start = new Date(date);
-        let year = start.getFullYear().toString().substr(-2);
+        let year = start
+          .getFullYear()
+          .toString()
+          .substr(-2);
         var term = "";
         let month = start.getMonth() + 1;
         if (month < this.summerStartMonth) {
           term = "spring";
-        }
-        else if (month < this.fallStartMonth) {
+        } else if (month < this.fallStartMonth) {
           term = "summer";
+        } else {
+          term = "fall";
         }
-        else {
-          term = "fall"
-        }
-        term += year;
+        term += " '" + year;
         return term;
       }
+      return "";
     },
     date: {
       get() {
