@@ -2,10 +2,11 @@
   v-container(grid-list-xs fluid align-content-center fill-height pa-0 ma-0)
     v-layout(v-if="loadingCourse" align-center justify-center fill-width fill-height)
       v-progress-circular(indeterminate color="primary")
+    //-v-layout(v-if="!!alertMessage" align-end justify-center fill-width fill-height)
     v-layout(v-else row align-center justify-space-between justify-text fill-width fill-height)
       v-flex#courseNav(xs3 lg2 fill-height mr-4)
         course-sidebar()
-      v-flex#content(column align-center justify-center xs9 lg10 shrink fill-height)
+      v-flex#content(column align-center justify-center xs9 lg10 grow fill-height)
         // TODO add editable title here
         list-item(ref="courseDataList")
     v-layout#fabContainer(v-if="canShowFab()" column justify-end)
@@ -19,7 +20,7 @@
                 dark fab)
             v-icon fa-cog
             v-icon fa-times
-        v-btn(small fab @click="showPermissionDialog = !showPermissionDialog")
+        v-btn(v-if="isAdmin()" small fab @click="showPermissionDialog = !showPermissionDialog")
           v-icon(color="blue") fa-user
         v-btn(v-if="isEditMode" small fab @click="showFileDialog = !showFileDialog")
           v-icon(color="purple") fa-paperclip
@@ -29,22 +30,33 @@
         v-btn(v-if="isEditMode" small fab @click="cancelEdit")
           v-icon(color="red") fa-times
     v-dialog(v-model="showPermissionDialog" width="50%")
-      v-card
-        h2 Course User Access
-        draggable(:list="users" class="fill-width" type="transition" name="flip-list")
+      v-card(class="px-4 py-2")
+        h2 Course Access Settings
+        v-layout(row fill-width 
+                align-center 
+                justify-space-between)
+          v-flex(xs5)
+            v-switch(v-model="publishSwitch" 
+                    :label="publishSwitch ? 'Published' : 'Unpublished'")
+          v-flex(xs5)
+            v-switch(v-model="whitelistSwitch"
+                    :label="whitelistSwitch ? 'Whitelisted' : 'Unwhitelisted'")
+          v-flex(xs2)
+            v-btn(flat icon block color="primary" @click="saveAccess()")
+              v-icon(@click="showPermissionDialog = !showPermissionDialog") fa-check
+        draggable(:list="users" class="fill-width" type="transition" name="flip-list" v-if="whitelistSwitch")
           v-layout(v-for="(user, index) in users" row 
                   fill-width 
                   align-center 
                   justify-space-between
                   @mouseover="hoverUser(index)"
                   @mouseleave="hoverUser(-1)")
-            v-flex(xs1 v-show="hoverUserIndex == index")
-              v-btn(flat icon color="error" @click="removeUser(index)")
-                v-icon fa-times
             v-flex(xs9)
-              v-text-field(v-model="users[index].email" box single-line)
+              v-text-field(v-model="users[index].email" single-line)
             v-flex(xs2)
-              v-select(items="" label="Access")
+              v-select(:items="Object.keys(assignableAccessLevels)" label="Access" @change="setUserLevel($event, index)")
+        v-btn(v-if="whitelistSwitch" flat icon block color="primary")
+          v-icon(@click="insertUser(users.length)") fa-plus
     v-dialog(v-model="showFileDialog" width="50%")
       v-card
         h2 Upload Files
@@ -54,7 +66,7 @@
 <script>
 import FileUpload from "@/components/Course/FileUpload.vue";
 import draggable from "vuedraggable";
-import ACCESS_LEVELS from "@/apiDefinitions";
+import { ACCESS_LEVELS } from "@/apiDefinitions";
 const uuidv4 = require("uuid/v4");
 
 export default {
@@ -84,17 +96,35 @@ export default {
       showFileDialog: false,
       showPermissionDialog: false,
       users: [],
-      hoverUserIndex
+      hoverUserIndex: -1,
+      assignableAccessLevels: {
+        None: ACCESS_LEVELS.NONE,
+        View: ACCESS_LEVELS.VIEW,
+        Edit: ACCESS_LEVELS.EDIT,
+        Admin: ACCESS_LEVELS.ADMIN
+      }
     };
   },
   methods: {
-    // TODO update based on permission
+    setUserLevel(event, index) {
+      console.log(this.assignableAccessLevels[event]);
+      this.users[index].level = this.assignableAccessLevels[event];
+    },
     canShowFab() {
-      return this.isLoggedIn && !this.loadingCourse;
+      return (
+        this.isCreate ||
+        (this.isLoggedIn && !this.loadingCourse && this.isEditor())
+      );
+    },
+    saveAccess() {
+      console.log(this.$store.getters.course.whitelist);
+      console.log(this.$store.getters.course.published);
+      this.$store.dispatch("updateCourse", this.course);
+      this.$store.dispatch("setCourseUsers", this.users);
     },
     saveEdit() {
-      this.$store.dispatch("toggleEditMode");
-      this.$store.dispatch("setCourseUsers", users);
+      let users = this.users;
+      this.$store.dispatch("toggleEditMode", { users });
       if (this.isCreate) {
         this.$router.push({
           path: "/",
@@ -111,6 +141,15 @@ export default {
     getTitle() {
       return this.course.title ? this.course.title : "";
     },
+    isViewerOnly() {
+      return this.accessLevel == ACCESS_LEVELS.VIEW;
+    },
+    isEditor() {
+      return this.isCreate || this.accessLevel >= ACCESS_LEVELS.EDIT;
+    },
+    isAdmin() {
+      return this.isCreate || this.accessLevel >= ACCESS_LEVELS.ADMIN;
+    },
     loadCourse() {
       // TODO add some animation
       this.loadingCourse = true;
@@ -121,9 +160,22 @@ export default {
           .then(function(ok) {
             console.log(ok);
           })
-          .catch(function(error) {
-            console.log(error);
-            console.log("error getting course");
+          .catch(function(response) {
+            console.log(response);
+            let message =
+              response.data.message || "Oops! We couldn't load this course.";
+            switch (response.status) {
+              case 404:
+                self.$router.push("/404");
+                self.$store.commit("setInfoMessage", message);
+                break;
+              case 500:
+                if (message) self.$store.commit("setErrorMessage", message);
+                break;
+              default: {
+                self.$store.commit("setWarningMessage", message);
+              }
+            }
           })
           .then(function() {
             self.loadingCourse = false;
@@ -138,16 +190,38 @@ export default {
     insertUser(index) {
       this.users.splice(index, 0, {
         email: "",
-        level: 0,
-      })
+        level: 0
+      });
     }
   },
   computed: {
+    publishSwitch: {
+      get() {
+        return this.$store.getters.course.published;
+      },
+      set(value) {
+        this.$store.commit("setPublished", value);
+      }
+    },
+    whitelistSwitch: {
+      get() {
+        return this.$store.getters.course.whitelist;
+      },
+      set(value) {
+        this.$store.commit("setWhitelisted", value);
+      }
+    },
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
     },
     isEditMode: function() {
       return this.$store.getters.isEditMode;
+    },
+    course: function() {
+      return this.$store.getters.course;
+    },
+    accessLevel: function() {
+      return this.$store.getters.accessLevel;
     }
   },
   created() {
@@ -181,10 +255,13 @@ export default {
         published: false,
         whitelist: false
       });
-      console.log("Creating course"); 
+      console.log("Creating course");
       console.log(this.$store.getters.course);
-    }
-    else if (this.search && (!this.$store.getters.course || Object.keys(this.$store.getters.course).length == 0)) {
+    } else if (
+      this.search &&
+      (!this.$store.getters.course ||
+        Object.keys(this.$store.getters.course).length == 0)
+    ) {
       this.loadCourse();
       // TODO load course users
     }
