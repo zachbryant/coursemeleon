@@ -13,7 +13,7 @@
 <script>
 import Courses from "@/components/Courses.vue";
 import Title from "@/components/Title.vue";
-import CourseService from "../CourseService";
+import CourseService from "../services/CourseService";
 import Calendar from "@/components/Calendar.vue";
 import Grade from "@/components/Grade.vue";
 import Announcements from "@/components/Announcements.vue";

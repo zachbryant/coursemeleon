@@ -211,7 +211,7 @@
 
 
 <script>
-import CourseService from "../CourseService";
+import CourseService from "../services/CourseService";
 import CloneModal from "@/components/CloneModal.vue";
 export default {
   name: "Courses",

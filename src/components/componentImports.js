@@ -10,16 +10,16 @@ export { default as DocumentItem } from "@/components/Course/Simple/Document";
 export { default as FileUpload } from "@/components/Course/FileUpload";
 
 // Course Compound
-export {
+/*export {
   default as Announcements
 } from "@/components/Course/Compound/Announcements";
 export {
   default as Assignments
 } from "@/components/Course/Compound/Assignments";
 export { default as Calendar } from "@/components/Course/Compound/Calendar";
-export { default as Contact } from "@/components/Course/Compound/Contact";
+export { default as Contact } from "@/components/Course/Compound/Contact";*/
 export { default as Course } from "@/components/Course/Course";
-export {
+/*export {
   default as CourseInformation
 } from "@/components/Course/Compound/CourseInformation";
 export { default as Grade } from "@/components/Course/Compound/Grade";
@@ -30,7 +30,7 @@ export {
 export {
   default as OfficeHours
 } from "@/components/Course/Compound/OfficeHours";
-export { default as Title } from "@/components/Course/Compound/Title";
+export { default as Title } from "@/components/Course/Compound/Title";*/
 export {
   default as EditSeparator
 } from "@/components/Course/Compound/EditSeparator";

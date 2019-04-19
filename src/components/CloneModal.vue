@@ -57,7 +57,7 @@
 
 
 <script>
-  import CourseService from "../CourseService";
+  import CourseService from "../services/CourseService";
   export default {
     name: 'CloneModal',
     data() {

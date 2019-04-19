@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import CourseService from '../CourseService';
+import CourseService from '../services/CourseService';
 import store from "../store";
 
 export default {
@@ -48,7 +48,6 @@ export default {
             this.courses = await CourseService.getPosts(); //populate courses array
             //var tt=stringify(msg);
             console.log("VVVVVV"+ this.courses[this.msg].color);
-            this.$vuetify.theme.primary = this.courses[this.msg].color;
         } catch(err) {
             this.error = err.message;
         }
