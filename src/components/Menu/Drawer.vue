@@ -8,7 +8,7 @@
       v-model="drawer.open" 
       absolute 
       app)
-    h2(v-if="!drawer.mini && isLoggedIn") Hello{{ userName }}
+    h4(v-if="!drawer.mini && isLoggedIn" class="mt-3") Hello{{ userName }}
     v-subheader Site Navigation
     v-list
       v-list-tile(v-if="!isLoggedIn" to="/login")
