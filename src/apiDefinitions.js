@@ -7,6 +7,7 @@ let API = {
   FILE: BASE + "/api/file/"
 };
 API.QUERY_COURSE = API.COURSE + "get/?";
+API.QUERY_COURSE_ALL = API.COURSE + "getAll/?";
 API.PUT_COURSE = API.COURSE + "put";
 API.USER_IDENTITY = API.ACCESS + "user/";
 API.USER_COURSES = API.ACCESS + "user/courses/";
