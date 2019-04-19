@@ -84,7 +84,7 @@
 import { FileUpload, TermPicker } from "@/components/componentImports";
 import { ACCESS_LEVELS } from "@/apiDefinitions";
 import draggable from "vuedraggable";
-import { Sketch } from 'vue-color'
+import { Sketch } from "vue-color";
 const uuidv4 = require("uuid/v4");
 
 export default {
@@ -95,7 +95,7 @@ export default {
     "course-sidebar": () => import("./Compound/CourseSidebar.vue"),
     FileUpload,
     "term-picker": TermPicker,
-    'color-picker': Sketch,
+    "color-picker": Sketch,
     draggable
   },
   props: {
@@ -165,7 +165,7 @@ export default {
       if (!this.isCreate) {
         this.users = this.users.filter(user => {
           return !!user.email;
-        })
+        });
         this.$store.dispatch("updateCourse", this.course);
         this.$store.dispatch("setCourseUsers", this.users);
       }
@@ -233,7 +233,9 @@ export default {
             console.log("Response");
             console.log(response);
             let message =
-              response && response.data ? response.data.message : "Oops! We couldn't load this course.";
+              response && response.data
+                ? response.data.message
+                : "Oops! We couldn't load this course.";
             switch (response.status) {
               case 404:
                 self.$router.push("/404");
@@ -308,7 +310,9 @@ export default {
     }
   },
   created() {
+    console.log("Course create created");
     if (this.isCreate) {
+      console.log(this.isCreate);
       this.$store.commit("setEditMode", true);
       this.$store.commit("setActiveCourse", {
         course_name: "",
@@ -325,7 +329,8 @@ export default {
                   type: "h1",
                   text: ""
                 }
-              }, {
+              },
+              {
                 instanceName: "term-picker",
                 id: uuidv4(),
                 data: {
