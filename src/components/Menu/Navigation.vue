@@ -47,43 +47,47 @@ export default {
   computed: {
     names() {
       return this.courses.map(course => {
-        var text = course.course_name + " (" + course.term + ")"
-        return Object.assign({}, course, { text })
+        var text = course.course_name + " (" + course.term + ")";
+        return Object.assign({}, course, { text });
       });
     }
   },
   methods: {
-    queryCourses(queryString) {
-      
-    }
+    queryCourses(queryString) {}
   },
   watch: {
     selection(value, old) {
       if (value) {
         let self = this;
-        this.$router.push({name: "home", query: {cid: value.cid}});
+        this.$router.push({ name: "home", query: { cid: value.cid } });
         this.$store.commit("setActiveCourse", value);
         let color = value.color || "#AED581";
         this.$vuetify.theme.primary = color;
         this.$vuetify.theme.secondary = color;
         this.$vuetify.theme.accent = color;
-        this.$store.dispatch("getCourseAccess").then(resp => {
-          self.$store.commit("setActivePermission", resp.data.level);
-        }).catch(err => {
-          console.log(err);
-        });
+        this.$store
+          .dispatch("getCourseAccess")
+          .then(resp => {
+            self.$store.commit("setActivePermission", resp.data.level);
+          })
+          .catch(err => {
+            console.log(err);
+          });
         //this.$router.go();
       }
     },
     search(queryString) {
       let self = this;
-      if (queryString && queryString.length > 2) {
+      if (queryString && queryString.length > 1) {
         this.isLoading = true;
-        this.$store.dispatch("queryCoursesByRegex", {course_name: queryString}).then(resp => {
-          self.courses = resp.courses;
-        }).catch(err => {
-          console.log(err);
-        });
+        this.$store
+          .dispatch("queryCoursesByRegex", { course_name: queryString })
+          .then(resp => {
+            self.courses = resp.courses;
+          })
+          .catch(err => {
+            console.log(err);
+          });
         //@TODO insert api call
         this.isLoading = false;
       }
