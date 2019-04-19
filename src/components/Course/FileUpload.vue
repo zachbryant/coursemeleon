@@ -1,6 +1,6 @@
 <!-- Using Axios and Dropzone, communicate with backend
 
-    Files edited: Course.vue, Help.vue (Rujula wants to test file upload functionality here)
+    Files edited: Course.vue
 
     1. Once speed-dial button in course.vue is clicked, it should
     communicate here. Make a file upload prompt appear
@@ -21,7 +21,8 @@
       @vdropzone-mounted="dropzoneMounted"
       :options="dropzoneOptions" 
       @vdropzone-complete="afterComplete")
-    button(@click="removeAllFiles") Remove All Files
+    v-btn(flat block color="primary" @click="sendFile") Upload File
+    v-btn(flat block color="primary" @click="removeAllFiles") Remove All Files
 </template>
 
 <!--URL: endpoint from http service, must return a valid response for POST call",
@@ -37,6 +38,7 @@ import vueDropzone from "vue2-dropzone";
 export default {
   name: "file-upload",
   data: () => ({
+    files: [],
     dropzoneOptions: {
       url: "localhost:5000/api/file",
       method: "put",
@@ -50,6 +52,30 @@ export default {
     }
   }),
   methods: {
+    sendFile(){
+      //Get accepted files in dropzone
+      //They should be queued by calling processQueue
+      //Send file somehow
+      this.$refs.dropzone.processQueue();
+      for(let i = 0; i < this.$refs.dropzone.getAcceptedFiles().length; i++){
+        this.files.push(this.$refs.dropzone.getAcceptedFiles()[i]);
+        fileAdded(files[i]);
+      }
+      axios.put( '/api/file', files,
+        {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          },
+        }
+      ).then(function(){
+        console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+      afterComplete();
+      removeAllFiles();
+    },
     removeAllFiles() {
       this.$refs.dropzone.removeAllFiles();
       console.log("Removed all files");
