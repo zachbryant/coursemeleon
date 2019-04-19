@@ -36,7 +36,7 @@ Vue.use(VToolTip);
 // Vue material css framework
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.lightGreen.lighten2,
+    primary: store.getters.getColor,
     secondary: colors.lightGreen.lighten2,
     accent: colors.lightGreen.lighten2,
     error: colors.red.lighten1,
@@ -53,5 +53,5 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount("#app");

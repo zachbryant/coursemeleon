@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import Axios from "axios";
-import { stat } from "fs";
 
 Vue.use(Vuex);
 
@@ -91,7 +90,9 @@ export default new Vuex.Store({
     getViewedCourses: state => state.viewedCourses,
     navDrawerState: state => state.drawer,
     getApiResult: state => state.apiResult,
-    componentEditMenuOptions: state => state.componentEditMenuOptions
+    componentEditMenuOptions: state => state.componentEditMenuOptions,
+    getColor: state => state.color,
+    getCourseIndex: state => state.courseIndex
   },
   mutations: {
     viewCourse(state, courseObj) {
@@ -249,6 +250,13 @@ export default new Vuex.Store({
       localStorage.removeItem("token");
       delete Axios.defaults.headers.common["Authorization"];
       if (state.edit) state.edit = false;
+    },
+    setPrimaryColor(state, newcolor) {
+      state.color = newcolor;
+    },
+    setCourseIndex(state, index) {
+      console.log("MUTATING " + index);
+      state.courseIndex = index;
     }
   },
   actions: {

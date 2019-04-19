@@ -1,7 +1,5 @@
 <template>
-  <div class="help">
-    <v-container grid-list-xl></v-container>
-
+ <div class="help">
     <v-container grid-list-xl>
       <v-layout row wrap align-center>
         <v-flex xs3>
