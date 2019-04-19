@@ -12,24 +12,6 @@ router.get("/", async (req, res) => {
   //console.log("hello")
 });
 
-router.get("/:id", async (req, res) => {
-  const posts = await loadPostsCollection();
-  var gettit = await posts.find({ course_name: req.params.id }).toArray()
-  //console.log(gettit[0]);
-  //res.status(200).send(gettit);
-  //res.status(200).send(gettit[0]._id);
-
-  try {
-    res.status(200).send(gettit[0]._id);
-  }
-  catch(err) {
-    this.error = err.message;
-    console.log(err.message);
-    res.status(200).send("5cb92f8b1c9d440000cad150");
-  } 
-
-});
-
 //Add post revised, does not need string parsng anymore
 router.post("/", async (req, res) => {
   const posts = await loadPostsCollection();
@@ -104,6 +86,23 @@ router.get(
     });
   }
 );
+
+router.get("/getAll", (req, res) => {
+  let query = req.query;
+  console.log(query);
+  schemas.Course.exactAll(query, function(err, courses) {
+    if (err) {
+      console.log(err);
+      res.status(500).send({ message: "Yikes! That's a server error." });
+    } else if (courses) {
+      res.status(200).send({ courses: courses });
+    } else {
+      res
+        .status(404)
+        .send({ message: "We couldn't find any matches for " + query });
+    }
+  });
+});
 
 router.get(
   "/get",
