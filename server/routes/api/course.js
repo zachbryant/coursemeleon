@@ -29,6 +29,54 @@ router.post("/", async (req, res) => {
 });
 
 router.get(
+  "/access",
+  passport.authenticate(["JWT", "anonymous"], { session: false }),
+  (req, res) => {
+    let query = req.query;
+    let cid = query.cid;
+    let user = req.user;
+    schemas.Access.hasAccessToCourse(user, { cid: cid }, function(err, access) {
+      if (err) console.log(err);
+      if (access && access.level >= schemas.ACCESS_LEVELS.ADMIN) {
+        schemas.Access.byCourse(cid, function(err, users) {
+          if (err) console.log(err);
+          if (users) {
+            var queryUsers = [];
+            var userLevels = {};
+            users.forEach(userObj => {
+              console.log(userObj.uid);
+              queryUsers.push(userObj.uid);
+              userLevels[userObj.uid] = userObj.level;
+            });
+            schemas.User.byUidArray(queryUsers, function(err, fullUsers) {
+              if (err) console.log(err);
+              if (fullUsers) {
+                var userArray = [];
+                fullUsers.forEach(fullUser => {
+                  var finalUser = {
+                    email: fullUser.email,
+                    uid: fullUser.uid,
+                    level: userLevels[fullUser.uid]
+                  };
+                  userArray.unshift(finalUser);
+                });
+                res.status(200).send({ users: userArray });
+              } else {
+                res.status(200).send({ users: [] });
+              }
+            });
+          }
+        });
+      } else {
+        res
+          .status(401)
+          .send({ message: "You need to be an admin to do that." });
+      }
+    });
+  }
+);
+
+router.get(
   "/get",
   passport.authenticate(["JWT", "anonymous"], { session: false }),
   (req, res) => {
