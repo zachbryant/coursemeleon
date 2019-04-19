@@ -38,11 +38,11 @@ Vue.use(Vuetify, {
   theme: {
     primary: colors.lightGreen.lighten2,
     secondary: colors.lightGreen.lighten2,
-    accent: colors.lightGreen.accent1,
+    accent: colors.lightGreen.lighten2,
     error: colors.red.lighten1,
     info: colors.lightBlue.lighten1,
-    success: colors.green.lighten1,
-    warning: colors.yellow.lighten1
+    success: colors.lightGreen.lighten2,
+    warning: colors.orange.lighten1
   },
   options: {
     customProperties: true
