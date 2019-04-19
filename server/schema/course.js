@@ -15,6 +15,7 @@ var courseSchema = new Schema({
   },
   term: String,
   term_start: Date,
+  term_end: Date,
   announcements: {
     type: String,
     required: false,
