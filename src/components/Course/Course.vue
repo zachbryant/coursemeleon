@@ -24,6 +24,8 @@
           v-icon(color="blue") fa-user
         v-btn(v-if="isEditMode" small fab @click="showFileDialog = !showFileDialog")
           v-icon(color="purple") fa-paperclip
+        v-btn(v-if="isEditMode" small fab @click="showColorDialog = !showColorDialog")
+          v-icon(color="purple") fa-palette
         v-btn(small fab @click="saveEdit")
           v-icon(v-if="isEditMode" color="green") fa-check
           v-icon(v-else color="green") fa-pencil-alt
@@ -61,6 +63,12 @@
       v-card
         h2 Upload Files
         file-upload
+    v-dialog(v-model="showColorDialog" width="50%")
+      v-card
+        h2 Course Theme Color
+        v-tabs(fixed-tabs)
+          v-tab Primary
+          v-tab Secondary
 </template>
 
 <script>
@@ -95,6 +103,7 @@ export default {
       loadingCourse: false,
       showFileDialog: false,
       showPermissionDialog: false,
+      showColorDialog: false,
       users: [],
       hoverUserIndex: -1,
       assignableAccessLevels: {
@@ -150,6 +159,15 @@ export default {
     isAdmin() {
       return this.isCreate || this.accessLevel >= ACCESS_LEVELS.ADMIN;
     },
+    loadUsers() {
+      let self = this;
+      if (this.isAdmin()) {
+        this.$store
+          .dispatch("getCourseAccessList")
+          .then(function(resp) {})
+          .catch(function(err) {});
+      }
+    },
     loadCourse() {
       // TODO add some animation
       this.loadingCourse = true;
@@ -158,7 +176,7 @@ export default {
         this.$store
           .dispatch("queryCourse", this.search)
           .then(function(ok) {
-            console.log(ok);
+            loadUsers();
           })
           .catch(function(response) {
             console.log(response);
