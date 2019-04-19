@@ -231,9 +231,10 @@ export default {
             self.updateVuetifyColors();
           })
           .catch(function(response) {
+            console.log("Response");
             console.log(response);
             let message =
-              response.data.message || "Oops! We couldn't load this course.";
+              response && response.data ? response.data.message : "Oops! We couldn't load this course.";
             switch (response.status) {
               case 404:
                 self.$router.push("/404");
