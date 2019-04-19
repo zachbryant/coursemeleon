@@ -35,6 +35,7 @@ router.get(
     let query = req.query;
     let cid = query.cid;
     let user = req.user;
+    console.log(user);
     schemas.Access.hasAccessToCourse(user, { cid: cid }, function(err, access) {
       if (err) console.log(err);
       if (access && access.level >= schemas.ACCESS_LEVELS.ADMIN) {
