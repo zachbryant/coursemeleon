@@ -102,6 +102,7 @@ static getOneCourse(text){
     return new Promise(async (resolve, reject) => {
         //var result;
         try{
+            console.log("looking for name" + newURL);
             const res = await axios.get(newURL)//.then(resp => {console.log("PPPPPPP"+ resp.data)
             const result=res.data;
             console.log(result);

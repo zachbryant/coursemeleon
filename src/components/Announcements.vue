@@ -6,8 +6,6 @@
         <v-container grid-list-xl style="border-style: dashed; border-color: #b7b7b7; border-width: 2px;">
              <!--<h3>{{ courses[this.myCourseIndex].announcements }}</h3>-->
              <h3>{{ courses[msg].announcements }}</h3>
-             <h4 >{{ courses[msg].color }}</h4>
-            <button @click="push">press</button>
         </v-container>
         <v-container grid-list-xl></v-container>
         

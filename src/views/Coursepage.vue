@@ -7,6 +7,7 @@
     <Contact v-bind:msg="this.courseIndex"/>
     <Info v-bind:msg="this.courseIndex"/>
     <Resources v-bind:msg="this.courseIndex"/>
+    <Grade v-bind:msg="this.courseIndex"/>
   </div>
 </template>
 

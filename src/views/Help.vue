@@ -1,8 +1,6 @@
 <template>
  <div class="help">
-    <div>
-        <Grade/>
-    </div>
+    
   
     <v-container grid-list-xl>
     </v-container>

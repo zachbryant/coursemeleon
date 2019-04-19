@@ -35,6 +35,9 @@ import CourseService from '../CourseService';
 */
 export default {
     name: "Grade",
+    props: {
+        msg: String
+    },
     image: '',
     data() {
     (function()
@@ -59,8 +62,8 @@ export default {
             
     console.log("whyYYYYYYYYYY")
                 this.courses = await CourseService.getPosts(); //populate courses array
-                console.log("fuck shit up" + this.courses[3].grades);
-                this.gradeStr=this.courses[2].grades;
+                //console.log("fuck shit up" + this.courses[3].grades);
+                this.gradeStr=this.courses[this.msg].grades;
                 //var str = "These are the score on the last midterm 60 30 40 50 30 32 100 97 80 44 32 44 55 78 88 Thats it";
                   var res = this.gradeStr.split(" ");
                   var k;
