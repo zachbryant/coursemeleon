@@ -45,6 +45,7 @@ export default new Vuex.Store({
     ],
     status: "",
     userCourses: {},
+    viewedCourses: [],//localStorage.getItem("history") || [],
     apiResult: {},
     drawer: {
       // sets the open status of the drawer
@@ -87,11 +88,27 @@ export default new Vuex.Store({
     authStatus: state => state.status,
     getUser: state => state.user,
     getUserCourses: state => state.userCourses,
+    getViewedCourses: state => state.viewedCourses,
     navDrawerState: state => state.drawer,
     getApiResult: state => state.apiResult,
     componentEditMenuOptions: state => state.componentEditMenuOptions
   },
   mutations: {
+    viewCourse(state, courseObj) {
+      var checkIsSaved = cid => {
+        Object.keys(state.userCourses).forEach(key => {
+          if (key == cid && state.userCourses[key].saved) return true;
+        });
+        return false;
+      };
+      state.viewedCourses.unshift({
+        cid: courseObj.cid,
+        saved: checkIsSaved(courseObj.cid),
+        title: courseObj.course_name,
+        abbr: courseObj.course_abbr
+      });
+      localStorage.setItem("history", state.viewedCourses);
+    },
     setColor(state, color) {
       state.course.color = color;
     },
@@ -205,7 +222,7 @@ export default new Vuex.Store({
       state.drawer.clipped = false;
       localStorage.removeItem("drawer.clipped");
     },
-    userCourses(state, courses) {
+    setUserCourses(state, courses) {
       state.userCourses = courses;
     },
     unSaveCourse(state, cid) {
@@ -241,11 +258,55 @@ export default new Vuex.Store({
       dispatch("updateCourse", state.course);
       dispatch("setCourseUsers", users);
     },
+    saveCourse({ commit, state }, course) {
+      let cid = course.cid;
+      if (!(cid in state.userCourses)) {
+        let courses = state.userCourses;
+        courses.push(course);
+        commit("setUserCourses", courses);
+      }
+      commit("saveCourse", cid);
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.USER_COURSES,
+          method: "POST",
+          data: { course: course }
+        })
+          .then(resp => {
+            console.log(resp.response);
+            resolve(resp.response);
+          })
+          .catch(err => {
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
+    },
+    unsaveCourse({ dispatch, commit }, course) {
+      let cid = course.cid;
+      commit("unsaveCourse", cid);
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.USER_COURSES,
+          method: "DELETE",
+          data: { cid: cid }
+        })
+          .then(resp => {
+            console.log(resp.response);
+            dispatch("getUserCourses");
+            resolve(resp.response);
+          })
+          .catch(err => {
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
+    },
     getUserCourses({ state }) {
       if (state.getters.isLoggedIn) {
         return new Promise((resolve, reject) => {
           Axios({
-            url: String.format(API.USER_ACCESS, state.user.id),
+            url: API.USER_COURSES,
             method: "GET"
           })
             .then(resp => {
@@ -274,7 +335,7 @@ export default new Vuex.Store({
           });
       });
     },
-    queryCourse({ commit }, params) {
+    queryCourse({ commit, state }, params) {
       return new Promise((resolve, reject) => {
         var queryString = Object.keys(params)
           .map(key => {
@@ -291,11 +352,12 @@ export default new Vuex.Store({
             console.log("Course query response: " + JSON.stringify(resp.data));
             commit("setActiveCourse", resp.data.course);
             commit("setActivePermission", resp.data.level);
+            commit("viewCourse", state.course);
             resolve(resp);
           })
           .catch(err => {
             commit("setActiveCourse", {});
-            reject(err.response);
+            reject(err);
           });
       });
     },
