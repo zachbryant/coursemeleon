@@ -20,7 +20,10 @@ accessSchema.index({ uid: 1, cid: 1 });
 
 accessSchema.statics = {
   byUser: function(user, callback) {
-    return this.find({ uid: user.uid || user }, callback);
+    return this.find(
+      { uid: user instanceof Object ? user.uid : user },
+      callback
+    );
   },
   byCourse: function(course, callback) {
     return this.find(
