@@ -30,7 +30,7 @@ accessSchema.statics = {
     if ("cid" in course) {
       return this.findOne(
         {
-          uid: "uid" in user ? user.uid : user,
+          uid: user && "uid" in user ? user.uid : user,
           cid: course.cid
         },
         callback
