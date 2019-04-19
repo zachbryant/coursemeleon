@@ -8,7 +8,7 @@
       v-model="drawer.open" 
       absolute 
       app)
-    h2(v-if="!drawer.mini && isLoggedIn") Hello!
+    h2(v-if="!drawer.mini && isLoggedIn") Hello{{ userName }}
     v-subheader Site Navigation
     v-list
       v-list-tile(v-if="!isLoggedIn" to="/login")
@@ -67,8 +67,7 @@ export default {
     toggleHamburger: Boolean
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     // changes the drawer to permanent
@@ -91,20 +90,22 @@ export default {
     }
   },
   computed: {
-    user() {
-      return this.$store.getters.getUser;
+    userName() {
+      let user = this.$store.getters.getUser;
+      if (user) return ", " + user.uname + "!";
+      return "!";
     },
     courseGroups() {
       var groups = [];
       groups.push({
-          active: false,
-          title: "My Courses",
-          courses: this.$store.getters.getUserCourses
-        });
+        active: false,
+        title: "My Courses",
+        courses: this.$store.getters.getUserCourses
+      });
       groups.push({
-          active: false,
-          title: "Recently Viewed",
-          courses: this.$store.getters.getViewedCourses
+        active: false,
+        title: "Recently Viewed",
+        courses: this.$store.getters.getViewedCourses
       });
       return groups;
     },
