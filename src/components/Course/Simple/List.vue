@@ -35,7 +35,8 @@
       component(:data="comp" 
                 :index="index"
                 :is="comp.instanceName" 
-                :key="comp.id")
+                :key="comp.id"
+                :class="index > 0 ? 'mb-5' : ''")
 </template>
 
 <script>
@@ -52,6 +53,7 @@ export default {
     "edit-sep": () => import("../Compound/EditSeparator.vue"),
     "edit-item-menu": () => import("../Compound/EditItemMenu.vue"),
     "text-item": () => import("./Text.vue"),
+    announcements: () => import("../Compound/Announcements.vue"),
     draggable
   },
   extends: BaseElement,
@@ -82,7 +84,10 @@ export default {
     },
     canShowInsert: function(index) {
       return (
-        (Math.abs(this.showInsert - index) <= 1 && ((this.tabIndex != 0 && index == -1) || (this.tabIndex == 0 && index >= 1))));
+        Math.abs(this.showInsert - index) <= 1 &&
+        ((this.tabIndex != 0 && index == -1) ||
+          (this.tabIndex == 0 && index >= 1))
+      );
     }
   },
   computed: {
