@@ -10,30 +10,15 @@ let isDev = process.env.NODE_ENV !== "production";
 
 export default new Vuex.Store({
   state: {
-    user: localStorage.getItem("user") || null,
+    user:
+      localStorage.getItem("user") !== null
+        ? JSON.parse(localStorage.getItem("user"))
+        : null,
     token: localStorage.getItem("token") || "",
     edit: false,
     tabIndex: 0,
     level: ACCESS_LEVELS.NONE,
-    course: {
-      /*
-      course_name: "",
-      cid: uuidv4(),
-      tabs: [
-        {
-          title: "",
-          id: uuidv4(),
-          elements: []
-        }
-      ],
-      abbr: "",
-      term: "",
-      term_start: "",
-      color: "",
-      font: "",
-      published: false,
-      whitelist: false*/
-    },
+    course: {},
     componentEditMenuOptions: [
       { title: "Announcements", instanceName: "Announcements" },
       { title: "Calendar", instanceName: "Calendar" },
@@ -236,9 +221,13 @@ export default new Vuex.Store({
     auth_request(state) {
       state.status = "loading";
     },
-    auth_success(state, token) {
+    auth_success(state, { token, user }) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      Axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
       state.status = "success";
       state.token = token;
+      state.user = user;
     },
     auth_error(state, message) {
       state.status = message || "Unknown error";
@@ -249,6 +238,7 @@ export default new Vuex.Store({
       state.user = "";
       state.userCourses = {};
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       delete Axios.defaults.headers.common["Authorization"];
       if (state.edit) state.edit = false;
     },
@@ -264,7 +254,7 @@ export default new Vuex.Store({
       dispatch("updateCourse", state.course);
       dispatch("setCourseUsers", users);
     },
-    setEditMode({state, commit}, value) {
+    setEditMode({ state, commit }, value) {
       commit("setEditMode", value);
     },
     saveCourse({ commit, state }, course) {
@@ -476,10 +466,7 @@ export default new Vuex.Store({
             //console.log("Auth request " + JSON.stringify(resp.data));
             const token = resp.data.token;
             console.log(resp.data.user);
-            state.user = resp.data.user;
-            localStorage.setItem("token", token);
-            Axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
-            commit("auth_success", token);
+            commit("auth_success", { token, user: resp.data.user });
             resolve(resp);
           })
           .catch(err => {
