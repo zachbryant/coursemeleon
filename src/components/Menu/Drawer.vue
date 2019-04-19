@@ -84,8 +84,9 @@ export default {
       this.$store.commit("toggleNavDrawer");
     },
     logout() {
+      let self = this;
       this.$store.dispatch("logout").then(function() {
-        this.$router.go();
+        self.$router.go();
       });
     }
   },
