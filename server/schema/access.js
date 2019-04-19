@@ -66,6 +66,11 @@ accessSchema.statics = {
   },
   byUserAndLevel: function(user, level, callback) {
     return this.find({ uid: user.uid || user, level: level }, callback);
+  },
+  byUserAndCidArray: function(user, cids, callback) {
+    let uid = user instanceof Object ? user.uid : user;
+    console.log(uid);
+    return this.find({ uid: uid, cid: { $in: cids } }, callback);
   }
 };
 
