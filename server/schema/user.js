@@ -68,13 +68,13 @@ userSchema.methods = {
 
 var User = mongoose.model("User", userSchema, "Users");
 
-User.create({ uname: "User 2", email: "user2@test.com" }, function(err, def) {
+/*User.create({ uname: "User 2", email: "user2@test.com" }, function(err, def) {
   if (err) {
     console.log("Error creating default user: %s", JSON.stringify(err));
   }
   if (def) {
     console.log("Default user: %s", JSON.stringify(def));
   }
-});
+});*/
 
 module.exports = User;
