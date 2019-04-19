@@ -1,7 +1,7 @@
 <template lang="pug">
   v-layout(v-if="isEditMode" fill-width justify-center align-center)
     h4 Start Date
-    v-date-picker(v-model="date" @input="setDate" no-title scrollable)
+    v-date-picker(v-model="date" no-title scrollable)
   h4(v-else) {{getDateText()}}
 </template>
 
@@ -21,18 +21,11 @@ export default {
     };
   },
   methods: {
-    onDateChange(date) {
-      console.log(this.date);
-    },
     getDateText() {
-      var text = "No dates set yet";
       if (this.date) {
-        text = "From " + this.date;
+        return "Term: " + this.term;
       }
-      return text;
-    },
-    setDate(date) {
-      this.date = date; 
+      return "No dates set yet";
     }
   },
   computed: {
@@ -62,13 +55,14 @@ export default {
           .date;
       },
       set(value) {
+        let self = this;
         this.$store.commit("updateCourseTabElement", {
           index: this.indexInTab,
           data: {
             date: value
           }
         });
-        this.$store.commit("setCourseDates", value, this.term);
+        this.$store.commit("setCourseDates", { value, term: self.term });
       }
     }
   }
