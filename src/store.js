@@ -20,10 +20,9 @@ export default new Vuex.Store({
     level: ACCESS_LEVELS.NONE,
     course: {},
     componentEditMenuOptions: [
-      { title: "Announcements", instanceName: "Announcements" },
-      { title: "Calendar", instanceName: "Calendar" },
-      { title: "Grade stats", instanceName: "Grade" },
-      { title: "Office Hours", instanceName: "officehours" },
+      { title: "Announcements", instanceName: "announcements" },
+      { title: "Calendar", instanceName: "calendar" },
+      { title: "Grade stats", instanceName: "grades" },
       { title: "Rich text", instanceName: "rich-content" },
       { title: "Embed document", instanceName: "doc-embed" }
     ],
@@ -149,6 +148,9 @@ export default new Vuex.Store({
       state.course.tabs = tabs;
       if (state.tabIndex >= tabs.length) state.tabIndex = 0;
     },
+    updateCourseAnnouncements(state, announcements) {
+      state.course.announcements = announcements;
+    },
     updateCourseTabElements(state, elements) {
       state.course.tabs[state.tabIndex].elements = elements;
     },
@@ -176,6 +178,16 @@ export default new Vuex.Store({
     },
     removeCourseTab(state, index) {
       state.course.tabs.splice(index, 1);
+    },
+    insertCourseAnnouncement(state, index) {
+      state.course.announcements.splice(index, 0, {
+        text: "",
+        date: new Date().toISOString(),
+        id: uuidv4()
+      });
+    },
+    removeCourseAnnouncement(state, index) {
+      state.course.announcements.splice(index, 1);
     },
     toggleEditMode(state) {
       state.edit = !state.edit;
@@ -356,7 +368,7 @@ export default new Vuex.Store({
           })
           .catch(err => {
             commit("setActiveCourse", {});
-            reject(err);
+            reject(err.response);
           });
       });
     },
