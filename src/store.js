@@ -310,6 +310,36 @@ export default new Vuex.Store({
           });
       });
     },
+    sendFile({commit}, file){
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.SEND_FILE,
+          data: file,
+          method: "PUT"
+        })
+          .then(resp => {
+
+          })
+          .catch(err => {
+
+          })
+      })
+    },
+    retrieveFile({commit}, file){
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.RETRIEVE_FILE,
+          data: file,
+          method: "GET"
+        })
+          .then(resp => {
+
+          })
+          .catch(err => {
+
+          })
+      })
+    },
     login({ commit }, credentials) {
       return new Promise((resolve, reject) => {
         commit("auth_request");
