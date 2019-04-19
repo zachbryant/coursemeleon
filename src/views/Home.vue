@@ -1,10 +1,7 @@
 <template lang="pug">
   v-container#home(fluid fill-height px-5)
-    v-layout(row)
-      keep-alive
-        component(v-if="isCreate" :is="currentCourseComponent" :isCreate="isCreate")
-        component(v-if="validQuery" :is="currentCourseComponent" :search="query")
-        
+    component(v-if="isCreate" :is="currentCourseComponent" :isCreate="isCreate")
+    component(v-if="validQuery" :is="currentCourseComponent" :search="query" :key="renderKey")
 </template>
 
 <script>
@@ -31,7 +28,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      renderKey: 0
+    };
   },
   methods: {
     validQuery() {
@@ -48,8 +47,11 @@ export default {
       return this.isCreate || this.validQuery() ? "course" : "overview";
     }
   },
-  created() {
-    
+  watch: {
+    query: function(value) {
+      console.log("Query changed");
+      this.renderKey++;
+    }
   }
 };
 </script>
