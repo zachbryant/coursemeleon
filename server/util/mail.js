@@ -24,8 +24,7 @@ function sendLoginCode(email, code) {
   let options = {
     ...loginMailOptions,
     to: email,
-    text: "Your temporary login code is: " + code,
-    html: "Your temporary login code is: <b>" + code + "</b>"
+    html: "<h1>Your temporary login code is:</h1><b>" + code + "</b>"
   };
   transporter.sendMail(options, (err, info) => {
     if (err) {
