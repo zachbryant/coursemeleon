@@ -39,6 +39,9 @@ courseSchema.statics = {
   byCid: function(cid, callback) {
     return this.findOne({ cid: cid }, callback);
   },
+  byCidArray: function(cids, callback) {
+    return this.find({ cid: { $in: cids } }, callback);
+  },
   byName: function(name, callback) {
     return this.find({ title: new RegExp(name, "i") }, callback);
   },
