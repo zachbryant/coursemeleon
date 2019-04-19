@@ -27,9 +27,6 @@
 </template>
 
 <script>
-//import CourseService from "../../services/CourseService";
-//import store from "../../store";
-
 export default {
   name: "navigation",
   props: {
