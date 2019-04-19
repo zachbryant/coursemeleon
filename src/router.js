@@ -48,7 +48,10 @@ let router = new Router({
     {
       path: "/create",
       name: "create",
-      component: Home,
+      component: function() {
+        Home = import("./views/Home.vue");
+        return Home;
+      },
       meta: {
         requiresAuth: true
       },
@@ -64,6 +67,10 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  store.commit("setErrorMessage", "");
+  store.commit("setWarningMessage", "");
+  store.commit("setInfoMessage", "");
+  store.commit("setSuccessMessage", "");
   if (to.matched.some(record => !!record.meta.requiresAuth)) {
     console.log(to);
     if (store.getters.isLoggedIn) {

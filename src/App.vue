@@ -6,6 +6,10 @@
       v-container#container(fluid align-content-center fill-height fill-width)
         v-layout(column justify-start)
           router-view#routerView
+          v-alert(:value="!!errorMessage" type="error") {{ errorMessage }}
+          v-alert(:value="!!warningMessage" type="warning") {{ warningMessage }}
+          v-alert(:value="!!infoMessage" type="info") {{ infoMessage }}
+          v-alert(:value="!!successMessage" type="success") {{ successMessage }}
 </template>
 
 <script>
@@ -39,6 +43,20 @@ export default {
   methods: {
     toggleHamburger() {
       this.$refs.hamburgerMenu.toggleDrawer();
+    }
+  },
+  computed: {
+    errorMessage() {
+      return this.$store.getters.errorMessage;
+    },
+    warningMessage() {
+      return this.$store.getters.warningMessage;
+    },
+    successMessage() {
+      return this.$store.getters.successMessage;
+    },
+    infoMessage() {
+      return this.$store.getters.infoMessage;
     }
   }
 };
