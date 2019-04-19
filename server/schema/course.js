@@ -13,9 +13,14 @@ var courseSchema = new Schema({
     type: Schema.Types.Mixed,
     default: []
   },
-  term: String,
-  term_start: Date,
-  term_end: Date,
+  term: {
+    type: String,
+    required: true
+  },
+  term_start: {
+    type: String,
+    required: true
+  },
   announcements: {
     type: String,
     required: false,
@@ -54,6 +59,14 @@ courseSchema.statics = {
       paramsIgnoreCase[key] = new RegExp(params[key], "i");
     });
     return this.findOne(paramsIgnoreCase, callback);
+  },
+  exactAll: function(params, callback) {
+    var paramsIgnoreCase = {};
+    Object.keys(params).forEach(key => {
+      paramsIgnoreCase[key] = { $regex: params[key], $options: "i" };
+    });
+    console.log(paramsIgnoreCase);
+    return this.find(paramsIgnoreCase, callback);
   },
   byTermStart: function(termStart, callback) {
     return this.find({ term_start: termStart }, callback);
