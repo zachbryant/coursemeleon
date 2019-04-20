@@ -86,8 +86,7 @@ export default {
     canShowInsert: function(index) {
       return (
         Math.abs(this.showInsert - index) <= 1 &&
-        ((this.tabIndex != 0 && index == -1) ||
-          (this.tabIndex == 0 && index >= 1))
+        (this.tabIndex != 0 || (this.tabIndex == 0 && index >= 1))
       );
     }
   },
