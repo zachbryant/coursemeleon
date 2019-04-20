@@ -12,14 +12,19 @@
     v-layout#fabContainer(v-if="canShowFab()" column justify-end)
       v-speed-dial(v-model="showFab"
               bottom left
+              open-on-hover
               direction="top"
               transition="scale-transition")
         template(v-slot:activator)
-          v-btn(v-model="showFab"
-                color="primary"
-                dark fab)
-            v-icon fa-cog
-            v-icon fa-times
+          v-tooltip(right)
+            template(v-slot:activator="{ on }")
+              v-btn(v-model="showFab"
+                    color="primary"
+                    v-on="on"
+                    dark fab)
+                v-icon fa-cog
+                v-icon fa-times
+            span {{ showFab ? "Close" : "Course Settings" }}
         v-btn(v-if="isAdmin()" small fab @click="showPermissionDialog = !showPermissionDialog")
           v-icon(color="blue") fa-user
         v-btn(v-if="isEditMode" small fab @click="showFileDialog = !showFileDialog")
