@@ -28,7 +28,10 @@ export default new Vuex.Store({
     ],
     status: "",
     userCourses: {},
-    viewedCourses: [], //localStorage.getItem("history") || [],
+    viewedCourses:
+      localStorage.getItem("history") != null
+        ? JSON.parse(localStorage.getItem("history"))
+        : [],
     apiResult: {},
     drawer: {
       // sets the open status of the drawer
@@ -89,10 +92,10 @@ export default new Vuex.Store({
       state.viewedCourses.unshift({
         cid: courseObj.cid,
         saved: checkIsSaved(courseObj.cid),
-        title: courseObj.course_name,
+        title: courseObj.course_name + " (" + courseObj.term + ")",
         abbr: courseObj.course_abbr
       });
-      localStorage.setItem("history", state.viewedCourses);
+      localStorage.setItem("history", JSON.stringify(state.viewedCourses));
     },
     setColor(state, color) {
       state.course.color = color;
