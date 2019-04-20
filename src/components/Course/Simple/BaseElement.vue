@@ -29,7 +29,13 @@ export default {
     },
     insertElement(index, type) {
       console.log(type);
-      this.$store.commit("insertCourseElement", { index, type });
+      let data = null;
+      if (type == "calendar") {
+        data = {};
+        data.cal_google = "";
+        data.cal_ical = "";
+      }
+      this.$store.commit("insertCourseElement", { index, type, data });
     }
   },
   computed: {
