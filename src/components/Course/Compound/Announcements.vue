@@ -1,8 +1,8 @@
 <template lang="pug">
   v-layout(column align-center justify-start fill-width)
-    v-flex(xs12)
-      h3 Announcements
     v-layout(column v-if="isEditMode && !all" fill-width)
+      v-flex(xs12)
+        h3 Announcements
       v-btn(flat block color="primary")
           v-icon(@click="insertAnnouncement(0)") fa-plus
       draggable(v-model="announcements" class="fill-width")
@@ -30,7 +30,7 @@
         v-flex(xs1)
           span(class="light italic time-ago") {{ getDateString(announcement) }}
         v-flex(xs11)
-          h5(class="ml-5") {{ announcement.text }}
+          h5(class="") {{ announcement.text }}
 
 </template>
 
@@ -62,10 +62,8 @@ export default {
     getDateString(announcement) {
       var date = announcement.date;
       if (!date) date = new Date();
-      console.log("Date");
-      console.log(date);
       var rel = distanceInWordsToNow(new Date(date)) + " ago";
-      rel = rel.replace("less than", "<");
+      rel = rel.replace("less than", "<").replace("about ", "~ ");
       return rel;
     },
     hoverOver: function(index) {

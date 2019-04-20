@@ -23,9 +23,13 @@ export default {
   methods: {
     getDateText() {
       if (this.date) {
+        let UTCdate = new Date(this.date);
         return (
           "Course begins: " +
-          format(new Date(this.date), "MMMM Do") +
+          format(
+            new Date(UTCdate.getTime() + UTCdate.getTimezoneOffset() * 60000),
+            "MMMM Do"
+          ) +
           ", " +
           this.term
         );

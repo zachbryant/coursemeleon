@@ -37,7 +37,7 @@ var courseSchema = new Schema({
   }
 });
 // Index on course name ASCENDING and within each group term_start DESCENDING
-courseSchema.index({ title: 1, term_start: -1 });
+courseSchema.index({ course_name: 1, term_start: -1 });
 
 // For doing general work on "Courses"
 courseSchema.statics = {

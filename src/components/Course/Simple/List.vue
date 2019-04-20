@@ -54,6 +54,8 @@ export default {
     "edit-item-menu": () => import("../Compound/EditItemMenu.vue"),
     "text-item": () => import("./Text.vue"),
     announcements: () => import("../Compound/Announcements.vue"),
+    calendar: () => import("../Compound/Calendar.vue"),
+    grades: () => import("../Compound/Grade.vue"),
     draggable
   },
   extends: BaseElement,
@@ -80,13 +82,15 @@ export default {
       this.showInsert = index;
     },
     canShowMenu: function(index) {
-      return this.showMenu == index && index > 1;
+      return (
+        this.showMenu == index &&
+        (this.tabIndex != 0 || (this.tabIndex == 0 && index > 1))
+      );
     },
     canShowInsert: function(index) {
       return (
         Math.abs(this.showInsert - index) <= 1 &&
-        ((this.tabIndex != 0 && index == -1) ||
-          (this.tabIndex == 0 && index >= 1))
+        (this.tabIndex != 0 || (this.tabIndex == 0 && index >= 1))
       );
     }
   },

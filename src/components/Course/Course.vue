@@ -12,16 +12,23 @@
     v-layout#fabContainer(v-if="canShowFab()" column justify-end)
       v-speed-dial(v-model="showFab"
               bottom left
+              open-on-hover
               direction="top"
               transition="scale-transition")
         template(v-slot:activator)
-          v-btn(v-model="showFab"
-                color="primary"
-                dark fab)
-            v-icon fa-cog
-            v-icon fa-times
+          v-tooltip(right)
+            template(v-slot:activator="{ on }")
+              v-btn(v-model="showFab"
+                    color="primary"
+                    v-on="on"
+                    dark fab)
+                v-icon fa-cog
+                v-icon fa-times
+            span {{ showFab ? "Close" : "Course Settings" }}
         v-btn(v-if="isAdmin()" small fab @click="showPermissionDialog = !showPermissionDialog")
           v-icon(color="blue") fa-user
+        v-btn(v-if="isAdmin()" small fab @click="showCloneDialog = !showCloneDialog")
+          v-icon(color="blue-grey") fa-copy
         v-btn(v-if="isEditMode" small fab @click="showFileDialog = !showFileDialog")
           v-icon(color="purple") fa-paperclip
         v-btn(v-if="isEditMode" small fab @click="showColorDialog = !showColorDialog")
@@ -66,6 +73,19 @@
       v-card
         h2 Upload Files
         file-upload
+    v-dialog(v-model="showCloneDialog" width="25%")
+      v-card
+        h2 Clone this course
+        p Choose a new start date
+        v-date-picker(v-model="newDate" no-title scrollable)
+        p(v-if="termError" style="color: red !important") You need to pick a different term.
+        v-layout(row fill-width)
+          v-flex(xs6)
+            v-btn(flat block color="error")
+              v-icon(@click="showCloneDialog = false") fa-times
+          v-flex(xs6)
+            v-btn(flat block color="primary")
+              v-icon(@click="cloneCourse") fa-check
     v-dialog(v-model="showColorDialog" width="35%")
       v-card(class="px-4 py-3")
         h2 Course Color
@@ -110,12 +130,18 @@ export default {
   },
   data() {
     return {
+      summerStartMonth: 6,
+      springStartMonth: 1,
+      fallStartMonth: 8,
       activeTab: 0,
       showFab: false,
+      termError: false,
       loadingCourse: false,
+      showCloneDialog: false,
       showFileDialog: false,
       showPermissionDialog: false,
       showColorDialog: false,
+      newDate: "",
       newColor: "",
       users: [],
       editedUsers: false,
@@ -130,6 +156,59 @@ export default {
     };
   },
   methods: {
+    term() {
+      let date = this.newDate;
+      if (date) {
+        let start = new Date(date);
+        console.log(start);
+        let year = start
+          .getFullYear()
+          .toString()
+          .substr(-2);
+        var term = "";
+        let month = start.getMonth() + 1;
+        if (month < this.summerStartMonth) {
+          term = "spring";
+        } else if (month < this.fallStartMonth) {
+          term = "summer";
+        } else {
+          term = "fall";
+        }
+        term += " '" + year;
+        return term;
+      }
+      return "";
+    },
+    cloneCourse() {
+      console.log("Old cid " + this.$store.getters.course.cid);
+      var term = this.term();
+      let self = this;
+      if (this.newDate && term != this.course.term) {
+        this.termError = false;
+        let users = this.users;
+        this.$store
+          .dispatch("cloneCourse", {
+            term_start: this.newDate,
+            term: term
+          })
+          .then(cid => {
+            console.log("New cid " + cid);
+            self.saveAccess();
+            this.$store.dispatch("setCourseUsers", users);
+            this.$router.push({ name: "home", query: { cid: cid } });
+            //this.$router.go();
+          })
+          .catch(err => {
+            console.log("Error cloning course");
+            console.log(err);
+          })
+          .then(() => {
+            self.showCloneDialog = false;
+          });
+      } else {
+        this.termError = true;
+      }
+    },
     resetColor() {
       this.newColor = "";
       this.updateVuetifyColors();
@@ -352,19 +431,18 @@ export default {
         published: false,
         whitelist: false
       });
-    } else if (
-      this.search &&
-      (!this.$store.getters.course ||
-        Object.keys(this.$store.getters.course).length == 0)
-    ) {
+    } else {
+      console.log("Reloading!");
       this.loadCourse();
+      this.loadUsers();
     }
   },
   watch: {
-    course: function(value) {
-      if (value.cid != this.course.cid) {
-        this.loadCourse();
-      }
+    course: function(value) {},
+    newDate: function(value) {
+      console.log("Watch date");
+      console.log(value);
+      console.log(this.term());
     }
   }
 };
