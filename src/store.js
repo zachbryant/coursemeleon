@@ -206,6 +206,12 @@ export default new Vuex.Store({
       }
       state.drawer.open = !state.drawer.open;
     },
+    directSetTermPicker(state, term_start) {
+      console.log(term_start);
+      if (state.course.tabs.length > 0) {
+        state.course.tabs[0].elements[1].data = { date: term_start };
+      }
+    },
     // toggles the drawer variant (mini/full)
     toggleMiniNavDrawer(state) {
       state.drawer.mini = !state.drawer.mini;
@@ -260,6 +266,35 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    cloneCourse({ state, commit }, { term_start, term }) {
+      return new Promise((resolve, reject) => {
+        try {
+          let copy = {};
+          Object.keys(state.course).forEach(key => {
+            if (
+              key != "_id" &&
+              key != "cid" &&
+              key != "term_start" &&
+              key != "term"
+            )
+              copy[key] = state.course[key];
+          });
+          copy.cid = uuidv4();
+          console.log("Cloning..");
+          console.log(term_start);
+          console.log(term);
+          copy.term_start = term_start;
+          copy.term = term;
+          console.log("Copy action");
+          console.log(copy);
+          commit("setActiveCourse", copy);
+          commit("directSetTermPicker", term_start);
+          resolve(copy.cid);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    },
     toggleEditMode({ state, dispatch, commit }, { users }) {
       commit("toggleEditMode");
       commit("setTitle");
