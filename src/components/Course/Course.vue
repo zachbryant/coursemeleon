@@ -432,6 +432,7 @@ export default {
         whitelist: false
       });
     } else {
+      console.log("Reloading!");
       this.loadCourse();
       this.loadUsers();
     }
