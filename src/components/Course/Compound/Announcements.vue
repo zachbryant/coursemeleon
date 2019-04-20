@@ -62,8 +62,6 @@ export default {
     getDateString(announcement) {
       var date = announcement.date;
       if (!date) date = new Date();
-      console.log("Date");
-      console.log(date);
       var rel = distanceInWordsToNow(new Date(date)) + " ago";
       rel = rel.replace("less than", "<").replace("about ", "~ ");
       return rel;
