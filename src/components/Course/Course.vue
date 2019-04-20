@@ -183,9 +183,9 @@ export default {
       console.log("Old cid " + this.$store.getters.course.cid);
       var term = this.term();
       let self = this;
-      if (term != this.course.term) {
+      if (this.newDate && term != this.course.term) {
         this.termError = false;
-        //let users = this.users;
+        let users = this.users;
         this.$store
           .dispatch("cloneCourse", {
             term_start: this.newDate,
@@ -194,7 +194,9 @@ export default {
           .then(cid => {
             console.log("New cid " + cid);
             self.saveAccess();
+            this.$store.dispatch("setCourseUsers", users);
             this.$router.push({ name: "home", query: { cid: cid } });
+            //this.$router.go();
           })
           .catch(err => {
             console.log("Error cloning course");
@@ -429,20 +431,13 @@ export default {
         published: false,
         whitelist: false
       });
-    } else if (
-      this.search &&
-      (!this.$store.getters.course ||
-        Object.keys(this.$store.getters.course).length == 0)
-    ) {
+    } else {
       this.loadCourse();
+      this.loadUsers();
     }
   },
   watch: {
-    course: function(value) {
-      if (value.cid != this.course.cid) {
-        this.loadCourse();
-      }
-    },
+    course: function(value) {},
     newDate: function(value) {
       console.log("Watch date");
       console.log(value);
