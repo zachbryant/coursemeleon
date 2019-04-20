@@ -1,5 +1,5 @@
 <template>
-  <div id="grade">
+  <div id="fileUp">
     <h1>Grade Statistics</h1>
     <h6>Mean: The mean is the average of a data set</h6>
     <h6>Median: The "median" is the "middle" value in a data set</h6>
@@ -22,22 +22,9 @@
 </template>
 <script>
 import { CourseService } from "@/components/componentImports";
-/*
-<div v-if="!image">
-    <h2>Select an image</h2>
-    <input type="file" @change="onFileChange">
-  </div>
-  <div v-else>
-    <img :src="image" />
-    <button @click="removeImage">Remove image</button>
-  </div>
-*/
+
 export default {
-  name: "Grade",
-  props: {
-    msg: String
-  },
-  image: "",
+  name: "fileUp",
   data() {
     (function() {
       if (window.localStorage) {
@@ -56,8 +43,8 @@ export default {
     try {
       console.log("whyYYYYYYYYYY");
       this.courses = await CourseService.getPosts(); //populate courses array
-      //console.log("fuck shit up" + this.courses[3].grades);
-      this.gradeStr = this.courses[this.msg].grades;
+      console.log("fuck shit up" + this.courses[3].grades);
+      this.gradeStr = this.courses[2].grades;
       //var str = "These are the score on the last midterm 60 30 40 50 30 32 100 97 80 44 32 44 55 78 88 Thats it";
       var res = this.gradeStr.split(" ");
       var k;
@@ -89,12 +76,12 @@ export default {
           }
         }
       }
-      console.log(A_num);
-      console.log(B_num);
-      console.log(C_num);
-      console.log(D_num);
-      console.log(F_num);
-      console.log(num_array);
+      /*console.log(A_num);
+                  console.log(B_num);
+                  console.log(C_num);
+                  console.log(D_num);
+                  console.log(F_num);
+                  console.log(num_array);   */
 
       var total = 0,
         i;
@@ -141,11 +128,11 @@ export default {
             {
               data: [A_num, B_num, C_num, D_num, F_num],
               backgroundColor: [
-                this.courses[this.msg].color,
-                this.courses[this.msg].color,
-                this.courses[this.msg].color,
-                this.courses[this.msg].color,
-                this.courses[this.msg].color
+                "#cde8a0",
+                "#bed695",
+                "#b7cc92",
+                "#a3b585",
+                "#98aa79"
               ],
               hoverBackgroundColor: [
                 "#5B6870",
@@ -172,11 +159,11 @@ export default {
               label: "# of students",
               data: [F_num, D_num, C_num, A_num, B_num],
               backgroundColor: [
-                this.courses[this.msg].color,
-                this.courses[this.msg].color,
-                this.courses[this.msg].color,
-                this.courses[this.msg].color,
-                this.courses[this.msg].color
+                "#98aa79",
+                "#a3b585",
+                "#b7cc92",
+                "#bed695",
+                "#cde8a0"
               ],
               hoverBackgroundColor: [
                 "#5B6870",
@@ -211,7 +198,7 @@ export default {
         data: {
           datasets: [
             {
-              backgroundColor: this.courses[this.msg].color,
+              backgroundColor: "#b7cc92",
               label: "Scatter Dataset",
               data: [
                 {
@@ -270,27 +257,9 @@ export default {
     }
   },
   methods: {
-    onFileChange(e) {
-      console.log("HHHHHHHHHHHHYYYYYYYYYYYYYYYYYYYY");
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      this.createImage(files[0]);
-    },
-    createImage(file) {
-      console.log(file);
-      var myfile = JSON.stringify(file);
-      console.log(file.name);
-
-      var image = new Image();
-      var reader = new FileReader();
-      var vm = this;
-      reader.onload = e => {
-        vm.image = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
-    removeImage: function(e) {
-      this.image = "";
+    async setString() {
+      console.log("im screwed");
+      //var str = "These are the score on the last midterm 60 30 40 50 30 32 100 97 80 44 32 44 55 78 88 Thats it"
     }
   }
 };
@@ -327,12 +296,12 @@ for (k = 0; k < res.length; k++) {
     }
   }
 }
-/*console.log(A_num);
+console.log(A_num);
 console.log(B_num);
 console.log(C_num);
 console.log(D_num);
 console.log(F_num);
-console.log(num_array);*/
+console.log(num_array);
 var total = 0,
   i;
 var mean = 0;
@@ -381,7 +350,7 @@ window.addEventListener("load", function(event) {
           backgroundColor: [
             "#cde8a0",
             "#bed695",
-            "#636a75",
+            "#b7cc92",
             "#a3b585",
             "#98aa79"
           ],
@@ -409,9 +378,9 @@ window.addEventListener("load", function(event) {
           label: "# of students",
           data: [F_num, D_num, C_num, A_num, B_num],
           backgroundColor: [
-            this.$vuetify.theme.primary.lighten - 3,
+            "#98aa79",
             "#a3b585",
-            "#636a75",
+            "#b7cc92",
             "#bed695",
             "#cde8a0"
           ],
@@ -447,7 +416,7 @@ window.addEventListener("load", function(event) {
     data: {
       datasets: [
         {
-          backgroundColor: "#636a75",
+          backgroundColor: "#b7cc92",
           label: "Scatter Dataset",
           data: [
             {
@@ -514,42 +483,41 @@ window.addEventListener("load", function(event) {
   margin-top: 60px;
   height: 100%;
 }
-
 #mean {
   font-family: "Nunito", Helvetica, Arial, sans-serif;
   font-size: 30px;
-  color: #636a75;
+  color: #b7cc92;
   font-weight: bold;
   text-align: center;
 }
 #median {
   font-family: "Nunito", Helvetica, Arial, sans-serif;
   font-size: 30px;
-  color: #636a75;
+  color: #b7cc92;
   font-weight: bold;
   text-align: center;
 }
 #sd {
   font-family: "Nunito", Helvetica, Arial, sans-serif;
   font-size: 30px;
-  color: #636a75;
+  color: #b7cc92;
   font-weight: bold;
   text-align: center;
 }
 #grade h1 {
   font-size: 90px;
   text-decoration: underline;
-  color: #636a75;
+  color: #b7cc92;
   font-weight: bold;
 }
 #grade h2 {
   font-size: 40px;
-  color: #636a75;
+  color: #b7cc92;
   font-weight: normal;
 }
 #grade h3 {
   font-size: 40px;
-  background-color: #636a75;
+  background-color: #b7cc92;
   color: white;
   text-align: center;
   font-weight: normal;
@@ -564,7 +532,7 @@ window.addEventListener("load", function(event) {
 #grade h6 {
   font-family: "Nunito", Helvetica, Arial, sans-serif;
   font-size: 20px;
-  color: #636a75;
+  color: #b7cc92;
   text-align: center;
   font-weight: normal;
 }
@@ -577,12 +545,12 @@ window.addEventListener("load", function(event) {
   max-width: 70%;
   max-height: 70%;
   margin: auto;
-  color: #636a75;
+  color: #b7cc92;
 }
 #myC {
   max-width: 85%;
   max-height: 85%;
   margin: auto;
-  color: #636a75;
+  color: #b7cc92;
 }
 </style>

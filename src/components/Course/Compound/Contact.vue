@@ -11,13 +11,13 @@
         <v-layout row wrap align-center>
           <v-flex xs6>
             <v-card id="imageBox">
-              <span style="color: rgb(183, 204, 146);">
+              <span style="color: #636a75;">
                 <i class="fas fa-envelope-open-text fa-6x"></i>
               </span>
             </v-card>
           </v-flex>
           <v-flex xs6>
-            <p>Email: {{ courses[courses.length - 1].contact_info }}</p>
+            <p>Email: {{ courses[msg].contact_info }}</p>
           </v-flex>
         </v-layout>
       </v-container>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import CourseService from "@/services/CourseService";
+import { CourseService } from "@/components/componentImports";
 
 export default {
   name: "Contact",
@@ -37,6 +37,9 @@ export default {
       error: "",
       text: ""
     };
+  },
+  props: {
+    msg: String
   },
   async created() {
     //runs automatically when component created

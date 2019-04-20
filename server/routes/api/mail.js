@@ -1,4 +1,6 @@
+
 const nodemailer = require("nodemailer");
+//console.log(nodemailer)
 
 // Generate an email service account for testing
 const transporter = nodemailer.createTransport({
@@ -10,21 +12,25 @@ const transporter = nodemailer.createTransport({
     pass: "rwFCVjrCNhsFcUxEFJ"
   }
 });
+
 // extend me! subject/text/html/to
 let mailOptions = {
   from: '"Coursemeleon" <noreply@coursemeleon.com>'
 };
 // extend me! to/text/html attrs
-let loginMailOptions = {
+let loginAnMailOptions = {
   ...mailOptions,
-  subject: "🦎 Coursemeleon login code"
+  subject: "There has been a change in the course you are enrolled in"
 };
 
-function sendLoginCode(email, code) {
+function sendLoginCode(email,flag) {
+  if(flag==1){
+ 
   let options = {
-    ...loginMailOptions,
+    ...loginAnMailOptions,
     to: email,
-    html: "<h1>Your temporary login code is:</h1><b>" + code + "</b>"
+    text: "New Annoucement has been made " ,
+    html: "New Annoucement has been made "
   };
   transporter.sendMail(options, (err, info) => {
     if (err) {
@@ -35,30 +41,30 @@ function sendLoginCode(email, code) {
       console.log("Message sent: %s", info.messageId);
       console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
     }
+    
   });
-}
+  }
 
-function sendAnnouncement(email, course, announcement) {
-  let options = {
-    ...loginMailOptions,
-    to: email,
-    html:
-      "<h1>New announcement from " +
-      course.course_name +
-      ":</h1><p>" +
-      announcement +
-      "</p>"
-  };
-  transporter.sendMail(options, (err, info) => {
-    if (err) {
-      console.log(err);
-      return process.exit(1);
+  if(flag==2){
+ 
+    let options = {
+      ...loginAnMailOptions,
+      to: email,
+      text: "The course is name has been changed " ,
+      html: "The course is name has been changed  "
+    };
+    transporter.sendMail(options, (err, info) => {
+      if (err) {
+        console.log(err);
+        return process.exit(1);
+      }
+      if (info) {
+        console.log("Message sent: %s", info.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+      }
+      
+    });
     }
-    if (info) {
-      console.log("Announcement sent: %s", info.messageId);
-      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    }
-  });
 }
 
 module.exports = {

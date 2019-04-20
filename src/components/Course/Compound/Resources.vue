@@ -1,13 +1,14 @@
 <template>
   <div>
     <v-container grid-list-xl></v-container>
-    <!-- below just gets the newest item-->
-    <h1>General Course Info</h1>
+    <h1>Resources</h1>
     <v-container
       grid-list-xl
       style="border-style: dashed; border-color: #b7b7b7; border-width: 2px;"
     >
-      <h3>{{ courses[msg].course_info }}</h3>
+      <a v-bind:href="courses[msg].resources" target="_blank">{{
+        courses[msg].resources
+      }}</a>
     </v-container>
     <v-container grid-list-xl></v-container>
   </div>
@@ -17,7 +18,7 @@
 import { CourseService } from "@/components/componentImports";
 
 export default {
-  name: "Info",
+  name: "Resources",
   data() {
     return {
       courses: [],

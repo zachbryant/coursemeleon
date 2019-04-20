@@ -13,8 +13,8 @@ require("./config/mongo");
 require("./config/jwtConfig");
 
 // Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "50mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(upload.array());
 app.use(cors());
 app.use(passport.initialize()); // Start using passport
@@ -22,9 +22,9 @@ app.use(passport.session()); // Session management
 
 // Routes
 const auth = require("./routes/api/auth");
-const posts = require("./routes/api/posts");
+//const posts = require("./routes/api/posts");
 const course = require("./routes/api/course");
-app.use("/api/posts", posts);
+//app.use("/api/posts", posts);
 app.use("/api/course", course);
 app.use("/api/auth", auth);
 

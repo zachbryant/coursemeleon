@@ -12,10 +12,11 @@
                     clearable 
                     :loading="codeLoading"
                     label="Enter your email" 
-                    required 
+                    required
+                    autofocus
                     :hint="errors.first('email')" 
                     :error="errors.has('email')"
-                    @change="resetCodeState()"
+                    @keyup.enter.native="generateCode()"
                     @click:clear="resetCodeState()")
         v-btn(v-if="!codeRequested" 
               color="primary" 
@@ -32,7 +33,8 @@
                     type="text" 
                     v-model="code" 
                     clearable 
-                    label="Enter your login code" 
+                    label="Enter your login code"
+                    @keyup.enter.native="validateCode()"
                     required 
                     :hint="errors.first('code')" 
                     :error="errors.has('code')")
@@ -48,6 +50,7 @@ export default {
   data() {
     return {
       email: null,
+      oldEmail: null,
       codeRequested: false,
       codeLoading: false,
       codeError: false,
@@ -69,10 +72,9 @@ export default {
     },
     generateCode() {
       let email = this.email;
-      this.codeLoading = true;
+      this.codeLoading = "loading2";
       let self = this;
       this.login({ email }, function() {
-        console.log("Code requested");
         self.codeLoading = false;
         self.codeRequested = true;
       });
@@ -81,7 +83,7 @@ export default {
       let email = this.email;
       let code = this.code;
       let routerTarget = this.redirect;
-      console.log("Router Target: %s", JSON.stringify(routerTarget));
+      //console.log("Router Target: %s", JSON.stringify(routerTarget));
       let self = this;
       this.login({ email, code }, function() {
         self.codeError = false;
@@ -115,6 +117,14 @@ export default {
   computed: {
     authErrorMessage() {
       return this.$store.getters.authStatus;
+    }
+  },
+  watch: {
+    email: function(value) {
+      if (value != this.oldEmail) {
+        this.resetCodeState();
+        this.oldEmail = value;
+      }
     }
   }
 };

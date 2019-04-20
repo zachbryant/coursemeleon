@@ -14,12 +14,11 @@ var userSchema = new Schema({
     type: String,
     index: true,
     unique: true,
-    dropDups: true,
     required: true
   },
   savedCourses: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   },
   code: {
     type: String,
@@ -31,6 +30,9 @@ var userSchema = new Schema({
 userSchema.statics = {
   byUid: function(uid, callback) {
     return this.findOne({ uid: uid }, callback);
+  },
+  byUidArray: function(uids, callback) {
+    return this.find({ uid: { $in: uids } }, callback);
   },
   byName: function(name, callback) {
     return this.find({ uname: new RegExp(name, "i") }, callback);
@@ -66,7 +68,7 @@ userSchema.methods = {
 
 var User = mongoose.model("User", userSchema, "Users");
 
-/*User.create({ uname: "Default3", email: "test@test.com" }, function(err, def) {
+/*User.create({ uname: "User 2", email: "user2@test.com" }, function(err, def) {
   if (err) {
     console.log("Error creating default user: %s", JSON.stringify(err));
   }

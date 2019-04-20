@@ -8,7 +8,7 @@
       v-model="drawer.open" 
       absolute 
       app)
-    //-h2(v-if="!drawer.mini") Menu
+    h4(v-if="!drawer.mini && isLoggedIn" class="mt-3") Hello{{ userName }}
     v-subheader Site Navigation
     v-list
       v-list-tile(v-if="!isLoggedIn" to="/login")
@@ -67,50 +67,7 @@ export default {
     toggleHamburger: Boolean
   },
   data() {
-    return {
-      courseGroups: [
-        {
-          active: false,
-          title: "Relevant",
-          courses: [
-            {
-              title: "CS 307: Principles of Software Engineering",
-              abbr: "CS307",
-              id: "1",
-              saved: true
-            },
-            {
-              title: "CS 308: Principles of Software Engineering",
-              abbr: "CS308",
-              id: "2",
-              saved: false
-            },
-            {
-              title: "CS 309: Principles of Software Engineering",
-              abbr: "CS309",
-              term: "fa19",
-              id: "3"
-            }
-          ]
-        },
-        {
-          active: false,
-          title: "Recently Viewed",
-          courses: [
-            {
-              title: "CS 310: Principles of Software Engineering",
-              id: "4",
-              saved: false
-            },
-            {
-              title: "CS 311: Principles of Software Engineering",
-              id: "5",
-              saved: true
-            }
-          ]
-        }
-      ]
-    };
+    return {};
   },
   methods: {
     // changes the drawer to permanent
@@ -126,11 +83,32 @@ export default {
       this.$store.commit("toggleNavDrawer");
     },
     logout() {
-      this.$store.dispatch("logout");
-      this.$router.go();
+      let self = this;
+      this.$store.dispatch("logout").then(function() {
+        self.$router.go();
+      });
     }
   },
   computed: {
+    userName() {
+      let user = this.$store.getters.getUser;
+      if (user && user.uname) return ", " + user.uname + "!";
+      return "!";
+    },
+    courseGroups() {
+      var groups = [];
+      groups.push({
+        active: false,
+        title: "My Courses",
+        courses: this.$store.getters.getUserCourses
+      });
+      groups.push({
+        active: false,
+        title: "Recently Viewed",
+        courses: this.$store.getters.getViewedCourses
+      });
+      return groups;
+    },
     menuOptions: function() {
       var opts = [
         {

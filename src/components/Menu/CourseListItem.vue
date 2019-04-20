@@ -25,16 +25,17 @@ export default {
     },
     flipSaved() {
       this.isSaved = !this.isSaved;
-      //save this change
+      if (this.isSaved)
+        this.$store.dispatch("saveCourse", this.course);
+      else
+        this.$store.dispatch("unSaveCourse", this.course);
     },
     openCourse(event) {
-      console.log(event);
+      console.log(this.course.cid);
       this.$router.push({
         path: "/",
         query: {
-          course: this.course.abbr,
-          id: this.course.id,
-          term: this.course.term
+          cid: this.course.cid,
         }
       });
     }

@@ -2,7 +2,7 @@
   <div>
     <v-container grid-list-xl></v-container>
     <!-- below just gets the newest item-->
-    <h1>{{ courses[courses.length - 1].course_name }}</h1>
+    <h1>{{ courses[msg].course_name }}</h1>
     <v-container grid-list-xl>
       <v-layout row wrap align-center>
         <v-flex xs6>
@@ -18,10 +18,13 @@
 </template>
 
 <script>
-import CourseService from "@/services/CourseService";
+import { CourseService } from "@/components/componentImports";
 
 export default {
   name: "Title",
+  props: {
+    msg: String
+  },
   data() {
     return {
       courses: [],

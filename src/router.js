@@ -19,12 +19,15 @@ let router = new Router({
       component: Home,
       meta: {
         requiresAuthQueries: false
-      }
-    },
-    {
-      path: "/explore",
-      name: "explore",
-      component: () => import("./views/Explore.vue")
+      },
+      props: route => ({
+        query: {
+          title: route.query.title,
+          term: route.query.term,
+          cid: route.query.cid,
+          abbr: route.query.abbr
+        }
+      })
     },
     {
       path: "/login",
@@ -45,12 +48,17 @@ let router = new Router({
     {
       path: "/create",
       name: "create",
+      component: () => import("./views/Home.vue"),
       meta: {
         requiresAuth: true
       },
+      props: { isCreate: true }
+    },
+    {
+      path: "/course:*",
+      name: "course",
       // route level code-splitting (lazy load)
-      component: () =>
-        import(/* webpackChunkName: "inputInfo" */ "./views/Course")
+      component: () => import(/* webpackChunkName: "inputInfo" */ "./views/Coursepage")
     },
     {
       path: "*",
@@ -62,6 +70,11 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  store.commit("setErrorMessage", "");
+  store.commit("setWarningMessage", "");
+  store.commit("setInfoMessage", "");
+  store.commit("setSuccessMessage", "");
+  store.dispatch("setEditMode", false);
   if (to.matched.some(record => !!record.meta.requiresAuth)) {
     console.log(to);
     if (store.getters.isLoggedIn) {
@@ -73,6 +86,7 @@ router.beforeEach((to, from, next) => {
       path: "/login",
       props: to.props,
       meta: to.meta,
+      query: to.query,
       params: {
         redirect: {
           path: to.fullPath,

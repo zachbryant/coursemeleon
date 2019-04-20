@@ -7,28 +7,22 @@
           h3#title(class="hidden-sm-and-down") Coursemeleon
       v-flex(xs6)
         v-autocomplete(
-          v-model="model"
-          :items="items"
+          v-model="selection"
+          :items="names"
           :loading="isLoading"
-          search-input.sync="search"
+          :search-input.sync="search"
           color="white"
           hide-no-data
           hide-selected
+          return-object
           clearable
-          item-text="Description"
-          item-value="API"
+          item-text="text"
+          item-value="course"
           placeholder="Search"
-          prepend-icon="mdi-database-search"
-          @change="queryCourses")
+          prepend-icon="mdi-database-search")
         v-divider
-        v-expand-transition
-          v-list(v-if="model" class="red lighten-3")
-            v-list-tile(v-for="(field, i) in fields" :key="i")
-              v-list-tile-content
-                v-list-tile-title(v-text="field.value")
-                v-list-tile-sub-title(v-text="field.key")
       v-flex(xs2)
-        v-btn(flat @click.stop="toggleHamburger")
+        v-btn(flat @click.stop="$emit('toggleHamburgerEvent')")
           v-icon fa-bars
 </template>
 
@@ -41,22 +35,57 @@ export default {
   components: {},
   data() {
     return {
-      model: null,
+      selection: null,
       isLoading: false,
-      items: ["CS 307", "MA 128", "ECE 376", "PHYS 172"]
+      courses: [],
+      search: null
     };
   },
-  methods: {
-    queryCourses(queryString) {
-      if (queryString != undefined && queryString.length > 1) {
-        this.isLoading = true;
-        console.log(queryString);
-        //@TODO insert api call
-        this.isLoading = false;
+  computed: {
+    names() {
+      return this.courses.map(course => {
+        var text = course.course_name + " (" + course.term + ")";
+        return Object.assign({}, course, { text });
+      });
+    }
+  },
+  methods: {},
+  watch: {
+    selection(value, old) {
+      if (value) {
+        let self = this;
+        this.$router.push({ name: "home", query: { cid: value.cid } });
+        this.$store.commit("setActiveCourse", value);
+        let color = value.color || "#AED581";
+        this.$vuetify.theme.primary = color;
+        this.$vuetify.theme.secondary = color;
+        this.$vuetify.theme.accent = color;
+        this.$store
+          .dispatch("getCourseAccess")
+          .then(resp => {
+            self.$store.commit("setActivePermission", resp.data.level);
+            self.selection = null;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        //this.$router.go();
       }
     },
-    toggleHamburger() {
-      this.$emit("toggleHamburgerEvent");
+    search(queryString) {
+      let self = this;
+      if (queryString && queryString.length > 1) {
+        this.isLoading = true;
+        this.$store
+          .dispatch("queryCoursesByRegex", { course_name: queryString })
+          .then(resp => {
+            self.courses = resp.courses;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        this.isLoading = false;
+      }
     }
   }
 };
@@ -69,7 +98,7 @@ export default {
   background-color: @primary;
 }
 #title {
-  color: white;
+  color: white !important;
   display: inline;
   padding-left: 10px;
 }
@@ -78,7 +107,7 @@ export default {
   width: 100%;
 }
 .header h4 {
-  color: white;
+  color: white !important;
   text-transform: lowercase;
 }
 

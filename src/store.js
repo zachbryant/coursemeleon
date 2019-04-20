@@ -3,20 +3,33 @@ import Vuex from "vuex";
 import Axios from "axios";
 
 Vue.use(Vuex);
-const BASE_URL = "http://localhost:5000";
-let apiLogin = BASE_URL + "/api/auth/login/";
-let apiPermission = BASE_URL + "/api/access/";
-//let apiCourse = BASE_URL + "/api/course/";
-let apiUserCourses = apiPermission + "";
+
+const uuidv4 = require("uuid/v4");
+const { API, ACCESS_LEVELS } = require("./apiDefinitions");
 let isDev = process.env.NODE_ENV !== "production";
 
 export default new Vuex.Store({
   state: {
-    user: localStorage.getItem("user") || null,
+    user:
+      localStorage.getItem("user") !== null
+        ? JSON.parse(localStorage.getItem("user"))
+        : null,
     token: localStorage.getItem("token") || "",
     edit: false,
+    tabIndex: 0,
+    level: ACCESS_LEVELS.NONE,
+    course: {},
+    componentEditMenuOptions: [
+      { title: "Announcements", instanceName: "announcements" },
+      { title: "Calendar", instanceName: "calendar" },
+      { title: "Grade stats", instanceName: "grades" },
+      { title: "Rich text", instanceName: "rich-content" },
+      { title: "Embed document", instanceName: "doc-embed" }
+    ],
     status: "",
     userCourses: {},
+    viewedCourses: [], //localStorage.getItem("history") || [],
+    apiResult: {},
     drawer: {
       // sets the open status of the drawer
       open: !!localStorage.getItem("drawer.open") || false,
@@ -29,19 +42,158 @@ export default new Vuex.Store({
       // sets the drawer to the mini variant, showing only icons, of itself (true)
       // or showing the full drawer (false)
       mini: !!localStorage.getItem("drawer.mini") || false
-    }
+    },
+    errorMessage: "",
+    warningMessage: "",
+    successMessage: "",
+    infoMessage: ""
   },
   getters: {
+    course: state => state.course,
+    courseColor: state => state.course.color,
+    accessLevel: state => state.level,
+    errorMessage: state => state.errorMessage,
+    warningMessage: state => state.warningMessage,
+    successMessage: state => state.successMessage,
+    infoMessage: state => state.infoMessage,
+    courseTab: state => {
+      if (
+        state.course &&
+        state.course.tabs &&
+        state.course.tabs.length >= state.tabIndex
+      )
+        return state.course.tabs[state.tabIndex];
+      return {};
+    },
+    getTabIndex: state => state.tabIndex,
     isEditMode: state => state.edit,
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
     getUserCourses: state => state.userCourses,
-    navDrawerState: state => state.drawer
+    getViewedCourses: state => state.viewedCourses,
+    navDrawerState: state => state.drawer,
+    getApiResult: state => state.apiResult,
+    componentEditMenuOptions: state => state.componentEditMenuOptions,
+    getColor: state => state.color,
+    getCourseIndex: state => state.courseIndex
   },
   mutations: {
-    toggleEditMode(state, mode) {
-      state.edit = !!mode;
+    viewCourse(state, courseObj) {
+      var checkIsSaved = cid => {
+        Object.keys(state.userCourses).forEach(key => {
+          if (key == cid && state.userCourses[key].saved) return true;
+        });
+        return false;
+      };
+      state.viewedCourses.unshift({
+        cid: courseObj.cid,
+        saved: checkIsSaved(courseObj.cid),
+        title: courseObj.course_name,
+        abbr: courseObj.course_abbr
+      });
+      localStorage.setItem("history", state.viewedCourses);
+    },
+    setColor(state, color) {
+      state.course.color = color;
+    },
+    setCourseDates(state, { value, term }) {
+      console.log(value);
+      console.log(term);
+      state.course.term_start = value;
+      state.course.term = term;
+    },
+    setErrorMessage(state, msg) {
+      state.errorMessage = msg;
+    },
+    setWarningMessage(state, msg) {
+      state.warningMessage = msg;
+    },
+    setInfoMessage(state, msg) {
+      state.infoMessage = msg;
+    },
+    setSuccessMessage(state, msg) {
+      state.successMessage = msg;
+    },
+    setPublished(state, value) {
+      state.course.published = value;
+      state.course.pri = value ? "no" : "yes";
+    },
+    setWhitelisted(state, value) {
+      state.course.whitelist = value;
+    },
+    removeCourseElement(state, index) {
+      if (
+        index >= 0 &&
+        index < state.course.tabs[state.tabIndex].elements.length
+      ) {
+        state.course.tabs[state.tabIndex].elements.splice(index, 1);
+      }
+    },
+    insertCourseElement(state, { index, type, data }) {
+      //console.log(state.course.tabs[state.tabIndex]);
+      if (
+        index >= -1 &&
+        index < state.course.tabs[state.tabIndex].elements.length
+      ) {
+        state.course.tabs[state.tabIndex].elements.splice(index + 1, 0, {
+          instanceName: type,
+          id: uuidv4(),
+          data: data
+        });
+        //onsole.log(state.course.tabs[state.tabIndex].elements);
+      }
+    },
+    updateCourseTabs(state, tabs) {
+      state.course.tabs = tabs;
+      if (state.tabIndex >= tabs.length) state.tabIndex = 0;
+    },
+    updateCourseAnnouncements(state, announcements) {
+      state.course.announcements = announcements;
+    },
+    updateCourseTabElements(state, elements) {
+      state.course.tabs[state.tabIndex].elements = elements;
+    },
+    updateCourseTabElement(state, { index, data }) {
+      state.course.tabs[state.tabIndex].elements[index].data = data;
+    },
+    setTabIndex(state, index) {
+      state.tabIndex = index;
+    },
+    setActiveCourse(state, course) {
+      state.course = course;
+    },
+    setActivePermission(state, level) {
+      state.level = level;
+    },
+    setTitle(state) {
+      state.course.course_name = state.course.tabs[0].elements[0].data.text;
+    },
+    insertCourseTab(state, index) {
+      state.course.tabs.splice(index, 0, {
+        title: "",
+        elements: [],
+        id: uuidv4()
+      });
+    },
+    removeCourseTab(state, index) {
+      state.course.tabs.splice(index, 1);
+    },
+    insertCourseAnnouncement(state, index) {
+      state.course.announcements.splice(index, 0, {
+        text: "",
+        date: new Date().toISOString(),
+        id: uuidv4()
+      });
+    },
+    removeCourseAnnouncement(state, index) {
+      state.course.announcements.splice(index, 1);
+    },
+    toggleEditMode(state) {
+      state.edit = !state.edit;
+    },
+    setEditMode(state, value) {
+      state.edit = value;
     },
     // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
     toggleNavDrawer(state) {
@@ -57,7 +209,6 @@ export default new Vuex.Store({
     // toggles the drawer variant (mini/full)
     toggleMiniNavDrawer(state) {
       state.drawer.mini = !state.drawer.mini;
-      console.log(state.drawer.mini);
       if (state.drawer.mini)
         localStorage.setItem("drawer.mini", state.drawer.mini);
       else localStorage.removeItem("drawer.mini");
@@ -70,7 +221,7 @@ export default new Vuex.Store({
       state.drawer.clipped = false;
       localStorage.removeItem("drawer.clipped");
     },
-    userCourses(state, courses) {
+    setUserCourses(state, courses) {
       state.userCourses = courses;
     },
     unSaveCourse(state, cid) {
@@ -82,9 +233,13 @@ export default new Vuex.Store({
     auth_request(state) {
       state.status = "loading";
     },
-    auth_success(state, token) {
+    auth_success(state, { token, user }) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      Axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
       state.status = "success";
       state.token = token;
+      state.user = user;
     },
     auth_error(state, message) {
       state.status = message || "Unknown error";
@@ -94,14 +249,75 @@ export default new Vuex.Store({
       state.token = "";
       state.user = "";
       state.userCourses = {};
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      delete Axios.defaults.headers.common["Authorization"];
+      if (state.edit) state.edit = false;
+    },
+    setCourseIndex(state, index) {
+      console.log("MUTATING " + index);
+      state.courseIndex = index;
     }
   },
   actions: {
+    toggleEditMode({ state, dispatch, commit }, { users }) {
+      commit("toggleEditMode");
+      commit("setTitle");
+      dispatch("updateCourse", state.course);
+      dispatch("setCourseUsers", users);
+    },
+    setEditMode({ state, commit }, value) {
+      commit("setEditMode", value);
+    },
+    saveCourse({ commit, state }, course) {
+      let cid = course.cid;
+      if (!(cid in state.userCourses)) {
+        let courses = state.userCourses;
+        courses.push(course);
+        commit("setUserCourses", courses);
+      }
+      commit("saveCourse", cid);
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.USER_COURSES,
+          method: "POST",
+          data: { course: course }
+        })
+          .then(resp => {
+            console.log(resp.response);
+            resolve(resp.response);
+          })
+          .catch(err => {
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
+    },
+    unsaveCourse({ dispatch, commit }, course) {
+      let cid = course.cid;
+      commit("unsaveCourse", cid);
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.USER_COURSES,
+          method: "DELETE",
+          data: { cid: cid }
+        })
+          .then(resp => {
+            console.log(resp.response);
+            dispatch("getUserCourses");
+            resolve(resp.response);
+          })
+          .catch(err => {
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
+    },
     getUserCourses({ state }) {
       if (state.getters.isLoggedIn) {
         return new Promise((resolve, reject) => {
           Axios({
-            url: String.format(apiUserCourses, state.user.id),
+            url: API.USER_COURSES,
             method: "GET"
           })
             .then(resp => {
@@ -110,29 +326,164 @@ export default new Vuex.Store({
               resolve(resp);
             })
             .catch(err => {
-              reject(err);
+              reject(err.response);
             });
         });
       }
     },
-    login({ commit }, credentials) {
+    getCourseAccessList({ state }) {
+      return new Promise((resolve, reject) => {
+        let cid = state.course.cid;
+        Axios({
+          url: API.COURSE_USERS + "cid=" + cid,
+          method: "GET"
+        })
+          .then(resp => {
+            resolve(resp.data);
+          })
+          .catch(err => {
+            reject(err.response);
+          });
+      });
+    },
+    queryCourse({ commit, state }, params) {
+      return new Promise((resolve, reject) => {
+        var queryString = Object.keys(params)
+          .map(key => {
+            if (params[key]) return key + "=" + params[key];
+            return "";
+          })
+          .filter(Boolean)
+          .join("&");
+        Axios({
+          url: API.QUERY_COURSE + queryString,
+          method: "GET"
+        })
+          .then(resp => {
+            //console.log("Course query response: " + JSON.stringify(resp.data));
+            commit("setActiveCourse", resp.data.course);
+            commit("setActivePermission", resp.data.level);
+            commit("viewCourse", state.course);
+            resolve(resp);
+          })
+          .catch(err => {
+            commit("setActiveCourse", {});
+            reject(err.response);
+          });
+      });
+    },
+    queryCoursesByRegex({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        var queryString = Object.keys(params)
+          .map(key => {
+            if (params[key]) return key + "=" + params[key];
+            return "";
+          })
+          .filter(Boolean)
+          .join("&");
+        Axios({
+          url: API.QUERY_COURSE_ALL + queryString,
+          method: "GET"
+        })
+          .then(resp => {
+            resolve(resp.data);
+          })
+          .catch(err => {
+            commit("setActiveCourse", {});
+            reject(err);
+          });
+      });
+    },
+    updateCourse({ commit }, courseObj) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.PUT_COURSE,
+          data: { course: courseObj },
+          method: "PUT"
+        })
+          .then(resp => {
+            console.log("Successfully updated course");
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log(err);
+            reject(err.response);
+          });
+      });
+    },
+    getCourseAccess({ state }) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.COURSE_ACCESS + "?cid=" + state.course.cid,
+          method: "GET"
+        })
+          .then(resp => {
+            resolve(resp);
+          })
+          .catch(err => {
+            reject(err.response);
+          });
+      });
+    },
+    setCourseUsers({ state }, usersObj) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.COURSE_ACCESS,
+          data: { user: usersObj, course: state.course.cid },
+          method: "PUT"
+        })
+          .then(resp => {
+            console.log("Successfully updated course users");
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log("error in course user update");
+            console.log(err);
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
+    },
+    sendFile({ commit }, file) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.SEND_FILE,
+          data: file,
+          method: "PUT"
+        })
+          .then(resp => {})
+          .catch(err => {});
+      });
+    },
+    retrieveFile({ commit }, file) {
+      return new Promise((resolve, reject) => {
+        Axios({
+          url: API.RETRIEVE_FILE,
+          data: file,
+          method: "GET"
+        })
+          .then(resp => {})
+          .catch(err => {});
+      });
+    },
+    login({ commit, state }, credentials) {
       return new Promise((resolve, reject) => {
         commit("auth_request");
         Axios({
-          url: apiLogin,
+          url: API.LOGIN,
           data: credentials,
           method: "POST"
         })
           .then(resp => {
-            console.log("Auth request " + JSON.stringify(resp.data));
+            //console.log("Auth request " + JSON.stringify(resp.data));
             const token = resp.data.token;
-            localStorage.setItem("token", token);
-            Axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
-            commit("auth_success", token);
+            console.log(resp.data.user);
+            commit("auth_success", { token, user: resp.data.user });
             resolve(resp);
           })
           .catch(err => {
             var message;
+            console.log("Login error:");
             console.log(err);
             if (err.response.status == 401) {
               message = "Your code didn't work.";
@@ -141,17 +492,26 @@ export default new Vuex.Store({
             }
             commit("auth_error", message);
             localStorage.removeItem("token");
-            reject(err);
+            reject(err.response);
           });
       });
     },
     logout({ commit }) {
       // eslint-disable-next-line no-unused-vars
       return new Promise((resolve, reject) => {
-        commit("logout");
-        localStorage.removeItem("token");
-        delete Axios.defaults.headers.common["Authorization"];
-        resolve();
+        Axios({
+          url: API.LOGOUT,
+          method: "GET"
+        })
+          .then(resp => {
+            commit("logout");
+            resolve(resp);
+          })
+          .catch(err => {
+            console.log("Problem logging out");
+            console.log(err.response);
+            reject(err.response);
+          });
       });
     }
   },
