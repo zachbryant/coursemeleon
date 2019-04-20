@@ -54,6 +54,7 @@ export default {
     "edit-item-menu": () => import("../Compound/EditItemMenu.vue"),
     "text-item": () => import("./Text.vue"),
     announcements: () => import("../Compound/Announcements.vue"),
+    calendar: () => import("../Compound/Calendar.vue"),
     draggable
   },
   extends: BaseElement,
