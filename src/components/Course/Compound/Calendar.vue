@@ -7,7 +7,7 @@
         height="600"
         frameborder="0"
         scrolling="no")
-      v-btn(color="blue-grey"
+      v-btn(v-if="!!cal_ical" color="blue-grey"
           class="white--text"
           :href="cal_ical") Download iCal
           v-icon(right dark) cloud_download
