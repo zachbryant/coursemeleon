@@ -37,7 +37,6 @@ export default {
   },
   data() {
     return {
-      style: this.data.style || "",
       defaultOptions: {
         language: "en_US",
         useCommandShortcut: true,
